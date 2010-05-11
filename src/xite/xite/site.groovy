@@ -1,0 +1,45 @@
+
+app {
+    version = "1.0"
+}
+
+// you can override default value for destination directory
+project {
+    destination = 'target/xite/xite'
+}
+
+
+markdown {
+    extensions = ['md']
+}
+
+resources {
+    filter {
+        enabled = true
+        prefix = '_'
+        suffix = '_'
+    }
+    sources {
+        // a map of: source directory   -> sub directory (of main destination dir) for these resources
+        // if you want resources deploied in the root, leave an empty string as sub directory
+        // relative paths are allowed
+        // not existing paths are skipped, but the process continue without errors
+        //additionals = ['d:/dev/resources':'d-dev', '/tmp/blah':'tmp-blah']
+    }
+    excludedFilenameSuffix = ['~']
+}
+
+code {
+    excludedFilenameSuffix = ['~']
+    sources {
+        additionals = ['src':'']
+        excludes = ['src/xite/resources',
+                    'src/xite/markdown/',
+                    'src/xite/templates']
+    }
+    baseContext = '/xite'
+    //template = '<pre class="brush: %s">\n%s\n</pre>'; // http://alexgorbatchev.com/wiki/SyntaxHighlighter
+    template = '<pre class="sh_%s">\n%s\n</pre>'; // http://shjs.sourceforge.net/doc/documentation.html
+    top = "templates/header-code.html"
+    bottom = "templates/footer-code.html"
+}
