@@ -28,5 +28,12 @@ and point your browser to <http://localhost:9090>
 Documentation, in markdown format, is in src/xite/markdown directory.
 
 
+License
+-------
+
+Xite sources contains SHJS <http://shjs.sourceforge.net>, used for the rendering of its site.
+
+SHJS is distributed under the GNU General Public License version 3.
+
 
 
