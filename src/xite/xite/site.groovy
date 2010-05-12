@@ -1,6 +1,7 @@
 
 app {
     version = "1.0"
+    baseContext = '/xite'
 }
 
 // you can override default value for destination directory
