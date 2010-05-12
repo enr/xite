@@ -5,11 +5,11 @@ Xite is a static sites generator.
 
 To build from sources you need Gradle 0.8:
 
-    gradle
+    gradle -q
 
 If you have Gradle > 0.8, you can try with:
 
-    gradle -b build-09.gradle
+    gradle -q -b build-09.gradle
     
 This build skips tests.
 
@@ -27,6 +27,8 @@ and point your browser to <http://localhost:9090>
 
 Documentation, in markdown format, is in src/xite/markdown directory.
 
+If you have followed the above instructions, you can read them from the local
+running Xite site at <http://localhost:9090/xite/index.html>
 
 License
 -------
