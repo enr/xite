@@ -32,7 +32,6 @@ def codeSourceDirectories = [:]
 codeSourceDirectories.put(codeSourceDirectory, '')
 logger.debug('configuration.code.sources.additionals: {}', configuration.code.sources.additionals)
 for (a in configuration.code.sources.additionals) {
-    logger.warn(' - additional: {}', a)
     codeSourceDirectories.put(a.key, a.value)
 }
 
@@ -69,10 +68,8 @@ for (codeDir in codeSourceDirectories) {
     // xite sources dir is skipped
     for (excluded in excludedDirs) {
       def rd = paths.normalize(new File(excluded).getAbsolutePath())
-      logger.warn(" # FAP ${fap}")
-      logger.warn(" # RD ${rd}")
       if (fap.startsWith(rd)) {
-        logger.warn("skipping xite source dir ${fap}")
+        logger.info("skipping file ${fap} in excluded dir")
         return
       }
     }

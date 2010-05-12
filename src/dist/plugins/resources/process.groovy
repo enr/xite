@@ -61,7 +61,7 @@ for (resDir in resourcesDirectories)
   def currentDestinationAbsolutePath = paths.normalize(ddf.absolutePath)
   logger.info("\nprocessing dir ${currentResourcesAbsolutePath}\ntarget dir: ${currentDestinationAbsolutePath}")
   if (!rdf.exists()) {
-      logger.warn("source directory ${currentResourcesAbsolutePath} not found")
+      logger.warn("resources directory ${currentResourcesAbsolutePath} not found")
       continue
   }
   rdf.eachFileRecurse() { src ->

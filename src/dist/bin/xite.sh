@@ -36,17 +36,12 @@ XITE_HOME="`pwd -P`"
 cd "$SAVED"
 
 
-echo "xite home $XITE_HOME"
+#echo "xite home $XITE_HOME"
 
 CLASSPATH=''
 for jar in $(find $XITE_HOME/lib -type f -name '*.jar'); do
-CLASSPATH="${CLASSPATH}:${jar}"
+  CLASSPATH="${CLASSPATH}:${jar}"
 done
-
-ls $XITE_HOME/lib/xite-0.1-SNAPSHOT.jar
-
-#CLASSPATH=$XITE_HOME/lib/xite-0.1-SNAPSHOT.jar
-
 
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin ; then
@@ -54,8 +49,7 @@ if $cygwin ; then
     CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
 fi
 
-echo $XITE_HOME
-echo $CLASSPATH
+#echo $CLASSPATH
 
 STARTER_MAIN_CLASS="$XITE_HOME/plugins/xite/main.groovy"
 

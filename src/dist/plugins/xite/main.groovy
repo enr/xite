@@ -13,9 +13,6 @@ logger.debug("Logging started using file ${loggingConfigurationFile}")
 import xite.UserOptions
 def options = new UserOptions(args)
 
-println '___'
-println options
-println '___'
 
 ///////////////////////////////////////////////////////////////////////// action
 def action = options.action
@@ -33,6 +30,7 @@ logger.debug("do deploy  : ${doDeploy}")
 logger.debug("do run     : ${doRun}")
 logger.debug("do clean   : ${doClean}")
 logger.debug("runPort    : ${runPort}")
+
 
 /////////////////////////////////////////////////////////// paths initialization
 import xite.Paths
@@ -109,6 +107,7 @@ binding.setVariable("xite_gse", gse);
 
 ///////////////////////////////////////////////////////////// additional options
 binding.setVariable("xite_option_port", runPort);
+
 
 ////////////////////////////////////////////////////////////////////// xite init
 if (doInit) {
