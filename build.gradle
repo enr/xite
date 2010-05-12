@@ -1,4 +1,9 @@
 
+import java.io.File;
+import groovy.xml.DOMBuilder
+import groovy.xml.dom.DOMCategory
+import groovy.xml.XmlUtil
+
 //archivesBaseName = 'xite'
 group = 'xite'
 version = '0.1-SNAPSHOT'
@@ -15,13 +20,23 @@ buildDirName = 'target'
 
 appBuildDir = "${buildDirName}/app"
 
+localRepo = ''
+def m2userSettingsPath = System.getProperty('user.home') + File.separator + ".m2" + File.separator + "settings.xml"
+def m2userSettingsFile = DOMBuilder.parse(new FileReader(m2userSettingsPath))
+def m2userSettings = m2userSettingsFile.documentElement
+use(DOMCategory){
+  def foundLocalRepo = m2userSettings.localRepository[0]?.text()
+  if (foundLocalRepo != null) localRepo = foundLocalRepo
+}
+logger.debug("using local repository ${localRepo}")
+
 repositories {
     // libraries not in maven repo
     flatDir(dirs: file('lib'))
     // set to your local maven local repo
     // usually $HOME/.m2/repository
     mavenRepo urls: ["file://" + System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository/",
-                     'file:///d:/dev/m2/repository']
+                     localRepo]
     mavenCentral()
 }
 
