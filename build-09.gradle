@@ -8,7 +8,7 @@ import groovy.xml.XmlUtil
 group = 'xite'
 version = '0.1-SNAPSHOT'
 
-defaultTasks 'clean', 'app'             //, 'itest'
+defaultTasks 'clean', 'app'
 
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
@@ -20,23 +20,29 @@ buildDirName = 'target'
 
 appBuildDir = "${buildDirName}/app"
 
-localRepo = ''
+defaultLocalRepo = 'file://'+System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository"
+
+localRepo = defaultLocalRepo
+
 def m2userSettingsPath = System.getProperty('user.home') + File.separator + ".m2" + File.separator + "settings.xml"
-def m2userSettingsFile = DOMBuilder.parse(new FileReader(m2userSettingsPath))
-def m2userSettings = m2userSettingsFile.documentElement
-use(DOMCategory){
-  def foundLocalRepo = m2userSettings.localRepository[0]?.text()
-  if (foundLocalRepo != null) localRepo = foundLocalRepo
+
+def m2userSettingsFile = new File(m2userSettingsPath)
+
+if (m2userSettingsFile.exists()) {
+    def m2userSettingsDoc = DOMBuilder.parse(new FileReader(m2userSettingsFile))
+    def m2userSettings = m2userSettingsDoc.documentElement
+    use(DOMCategory){
+      def foundLocalRepo = m2userSettings.localRepository[0]?.text()
+      if (foundLocalRepo != null) localRepo = foundLocalRepo
+    }
 }
 logger.debug("using local repository ${localRepo}")
 
 repositories {
     // libraries not in maven repo
     flatDir(dirs: file('lib'))
-    // set to your local maven local repo
     // usually $HOME/.m2/repository
-    mavenRepo urls: ["file://" + System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository/",
-                     localRepo]
+    mavenRepo urls: [defaultLocalRepo, localRepo]
     mavenCentral()
 }
 
@@ -54,7 +60,6 @@ dependencies {
             'org.slf4j:slf4j-api:1.6.0',
             'org.slf4j:slf4j-log4j12:1.6.0',
             'log4j:log4j:1.2.16'
-//    testCompile 'org.testng:testng:5.12.1'
     groovy module('org.codehaus.groovy:groovy-all:1.7.0')
 }
 
@@ -106,7 +111,6 @@ task 'xite-doc'(dependsOn: ':app', type:Copy) {
 
 task dist(type: Zip, dependsOn: ':xite-doc') {
     description = 'Creates the distributable archive.'
-    //zipFileSet(dir: appBuildDir)
     from(appBuildDir)
 }
 

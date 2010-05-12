@@ -20,23 +20,29 @@ buildDirName = 'target'
 
 appBuildDir = "${buildDirName}/app"
 
-localRepo = ''
+defaultLocalRepo = 'file://'+System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository"
+
+localRepo = defaultLocalRepo
+
 def m2userSettingsPath = System.getProperty('user.home') + File.separator + ".m2" + File.separator + "settings.xml"
-def m2userSettingsFile = DOMBuilder.parse(new FileReader(m2userSettingsPath))
-def m2userSettings = m2userSettingsFile.documentElement
-use(DOMCategory){
-  def foundLocalRepo = m2userSettings.localRepository[0]?.text()
-  if (foundLocalRepo != null) localRepo = foundLocalRepo
+
+def m2userSettingsFile = new File(m2userSettingsPath)
+
+if (m2userSettingsFile.exists()) {
+    def m2userSettingsDoc = DOMBuilder.parse(new FileReader(m2userSettingsFile))
+    def m2userSettings = m2userSettingsDoc.documentElement
+    use(DOMCategory){
+      def foundLocalRepo = m2userSettings.localRepository[0]?.text()
+      if (foundLocalRepo != null) localRepo = foundLocalRepo
+    }
 }
 logger.debug("using local repository ${localRepo}")
 
 repositories {
     // libraries not in maven repo
     flatDir(dirs: file('lib'))
-    // set to your local maven local repo
     // usually $HOME/.m2/repository
-    mavenRepo urls: ["file://" + System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository/",
-                     localRepo]
+    mavenRepo urls: [defaultLocalRepo, localRepo]
     mavenCentral()
 }
 
