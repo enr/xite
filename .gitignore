@@ -4,5 +4,6 @@
 .settings
 .gradle
 *~
+*#
 target
 Thumbs.db
