@@ -47,8 +47,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.enr:markdownj-extras:0.2',
-            'com.github.enr.markdownj:markdownj-core:0.4.M20100509',
+    compile 'com.github.enr:markdownj-extras:0.3-SNAPSHOT',
+            'com.github.enr.markdownj:markdownj-core:0.4-SNAPSHOT',
             'commons-cli:commons-cli:1.2',
             'commons-lang:commons-lang:2.5',
             'commons-io:commons-io:1.4',

@@ -23,7 +23,7 @@ logger.debug("footerFileName ${footerFileName}")
 logger.debug("markdownSourceDirectory ${markdownSourceDirectory}")
 logger.debug("processableExtensions ${processableExtensions}")
 logger.debug("configuration.markdown.code.template ${configuration.markdown.code.template}")
-logger.warn("encoding ${encoding}")
+logger.debug("encoding ${encoding}")
 
 def app = new MarkdownApp()
 app.setHeader(headerFileName)
