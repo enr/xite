@@ -16,11 +16,14 @@ def footerFileName = "${paths.sourceDirectory}/${configuration.templates.directo
 
 def markdownSourceDirectory = "${paths.sourceDirectory}/markdown"
 
+def encoding = configuration.app.encoding
+
 logger.debug("headerFileName ${headerFileName}")
 logger.debug("footerFileName ${footerFileName}")
 logger.debug("markdownSourceDirectory ${markdownSourceDirectory}")
 logger.debug("processableExtensions ${processableExtensions}")
 logger.debug("configuration.markdown.code.template ${configuration.markdown.code.template}")
+logger.warn("encoding ${encoding}")
 
 def app = new MarkdownApp()
 app.setHeader(headerFileName)
@@ -30,6 +33,10 @@ if (configuration.markdown.code.template) {
     logger.warn('   app.setCodeBlockTemplate(configuration.markdown.code.template)')
     app.setCodeBlockTemplate(configuration.markdown.code.template)
 }
+if (encoding != null) {
+    app.setCharEncoding(encoding)
+}
+app.strictHtmlEncoding()
 app.setProcessableExtensions(processableExtensions)
 app.setDestination(paths.destinationDirectory)
 app.process()
