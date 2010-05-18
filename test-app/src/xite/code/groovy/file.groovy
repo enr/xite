@@ -1,3 +1,3 @@
 
-println "hi"
+println "hi àèìòù"
 
