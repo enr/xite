@@ -74,4 +74,27 @@ It &#249;ses &#60;Groovy&#62; &#38; &#60;Gradle&#62;.</p>
         expectedEscaped = Strings.normalizeEol(expectedEscaped)
         assertEquals actualEscaped, expectedEscaped
     }
+    
+    @Test
+    public void testSyntax()
+    {
+    	File index = new File(targetDir, "syntax.html");
+    	assertTrue(index.exists());
+    	def actualIndex = Strings.normalizeEol(index.text)
+        def expectedIndex = '''<html>
+<head></head>
+<body>
+
+<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+
+<a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> syntax.
+
+<p>Another <a href="http://example.tld">http://example.tld</a> link</p>
+</body>
+</html>
+'''
+        expectedIndex = Strings.normalizeEol(expectedIndex)
+        assertEquals actualIndex, expectedIndex
+    }
+
 }

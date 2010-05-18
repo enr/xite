@@ -4,7 +4,6 @@ import groovy.xml.DOMBuilder
 import groovy.xml.dom.DOMCategory
 import groovy.xml.XmlUtil
 
-archivesBaseName = 'xite'
 group = 'xite'
 version = '0.1-SNAPSHOT'
 
@@ -176,17 +175,15 @@ task 'xite-doc'(dependsOn: ':app', type:Copy) {
     description = 'Add docs for distribution.'
 }
 
-distRootFolder = "$archivesBaseName-${-> version}"
-
-
 task dist(type: Zip, dependsOn: ':xite-doc') {
     description = 'Creates the distributable archive.'
     zipFileSet(dir: appBuildDir)
+    destinationDir = new File('distributions')
+    customName = "${archivesBaseName}-latest.zip"
 }
 
 dist.doLast { 
   logger.debug("Distribution file ${dist.archiveName}")
-  logger.info("distRootFolder ${distRootFolder}")
 }
 
 task wrapper(type: Wrapper) {

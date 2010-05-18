@@ -45,9 +45,10 @@ ConfigObject configuration = new ConfigSlurper(enviroment).parse(defaultConfigur
 
 
 /////////////////////////////////////////////////////// resolve source directory
+def requiredSourceActions = ['deploy', 'process']
 def sourcePath = (options.source) ?: configuration.project.source
 def sourceDirectory = new File(sourcePath)
-if (!sourceDirectory.exists()) {
+if ((!sourceDirectory.exists()) && (action in requiredSourceActions)) {
     logger.warn("source directory ${sourcePath} not found. exiting")
     System.exit(1)
 }
