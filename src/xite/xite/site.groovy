@@ -2,6 +2,8 @@
 app {
     version = "0.1-SNAPSHOT"
     baseContext = '/xite'
+    // set to null to use platform default
+    encoding = 'UTF-8'
 }
 
 // you can override default value for destination directory

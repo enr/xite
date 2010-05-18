@@ -2,6 +2,7 @@
 app {
     version = "1.0-TEST"
     baseContext = '/xite'
+    encoding = 'UTF-8'
 }
 
 markdown {
