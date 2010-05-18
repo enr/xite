@@ -4,7 +4,7 @@ import groovy.xml.DOMBuilder
 import groovy.xml.dom.DOMCategory
 import groovy.xml.XmlUtil
 
-//archivesBaseName = 'xite'
+archivesBaseName = 'xite'
 group = 'xite'
 version = '0.1-SNAPSHOT'
 
@@ -80,7 +80,6 @@ task itest (type: Test, dependsOn: ':app'){
   def projectRootDir = project.getRootDir().getAbsolutePath() 
   useTestNG()
   options {
-    // listeners << 'org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter'
     systemProperties.put('xite.itest.project.rootDir', projectRootDir)
   }
 }
@@ -115,7 +114,7 @@ itest.doFirst {
     
   // GroovyScriptEngine initialization
   def roots = [ paths.pluginsDirectory ] as String[]
-  GroovyScriptEngine gse = new GroovyScriptEngine(roots) //, loader);
+  GroovyScriptEngine gse = new GroovyScriptEngine(roots)
   def cl = gse.getParentClassLoader()
   jars.each { 
     def j = it.toURI().toURL()
@@ -177,12 +176,18 @@ task 'xite-doc'(dependsOn: ':app', type:Copy) {
     description = 'Add docs for distribution.'
 }
 
+distRootFolder = "$archivesBaseName-${-> version}"
+
+
 task dist(type: Zip, dependsOn: ':xite-doc') {
     description = 'Creates the distributable archive.'
     zipFileSet(dir: appBuildDir)
 }
 
-dist.doLast { logger.debug("Distribution file ${dist.archiveName}") }
+dist.doLast { 
+  logger.debug("Distribution file ${dist.archiveName}")
+  logger.info("distRootFolder ${distRootFolder}")
+}
 
 task wrapper(type: Wrapper) {
     //gradleVersion = '0.9-20100118091626+0100'
