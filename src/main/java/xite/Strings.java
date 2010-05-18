@@ -1,5 +1,7 @@
 package xite;
 
+import java.util.Map;
+
 /**
  * This class provides basic facilities for manipulating strings.
  * 
@@ -41,5 +43,31 @@ public class Strings
         cleanBlock = cleanBlock.replaceAll("\\\"", "&quot;");
         cleanBlock = cleanBlock.replaceAll("\\\'", "&apos;");
         return cleanBlock;
+    }
+    
+    /**
+     * Escapes string for html using a map of characters and their substitution strings.
+     */
+    public static String htmlEscape(String text, Map<Character, String> htmlEntities)
+    {
+        if ((text == null) || (text.length() == 0)) return "";
+        String cleanBlock = text.trim();
+        if (cleanBlock.length() == 0) return "";
+        cleanBlock = cleanBlock.replaceAll("\\t", "    ");
+        StringBuffer sb = new StringBuffer(cleanBlock);
+        char[] dst = new char[sb.length()];
+        sb.getChars(0, sb.length(), dst, 0);
+        int i = 0;
+        for (char cn: dst)
+        {
+            String escaped = htmlEntities.get(Character.valueOf(cn));
+            if (escaped != null) {
+                sb.replace(i, i+1, escaped);
+                i = i+(escaped.length());
+            } else {
+                i++;
+            }
+        }
+        return sb.toString();
     }
 }
