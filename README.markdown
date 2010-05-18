@@ -3,16 +3,22 @@ Xite
 
 Xite is a static sites generator.
 
-To build from sources you need Gradle 0.8:
+Xite is built using the Gradle build system, at the moment version 0.8.
+
+You don't need to install Gradle to build the project. The project uses a Gradle provided wrapper that automatically downloads the correct version for you.
+
+To build from sources you can:
+
+    ./gradlew -q
+
+If you have Gradle 0.8, you can use Gradle directly (to avoid the download):
 
     gradle -q
 
-If you have Gradle > 0.8, you can try with:
+Sometimes, building from sources, you can have "unknown resolver" error messages.
 
-    gradle -q -b build-09.gradle
+The messages can be ignored. You get them only in the first build after a repository url change.
     
-This build skips tests.
-
 To try Xite, from the base directory:
 
     ./target/app/bin/xite

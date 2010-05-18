@@ -184,3 +184,10 @@ task dist(type: Zip, dependsOn: ':xite-doc') {
 
 dist.doLast { logger.debug("Distribution file ${dist.archiveName}") }
 
+task wrapper(type: Wrapper) {
+    //gradleVersion = '0.9-20100118091626+0100'
+    gradleVersion = '0.8'
+    jarPath = 'gradle/wrapper'
+}
+
+
