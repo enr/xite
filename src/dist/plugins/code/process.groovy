@@ -3,6 +3,7 @@ import org.slf4j.LoggerFactory;
 import xite.Strings;
 import xite.Files;
 
+import com.petebevin.markdown.Entities
 
 import xite.HtmlDirectoryLister
 
@@ -107,7 +108,7 @@ for (codeDir in codeSourceDirectories) {
       }
       //def ics = wrapLines(src.text.toString())
       def ics = src.text.toString()
-      def codeString = Strings.htmlEscape(ics)
+      def codeString = Strings.htmlEscape(ics, Entities.HTML_401)
       def content = String.format(configuration.code.template, lang, codeString)
       def finalContent = Strings.normalizeEol("${header}${content}${footer}")
       //logger.warn(finalContent)
