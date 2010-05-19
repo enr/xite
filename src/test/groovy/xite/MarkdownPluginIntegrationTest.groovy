@@ -67,7 +67,7 @@ public class MarkdownPluginIntegrationTest extends BasePluginIntegrationTest
 <h1>Xite</h1>
 
 <p>Xite &#236;s &#224; stati&#231; sit&#233;s generat&#242;r.
-It &#249;ses &#60;Groovy&#62; &#38; &#60;Gradle&#62;.</p>
+It &#249;ses &lt;Groovy> &amp; &lt;Gradle>.</p>
 </body>
 </html>
 '''
@@ -87,7 +87,7 @@ It &#249;ses &#60;Groovy&#62; &#38; &#60;Gradle&#62;.</p>
 
 <p>Xite is a tool for static site generation from source files which can be in various formats.</p>
 
-<a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> syntax.
+<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> syntax.</p>
 
 <p>Another <a href="http://example.tld">http://example.tld</a> link</p>
 </body>

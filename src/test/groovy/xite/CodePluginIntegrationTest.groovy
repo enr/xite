@@ -35,6 +35,8 @@ public class CodePluginIntegrationTest extends BasePluginIntegrationTest
 &#60;html&#62;
 &#60;head&#62;&#60;/head&#62;
 &#60;body&#62;
+
+
 </code></pre></body>
 </html>
 '''
@@ -54,7 +56,10 @@ public class CodePluginIntegrationTest extends BasePluginIntegrationTest
 <body>
 
 <pre><code lang="java">
+
 println &#34;hi &#224;&#232;&#236;&#242;&#249;&#34;
+
+
 </code></pre></body>
 </html>
 '''
