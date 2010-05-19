@@ -6,13 +6,11 @@ Xite is a static sites generator.
 
 To use Xite, at the moment you have to build it from sources.
 
-To get sources, you can:
-
-* clone the project using Git:
+To get sources, you can clone the project using Git:
 
     git clone git://github.com/enr/xite
 
-* download it in either tar or zip formats:
+or download it in either tar or zip formats:
 
     wget http://github.com/enr/xite/tarball/master
     wget http://github.com/enr/xite/zipball/master
@@ -69,7 +67,7 @@ limitations under the License.
 
 Other libraries licenses:
 
-    * MarkdownJ: BSD License
+* MarkdownJ: BSD License
     
-    * markdownj-extras: Apache 2.0
+* markdownj-extras: Apache 2.0
 
