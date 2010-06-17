@@ -36,7 +36,7 @@ if (configuration.markdown.code.template) {
 if (encoding != null) {
     app.setCharEncoding(encoding)
 }
-app.strictHtmlEncoding()
+//app.strictHtmlEncoding()
 app.setProcessableExtensions(processableExtensions)
 app.setDestination(paths.destinationDirectory)
 app.process()

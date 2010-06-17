@@ -59,20 +59,21 @@ public class MarkdownPluginIntegrationTest extends BasePluginIntegrationTest
     {   
     	File escaped = new File(targetDir.getAbsolutePath()+'/special-chars.html');
         assertTrue(escaped.exists(), "${escaped.getAbsolutePath()} not found");
-    	def actualEscaped = Strings.normalizeEol(escaped.text)
+    	def actualEscaped = Strings.normalizeEol(escaped.getText("UTF-8"))
         def expectedEscaped = '''<html>
 <head></head>
 <body>
 
 <h1>Xite</h1>
 
-<p>Xite &#236;s &#224; stati&#231; sit&#233;s generat&#242;r.
-It &#249;ses &lt;Groovy> &amp; &lt;Gradle>.</p>
+<p>Xite ìs à statiç sités generatòr.
+It ùses &lt;Groovy> &amp; &lt;Gradle>.</p>
 </body>
 </html>
 '''
-        expectedEscaped = Strings.normalizeEol(expectedEscaped)
-        assertEquals actualEscaped, expectedEscaped
+        String es = new String(expectedEscaped.toString().getBytes(), 'UTF-8')
+        es = Strings.normalizeEol(es)
+        assertEquals actualEscaped, es
     }
     
     @Test
