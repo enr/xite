@@ -1,59 +1,115 @@
-html, body { 
- margin: 0; 
- padding: 0; 
+* {
+  margin: 0;
 }
 
-body {
-  background-color: #ffffff;
-  font-family: 'Lucida Grande','Lucida Sans Unicode','Lucida Sans','Geneva','Verdana',sans-serif;
-  font-size: 11px;
+html, body {
+  height: 100%;
+  font-family: sans-serif;
+  font-size: 12px;
+  text-align: center;
 }
 
-#header {
-    position: relative; 
-    height: 30px;
-    background: #eeeeee;
-    width: 100%;
-    padding: 5px;
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -4em;
+  width: 900px;
+  text-align: left;
 }
 
-
-#container {
-    width: 100%;
-    min-height: 500px;
+/* --- header --- */
+#header
+{
+  background: #eee;
+  padding: 20px;
 }
 
-#left-col {
-    width: 18%; 
-    float: left; 
-    position: relative;
-    padding: 5px; 
+/* --- navigation menu --- */
+#navigation
+{
+	float: left;
+	width: 900px;
+	background: #fff;
+}
+#navigation ul
+{
+	margin: 0;
+	padding: 0;
+}
+#navigation ul li
+{
+	list-style-type: none;
+	display: inline;
+}
+#navigation li a
+{
+	display: block;
+	float: left;
+	padding: 5px 10px;
+	color: orange;
+	text-decoration: none;
+	border-right: 1px solid #ccc;
+}
+#navigation li a:hover { background: #eee; }
+
+/* --- content area --- */
+#content-container
+{
+	float: left;
+	width: 900px;
+	background: #fff;
 }
 
-#content {
-    width: 78%;  
-    float: right; 
-    display: inline; 
-    position: relative;
-    padding: 10px;
+#content
+{
+	clear: left;
+	float: left;
+	width: 560px;
+	padding: 20px 0;
+	margin: 0 0 0 30px;
+	display: inline;
+}
+#aside
+{
+	float: right;
+	width: 240px;
+	padding: 20px 0;
+	margin: 0 20px 0 0;
+	display: inline;
 }
 
-#footer {
-    background: #eeeeee;
-    width: 100%;
-    height: 30px;
-    clear: both;
-    padding: 5px;
-    align: right;
+/* --- footer --- */
+.footer {
+  background: #fff;
+  text-align: right;
+}
+
+.footer, .push {
+  height: 4em;
+  clear: both;
+}
+
+div#footer-content {
+  width: 900px;
+  margin: 0px auto;
+  padding: 20px;
+  text-align: right;
+  background-color: #eee;
 }
 
 h1 {
   color:orange;
+  padding: 10px;
+}
+
+p {
+  padding: 10px;
 }
 
 pre {
   background: #eeeeee;
-  border: 1px dotted black;
+  border: 1px solid #808080;
   padding: 10px;
 }
 
@@ -69,3 +125,6 @@ a:active {color:orange;}    /* selected link */
 .dir-listing-f {
 }
 
+/* fix for firefox links' dotted border */
+a:active, a:active * { outline: none !important; -moz-outline-style: none !important; }
+a:focus, a:focus * { outline: none !important; -moz-outline-style: none !important; }
