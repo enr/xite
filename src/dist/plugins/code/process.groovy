@@ -1,11 +1,11 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.commons.io.FileUtils;
+
+import xite.HtmlDirectoryLister;
 import xite.Strings;
 import xite.Files;
-
-import com.petebevin.markdown.Entities
-
-import xite.HtmlDirectoryLister
 
 // copia ogni file in code sources directories tenendo stessa struttura in un template con code="file.ext"
 
@@ -23,8 +23,11 @@ def baseContext = "${configuration.code.baseContext}"
 
 def excludedDirs = configuration.code.sources.excludes
 
-def header = new File(headerFileName).text
-def footer = new File(footerFileName).text
+def encoding = configuration.app.encoding
+
+def header = new File(headerFileName).getText(encoding)
+def footer = new File(footerFileName).getText(encoding)
+
 
 def codeSourceDirectory = "${paths.sourceDirectory}/${configuration.code.source}"
 def codeDestinationDirectory = "${paths.destinationDirectory}/${configuration.code.destination}"
@@ -106,13 +109,13 @@ for (codeDir in codeSourceDirectories) {
         def success = parentDirectory.mkdirs()
         assert success 
       }
-      //def ics = wrapLines(src.text.toString())
-      def ics = src.text.toString()
-      def codeString = Entities.encode(ics, Entities.HTML_401)
+      //def codeString = wrapLines(src.text.toString
+      String codeString = src.getText(encoding);
       def content = String.format(configuration.code.template, lang, codeString)
-      def finalContent = Strings.normalizeEol("${header}${content}${footer}")
+      String finalContent = Strings.normalizeEol("${header}${content}${footer}");
       //logger.warn(finalContent)
-      destinationFile << finalContent
+      //destinationFile << finalContent
+      FileUtils.writeStringToFile(destinationFile, finalContent, encoding) 
     }
   }
 }

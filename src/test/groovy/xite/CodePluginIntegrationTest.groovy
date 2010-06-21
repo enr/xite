@@ -32,9 +32,9 @@ public class CodePluginIntegrationTest extends BasePluginIntegrationTest
 <body>
 
 <pre><code lang="html">
-&#60;html&#62;
-&#60;head&#62;&#60;/head&#62;
-&#60;body&#62;
+<html>
+<head></head>
+<body>
 
 
 </code></pre></body>
@@ -42,7 +42,7 @@ public class CodePluginIntegrationTest extends BasePluginIntegrationTest
 '''
     	File headerHtml = new File(targetDir.getAbsolutePath()+'/code/header.html.html');
         assertTrue(headerHtml.exists(), "${headerHtml.getAbsolutePath()} not found");
-        assertEquals(headerHtml.text, headerHtmlContent);
+        assertEquals(headerHtml.getText("UTF-8"), headerHtmlContent);
     }
         
     /*
@@ -50,22 +50,26 @@ public class CodePluginIntegrationTest extends BasePluginIntegrationTest
      */
     @Test
     public void testSubDirectory()
-    {    
+    {
+        File groovyFile = new File(targetDir.getAbsolutePath()+'/code/groovy/file.groovy.html');
+        assertTrue(groovyFile.exists(), "${groovyFile.getAbsolutePath()} not found");
+    	def actualContent = Strings.normalizeEol(groovyFile.getText("UTF-8"));
+        
         def groovyFileContent = '''<html>
 <head></head>
 <body>
 
 <pre><code lang="java">
 
-println &#34;hi &#224;&#232;&#236;&#242;&#249;&#34;
+println "hi àèìòù"
 
 
 </code></pre></body>
 </html>
 '''
-    	File groovyFile = new File(targetDir.getAbsolutePath()+'/code/groovy/file.groovy.html');
-        assertTrue(groovyFile.exists(), "${groovyFile.getAbsolutePath()} not found");
-        assertEquals(groovyFile.text, groovyFileContent);
+        String expectedContent = new String(groovyFileContent.toString().getBytes(), 'UTF-8');
+        expectedContent = Strings.normalizeEol(expectedContent);
+        assertEquals(actualContent, expectedContent);
     }
     
         
