@@ -3,7 +3,7 @@ app {
   version = '0.1-SNAPSHOT'
   baseContext = ''
   // default: platform default
-  encoding = null
+  encoding = 'UTF-8'
 }
 
 project {
