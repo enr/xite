@@ -20,16 +20,34 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<pre class="sh_java">
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.commons.io.FileUtils;
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+def paths = binding.getVariable("xite_paths")
+def configuration = binding.getVariable("xite_config")
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
-		</div> <!-- / content -->
+def logger = LoggerFactory.getLogger('xite.clean');
+
+logger.info("starting xite.clean")
+
+def dest = new File(paths.destinationDirectory)
+if (dest.exists()) {
+    FileUtils.deleteDirectory(dest)
+}
+
+def stillAlive = dest.exists()
+if (stillAlive) {
+    logger.warn("error deleting directory ${dest.absolutePath}")
+} else {
+    logger.info("successfully deleted directory ${dest.absolutePath}")
+}
+
+
+</pre>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>

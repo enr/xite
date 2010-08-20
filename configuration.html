@@ -20,15 +20,42 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<h1>Xite configuration</h1>
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+<p>Xite configuration occurs at 3 levels:</p>
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+<ul>
+<li>Project - $SOURCE_DIRECTORY/xite/site.groovy</li>
+<li>Installation - this is configuration added once for a Xite installation 
+and used where not overriden $XITE_HOME/conf/xite-default.groovy</li>
+<li>User - this is configuration specific to a particular user
+$HOME/.xite/settings.groovy</li>
+</ul>
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
+<h2>Default settings</h2>
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
+<p>If settings are not overriden they are taken from $XITE_HOME/conf/xite-default.groovy.</p>
+
+<p>The file is commented.</p>
+
+<h2>User settings</h2>
+
+<p>Configurations data that should not be bundled to any specific project, or 
+distributed to an audience.</p>
+
+<p>These include values such as authentication information for the deployment.
+The file is $HOME/.xite/settings.groovy</p>
+
+<h2>Enviroment</h2>
+
+<p>Xite is enviroment friendly :)</p>
+
+<p>You can override specific conf values using the enviroment section in one of the
+configuration files (tech note: using the standard ConfigSlurper syntax)</p>
+
+<h2>Customize</h2>
+
+<p>To see every configuration data, the best way is to read the default file in $XITE_HOME/conf/xite-default.groovy</p>
 		</div> <!-- / content -->
 
 		<div id="aside">

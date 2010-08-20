@@ -22,13 +22,56 @@
 		<div id="content">  <!-- end of header template -->
 <h1>Xite</h1>
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+<h2>Installing Xite</h2>
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+<p>At the moment to use Xite you have to build it from the sources.</p>
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
+<p>Prerequisites to the build:</p>
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
+<ul>
+<li>Gradle</li>
+</ul>
+
+<p>Build command:
+If you have Gradle version 0.8:</p>
+
+<pre><code>gradle  # implies gradle clean app itest
+</code></pre>
+
+<p>If you have Gradle > 0.8, you can try with:</p>
+
+<pre><code>gradle -b build-09.gradle
+</code></pre>
+
+<p>This build skips tests.</p>
+
+<p>These commands will build a working installation of Xite in target/app directory</p>
+
+<p>Add 'dist' to the command and you'll have a zip distribution archive.</p>
+
+<p>To try Xite immediately, from the base directory:</p>
+
+<pre><code>./target/app/bin/xite
+</code></pre>
+
+<p>This builds Xite site.</p>
+
+<p>To see results:</p>
+
+<pre><code>./target/app/bin/xite --port 9090 run
+</code></pre>
+
+<p>and point your browser to <a href="http://localhost:9090">http://localhost:9090</a></p>
+
+<p>For a real installation, move target/app where you like</p>
+
+<pre><code>mv target/app $HOME/apps/xite
+</code></pre>
+
+<p>You can use symbolic link to have Xite in your path, without further settings</p>
+
+<pre><code>ln -s apps/xite/bin/xite /usr/bin/xite
+</code></pre>
 		</div> <!-- / content -->
 
 		<div id="aside">

@@ -20,16 +20,21 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<pre class="sh_properties">
+log4j.rootLogger=DEBUG, A1
+log4j.appender.A1=org.apache.log4j.ConsoleAppender
+log4j.appender.A1.layout=org.apache.log4j.PatternLayout
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+# Print the date in ISO 8601 format
+# log4j.appender.A1.layout.ConversionPattern=%d [%t] %-5p %c - %m%n
+log4j.appender.A1.layout.ConversionPattern=%-5p %c - %m%n
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+log4j.logger.xite=WARN
+log4j.logger.com.github.enr=WARN
+log4j.logger.org.eclipse.jetty=INFO
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
-		</div> <!-- / content -->
+</pre>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>

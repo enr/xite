@@ -20,16 +20,53 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<pre class="sh_java">
+package xite;
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
+import xite.Strings
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
-		</div> <!-- / content -->
+import java.io.File;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+/**
+ * Integration test for resources plugin.
+ *
+ */
+public class ResourcesPluginIntegrationTest extends BasePluginIntegrationTest
+{
+  
+    /*
+     * 
+     */
+    @Test
+    public void testBasicProcess()
+    {
+    	File resource = new File(targetDir.getAbsolutePath()+'/icon_success.gif');
+        assertTrue(resource.exists(), "${resource.getAbsolutePath()} not found");
+    }
+    
+    /*
+     * 
+     */
+    @Test
+    public void testAdditionalResourcesInSubDirectory()
+    {
+    	File additional = new File(targetDir.getAbsolutePath()+'/add/test.html');
+        assertTrue(additional.exists(), "${additional.getAbsolutePath()} not found");
+    }
+    
+}
+
+</pre>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>

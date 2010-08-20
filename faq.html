@@ -22,13 +22,38 @@
 		<div id="content">  <!-- end of header template -->
 <h1>Xite</h1>
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+<h2>How can I test the site without deploy to a web server?</h2>
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+<pre><code>xite run
+</code></pre>
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
+<p>Now you can browse your site at http://localhost:8080</p>
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
+<p>You can pass the port number to use:</p>
+
+<pre><code>xite --port 9090 run
+</code></pre>
+
+<h2>How can I use Maven reports in my Xite site?</h2>
+
+<p>Add to resources configuration every maven site target directory and ensure to
+execute mvn site before the xite command</p>
+
+<h2>How to avoid the recursive code processing of files in Xite dir?</h2>
+
+<p>Add the directory you want skipped and write down them into the configuration file.</p>
+
+<p>Taken from Xite src/xite/site.groovy:</p>
+
+<pre><code>sources {
+    additionals = ['src':'']
+    excludes = ['src/xite/resources',
+                'src/xite/markdown/',
+                'src/xite/templates']
+}
+</code></pre>
+
+<p>Maybe this will be the default behaviour in future releases.</p>
 		</div> <!-- / content -->
 
 		<div id="aside">

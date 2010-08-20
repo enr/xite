@@ -20,16 +20,39 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<pre class="sh_java">
+package xite;
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+import java.io.File;
+import java.io.IOException;
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+public class FileTraverser
+{
+    public final void traverse(final File f) throws IOException
+    {
+        if (f.isDirectory())
+        {
+            onDirectory(f);
+            final File[] childs = f.listFiles();
+            for (File child : childs)
+            {
+                traverse(child);
+            }
+            return;
+        }
+        onFile(f);
+    }
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
+    public void onDirectory(@SuppressWarnings("unused") final File d)
+    {
+    }
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
-		</div> <!-- / content -->
+    public void onFile(@SuppressWarnings("unused") final File f)
+    {
+    }
+}
+
+</pre>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>

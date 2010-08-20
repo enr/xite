@@ -20,16 +20,56 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<pre class="sh_java">
+package xite
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+// --- user options management ---
+class UserOptions
+{
+    def source
+    def destination
+    def enviroment
+    def port
+    def action = 'process'
+    
+    def UserOptions(args)
+    {
+      def cli = new CliBuilder(usage: 'xite.groovy')
+      // Create the list of options.
+      cli.with {
+          h longOpt: 'help', 'Show usage information'
+          s longOpt: 'source', args: 1, argName: 'source', 'The source dir'
+          d longOpt: 'destination', args: 1, argName: 'destination', 'The destination dir'
+          e longOpt: 'enviroment', args: 1, argName: 'enviroment', 'The enviroment'
+          p longOpt: 'port', args: 1, argName: 'port', 'The port [makes sense only for "run" action]'
+      }
+      
+      def options = cli.parse(args)
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+      if (options.h) {
+          cli.usage() 
+          return
+      }
+      
+      source = options.'source' ?: null
+      destination = options.'destination' ?: null
+      enviroment = options.'enviroment' ?: null
+      port = options.'port' ?: null
+      
+      def extraArguments = options.arguments()
+      if (extraArguments) {
+        action = extraArguments[0]
+      }
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
+    }
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
-		</div> <!-- / content -->
+    String toString()
+    {
+        return "source: ${this.source}, destination: ${this.destination}, enviroment: ${this.enviroment}, port: ${this.port}, action: ${this.action}"
+    }
+}
+
+</pre>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>

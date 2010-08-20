@@ -20,15 +20,51 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<h1>Code highlighting</h1>
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+<h2>Using SHJS</h2>
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+<p>To use SHJS (<a href="http://shjs.sourceforge.net">http://shjs.sourceforge.net</a>) follow these steps.</p>
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
+<p>Create templates for code plugin and put them in templates directory.</p>
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
+<p>In the header, insert the code for the js and css files</p>
+
+<pre><code>&lt;script type="text/javascript" src="/xite/js/sh_main.min.js"&gt;&lt;/script&gt;
+&lt;link type="text/css" rel="stylesheet" href="/xite/css/sh_nedit.min.css"&gt;
+</code></pre>
+
+<p>Modify the body tag:</p>
+
+<pre><code>&lt;body onload="sh_highlightDocument('/xite/js/lang/', '.min.js');"&gt;
+</code></pre>
+
+<p>Put js and css files in a resources directory, to have something similar:</p>
+
+<pre><code>/resources/js/lang
+/resources/js/lang/sh_css.min.js
+/resources/js/lang/sh_groovy.min.js
+/resources/js/lang/sh_html.min.js
+/resources/js/lang/sh_java.min.js
+/resources/js/lang/sh_javascript.min.js
+/resources/js/lang/sh_properties.min.js
+/resources/js/lang/sh_sh.min.js
+/resources/js/lang/sh_xml.min.js
+/resources/js/sh_main.min.js
+/resources/css
+/resources/css/main.css
+/resources/css/sh_nedit.min.css
+</code></pre>
+
+<p>Configure the code plugin in xite/site.groovy</p>
+
+<pre><code>code {
+    //[...]
+    template = '&lt;pre class="sh_%s"&gt;\n%s\n&lt;/pre&gt;';
+    top = "templates/header-code.html"
+    bottom = "templates/footer-code.html"
+}
+</code></pre>
 		</div> <!-- / content -->
 
 		<div id="aside">

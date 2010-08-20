@@ -1,0 +1,126 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+ <div class="wrapper">
+    <div id="header">
+      <a href="/xite/index.html">Xite</a> static site generator
+    </div>
+	<div id="navigation">
+
+        <ul>
+        <li><a href="/xite/faq.html">faq</a></li>
+        <li><a href="/xite/license.html">license</a></li>
+        </ul>
+
+	</div> <!-- / navigation -->
+	<div id="content-container">
+		<div id="content">  <!-- end of header template -->
+<h1>Plugins</h1>
+
+<p>Xite è organizzato a plugins.
+quelli core sono:</p>
+
+<h2>Markdown</h2>
+
+<p>This plugin transform the contents in markdown directory into html pages in the destination directory, maintaining the directory structure and changing file extension to .html</p>
+
+<pre><code>markdown {
+    extensions = []
+    // extensions = ['md', 'markdown']
+}
+</code></pre>
+
+<h2>Resources</h2>
+
+<p>Copies every file in specified directories into the site root, maintaining the same dir structure.</p>
+
+<p>By default the directory is $source/resources but user can change it or add others directories with the 
+resources.sources.additionals directive</p>
+
+<p>You can set the resources plugin to filter resources, processing placeholder words and substituiting them with </p>
+
+<pre><code>resources {
+    filter {
+        enabled = true
+        prefix = '_'
+        suffix = '_'
+    }
+    sources {
+        // a map of: source directory   -&gt; sub directory (of main destination dir) for these resources
+        // if you want resources deploied in the root, leave an empty string as sub directory
+        // relative paths are allowed
+        // not existing paths are skipped, but the process continue without errors
+        additionals = ['d:/dev/resources':'d-dev', '/tmp/blah':'tmp-blah', 'my/root':'']
+    }
+    excludedFilenameSuffix = ['~']
+}
+</code></pre>
+
+<p>Variables can be included in your resources. </p>
+
+<p>These variables, denoted by the prefix and suffix delimiters, will be replaced by the value of the given property written in resources.filter.properties file.</p>
+
+<p>The filter processing, happens only if resources.filter.enabled is setted to true.</p>
+
+<h2>Code</h2>
+
+<p>This plugin htmlize source code.</p>
+
+<h2>Jetty</h2>
+
+<p>start jetty</p>
+
+<pre><code>./target/app/bin/xite run   # default port 8080
+./target/app/bin/xite --port 9090 run
+</code></pre>
+
+<h2>Plugin development</h2>
+
+<p>creare un plugin</p>
+
+<p>e' una dir messa in xite_home / plugins</p>
+
+<p>se in site esiste una dir che si chiama come il plugin, vengono eseguiti pre/process/post.groovy in plugin dir</p>
+
+<p>prendere come template _plugin-template.groovy</p>
+		</div> <!-- / content -->
+
+		<div id="aside">
+        <p/>
+
+        <b>Getting started</b><br/>
+        <ul>
+        <li><a href="/xite/installation.html">installation</a></li>
+        <li><a href="/xite/usage.html">usage</a></li>
+        <li><a href="/xite/plugins.html">plugins</a></li>
+        <li><a href="/xite/deployment.html">deployment</a></li>
+        <li><a href="/xite/configuration.html">configuration</a></li>
+        <li><a href="/xite/code/">browse the source code</a></li>
+        </ul>
+
+        <b>How tos</b><br/>
+        <ul>
+        <li><a href="/xite/build-your-site-for-xite.html">build-your-site-for-xite</a></li>
+        <li><a href="/xite/code-highlighting.html">code highlighting</a></li>
+        <li><a href="/xite/software-projects.html">xite for software projects</a></li>
+        </ul>
+
+
+		</div>
+
+	</div> <!-- /content container -->
+
+     <div class="push"></div>
+
+    </div> <!-- /wrapper -->
+<div id="footer">
+&copy; Xite
+</div>
+
+</body>
+</html>

@@ -20,16 +20,40 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<pre class="sh_java">
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+def paths = binding.getVariable("xite_paths")
+def configuration = binding.getVariable("xite_config")
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+def logger = LoggerFactory.getLogger('xite.deploy');
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
+logger.info("starting xite.deploy")
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
-		</div> <!-- / content -->
+def ftp = configuration.deploy.ftp
+logger.info("ftp is {}", ftp)
+
+ant = new AntBuilder()
+
+ant.ftp( 
+    server: ftp.host,
+    userid: ftp.username,
+    password: ftp.password,
+    //passive:"yes",
+    //verbose:"yes",
+    // the ftp action to perform, defaulting to "send"
+    // action:"get",
+    remotedir: ftp.baseDirectory,
+    // selects binary-mode ("yes") or text-mode ("no") transfers. Defaults to "yes"
+    binary:"yes" ) {
+        fileset( dir: paths.destinationDirectory ) {
+            //include( name:'* * / *' )
+        }
+    }
+
+
+</pre>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>

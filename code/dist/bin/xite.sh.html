@@ -20,16 +20,71 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<pre class="sh_sh">
+#!/bin/bash
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+# OS specific support (must be 'true' or 'false').
+cygwin=false
+msys=false
+darwin=false
+case "`uname`" in
+  CYGWIN* )
+    cygwin=true
+    ;;
+  Darwin* )
+    darwin=true
+    ;;
+  MINGW* )
+    msys=true
+    ;;
+esac
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
-		</div> <!-- / content -->
+# Resolve links: $0 may be a link to groovy's home.
+PRG="$0"
+# Need this for relative symlinks.
+while [ -h "$PRG" ] ; do
+    ls=`ls -ld "$PRG"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+        PRG="$link"
+    else
+        PRG=`dirname "$PRG"`"/$link"
+    fi
+done
+SAVED="`pwd`"
+cd "`dirname \"$PRG\"`/.."
+XITE_HOME="`pwd -P`"
+cd "$SAVED"
+
+
+#echo "xite home $XITE_HOME"
+
+CLASSPATH=''
+for jar in $(find $XITE_HOME/lib -type f -name '*.jar'); do
+  CLASSPATH="${CLASSPATH}:${jar}"
+done
+
+# For Cygwin, switch paths to Windows format before running java
+if $cygwin ; then
+    XITE_HOME=`cygpath --path --mixed "$XITE_HOME"`
+    CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
+fi
+
+#echo $CLASSPATH
+
+STARTER_MAIN_CLASS="$XITE_HOME/plugins/xite/main.groovy"
+
+exec groovy -classpath "$CLASSPATH" \
+        -Dxite.home="$XITE_HOME" \
+        -Dlog4j.configuration=xite-logging.properties \
+        $STARTER_MAIN_CLASS \
+        "$@"
+
+
+
+</pre>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>

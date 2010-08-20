@@ -20,16 +20,62 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<pre class="sh_java">
+package xite
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+/**
+ * Helper class to resolve and operate on the paths needed from Xite
+ */
+class Paths
+{
+    String xiteHome
+    String binDirectory
+    String confDirectory
+    String pluginsDirectory
+    String libDirectory
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+    /**
+     * Source and destination directories are not resolved but should be setted in
+     * from the application code.
+     */
+    String sourceDirectory
+    String destinationDirectory
+  
+    def Paths(String xHome)
+    {
+        xiteHome = normalize(xHome)
+        binDirectory = xiteHome + '/bin'
+        pluginsDirectory = xiteHome + '/plugins'
+        confDirectory = xiteHome + '/conf'
+        libDirectory = xiteHome + '/lib'
+    }
+  
+//    def String getSourceDirectory()
+//    {
+//        return this.normalize(sourceDirectory)
+//    }
+  
+    def String toString()
+    {
+       return "xite home: ${xiteHome}, bin: ${binDirectory}, plugins: ${pluginsDirectory}, conf: ${confDirectory}, lib: ${libDirectory}, source: ${sourceDirectory}, destination: ${destinationDirectory}"
+  }
+    
+    /**
+     * Helper method for win usage
+     */
+    def String normalize(String path)
+    {
+        return Paths.normalizePath(path)
+    }
+    
+    public static String normalizePath(String path)
+    {
+        return path?.replaceAll('\\\\', '/')
+    }
+}
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
-		</div> <!-- / content -->
+</pre>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>

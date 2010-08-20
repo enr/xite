@@ -20,16 +20,24 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
+<pre class="sh_java">
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-<p>Xite is a tool for static site generation from source files which can be in various formats.</p>
+// this is a template for xite plugin
 
-<p><a href="http://daringfireball.net/projects/markdown" title="Markdown">Markdown</a> is supported by default.</p>
+def paths = binding.getVariable("xite_paths")
+def configuration = binding.getVariable("xite_config")
 
-<p>At the moment to use Xite you have to build it from the sources using <a href="http://gradle.org" title="Gradle">Gradle</a>.</p>
+def logger = LoggerFactory.getLogger('xite.plugin.template');
 
-<p>Go to <a href="/xite/installation.html" title="Xite installation">installation instructions</a></p>
-		</div> <!-- / content -->
+logger.info("this is a template for xite plugin")
+
+
+
+
+
+</pre>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>

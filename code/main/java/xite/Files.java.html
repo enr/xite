@@ -1,0 +1,162 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+ <div class="wrapper">
+    <div id="header">
+      <a href="/xite/index.html">Xite</a> static site generator
+    </div>
+	<div id="navigation">
+
+        <ul>
+        <li><a href="/xite/faq.html">faq</a></li>
+        <li><a href="/xite/license.html">license</a></li>
+        </ul>
+
+	</div> <!-- / navigation -->
+	<div id="content-container">
+		<div id="content">  <!-- end of header template -->
+<pre class="sh_java">
+package xite;
+
+import org.apache.commons.io.FileUtils;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+
+/**
+ * Provides utility methods for working with files.
+ * 
+ * @author enr
+ * 
+ */
+public class Files
+{
+    /**
+     * Only static methods in this class
+     */
+    private Files()
+    {
+    }
+
+    /**
+     * Resolve the extension for the given filename. Throws NPE if filename is
+     * null.
+     * 
+     * @param filename
+     * @return the file extension (without dot) if any, or empty string if filename doesn't contain any dot.
+     */
+    public static String extension(String filename)
+    {
+        String extension = "";
+        String fn = filename.trim();
+        int dotPos = fn.lastIndexOf(".");
+        if (dotPos == -1)
+        {
+            return "";
+        }
+        extension = fn.substring(dotPos + 1);
+        return extension;
+    }
+
+    /**
+     * Replaces all backslashes with slash char. Throws NPE if the original path
+     * is null.
+     * 
+     * @param original :
+     *            the path to normalize.
+     * @return
+     */
+    public static String normalizedPath(String original)
+    {
+        return original.replace(File.separatorChar, '/');
+    }
+    
+    /**
+     * writes using platform default encoding
+     * 
+     * @param outputFile
+     * @param data
+     */
+    public static void write(File outputFile, String data)
+    {
+        Files.write(outputFile, data, null);
+    }
+
+    /*
+     * Scrive content su file outputFile: se file non esiste lo crea, se esiste
+     * lo sovrascrive.
+     */
+    public static void write(File outputFile, String data, Charset charset)
+    {
+        if (outputFile == null) {
+            throw new RuntimeException("xite.Files.write(): outputFile cannot be null.");
+        }
+        if (data == null) {
+            throw new RuntimeException("xite.Files.write(): data cannot be null.");
+        }
+        File outFile = outputFile;
+        String contentToWrite = data;
+        String encoding = (charset == null) ? null : charset.name();
+        // creates the needed directory structure
+        File parent = outFile.getParentFile();
+        if (!parent.exists())
+        {
+            parent.mkdirs();
+        }
+        // overwrite the file, if it exists
+        if (outFile.exists())
+        {
+            outFile.delete();
+        }
+        try
+        {
+            outFile.createNewFile();
+            FileUtils.writeStringToFile(outputFile, contentToWrite, encoding);
+        } catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+</pre>		</div> <!-- / content -->
+
+		<div id="aside">
+        <p/>
+
+        <b>Getting started</b><br/>
+        <ul>
+        <li><a href="/xite/installation.html">installation</a></li>
+        <li><a href="/xite/usage.html">usage</a></li>
+        <li><a href="/xite/plugins.html">plugins</a></li>
+        <li><a href="/xite/deployment.html">deployment</a></li>
+        <li><a href="/xite/configuration.html">configuration</a></li>
+        <li><a href="/xite/code/">browse the source code</a></li>
+        </ul>
+
+        <b>How tos</b><br/>
+        <ul>
+        <li><a href="/xite/build-your-site-for-xite.html">build-your-site-for-xite</a></li>
+        <li><a href="/xite/code-highlighting.html">code highlighting</a></li>
+        <li><a href="/xite/software-projects.html">xite for software projects</a></li>
+        </ul>
+
+
+		</div>
+
+	</div> <!-- /content container -->
+
+     <div class="push"></div>
+
+    </div> <!-- /wrapper -->
+<div id="footer">
+&copy; Xite
+</div>
+
+</body>
+</html>

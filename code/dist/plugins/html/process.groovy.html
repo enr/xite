@@ -1,0 +1,128 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+ <div class="wrapper">
+    <div id="header">
+      <a href="/xite/index.html">Xite</a> static site generator
+    </div>
+	<div id="navigation">
+
+        <ul>
+        <li><a href="/xite/faq.html">faq</a></li>
+        <li><a href="/xite/license.html">license</a></li>
+        </ul>
+
+	</div> <!-- / navigation -->
+	<div id="content-container">
+		<div id="content">  <!-- end of header template -->
+<pre class="sh_java">
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import xite.Strings;
+
+def paths = binding.getVariable("xite_paths")
+def configuration = binding.getVariable("xite_config")
+
+def logger = LoggerFactory.getLogger('xite.html');
+
+def htmlSourceDirectoryName = paths.sourceDirectory + '/html'
+def resourcesDestinationDirectoryName = paths.destinationDirectory
+
+logger.debug('htmlSourceDirectoryName {}', htmlSourceDirectoryName)
+logger.debug('resourcesDestinationDirectoryName {}', resourcesDestinationDirectoryName)
+
+
+def headerFileName = "${paths.sourceDirectory}/${configuration.templates.directory}/${configuration.templates.top}"
+def footerFileName = "${paths.sourceDirectory}/${configuration.templates.directory}/${configuration.templates.bottom}"
+
+logger.debug("headerFileName ${headerFileName}")
+logger.debug("footerFileName ${footerFileName}")
+
+def header = new File(headerFileName).text
+def footer = new File(footerFileName).text
+
+def htmlPath = paths.normalize(htmlSourceDirectoryName)
+def htmlDirectory = new File(htmlPath)
+def htmlAbsolutePath = paths.normalize(htmlDirectory.absolutePath)
+
+def ddf = new File(resourcesDestinationDirectoryName)
+def currentDestinationAbsolutePath = paths.normalize(ddf.absolutePath)
+logger.info("\nprocessing dir ${htmlAbsolutePath}\ntarget dir: ${currentDestinationAbsolutePath}")
+if (!htmlDirectory.exists()) {
+  logger.warn("source directory ${htmlAbsolutePath} not found")
+}
+  
+htmlDirectory.eachFileRecurse() { src ->
+  def fap = paths.normalize(src.absolutePath)
+
+  logger.debug("processing ${fap}")
+  logger.debug("replace: ${htmlAbsolutePath} . ${currentDestinationAbsolutePath}")
+
+  def destinationFileName = fap.replace(htmlAbsolutePath, currentDestinationAbsolutePath)  
+  logger.debug("${src.getPath()} -> ${destinationFileName}")
+  def destinationFile = new File(destinationFileName)
+
+  if (src.isDirectory()) {
+    if (!destinationFile.exists()) {
+        destinationFile.mkdirs()
+    }
+  }
+  
+  if (src.isFile()) {
+    def parentDirectory = new File(destinationFile.parent)
+    if (!parentDirectory.exists()) {
+      logger.info("directory ${parentDirectory} NO exists. creating...")
+      def success = parentDirectory.mkdirs()
+      //parentDirectory.setWritable(true)
+      assert success 
+    }
+    def content = src.text
+    def finalContent = Strings.normalizeEol("${header}${content}${footer}")
+    //logger.warn(finalContent)
+    destinationFile << finalContent
+  }
+}  
+
+
+</pre>		</div> <!-- / content -->
+
+		<div id="aside">
+        <p/>
+
+        <b>Getting started</b><br/>
+        <ul>
+        <li><a href="/xite/installation.html">installation</a></li>
+        <li><a href="/xite/usage.html">usage</a></li>
+        <li><a href="/xite/plugins.html">plugins</a></li>
+        <li><a href="/xite/deployment.html">deployment</a></li>
+        <li><a href="/xite/configuration.html">configuration</a></li>
+        <li><a href="/xite/code/">browse the source code</a></li>
+        </ul>
+
+        <b>How tos</b><br/>
+        <ul>
+        <li><a href="/xite/build-your-site-for-xite.html">build-your-site-for-xite</a></li>
+        <li><a href="/xite/code-highlighting.html">code highlighting</a></li>
+        <li><a href="/xite/software-projects.html">xite for software projects</a></li>
+        </ul>
+
+
+		</div>
+
+	</div> <!-- /content container -->
+
+     <div class="push"></div>
+
+    </div> <!-- /wrapper -->
+<div id="footer">
+&copy; Xite
+</div>
+
+</body>
+</html>
