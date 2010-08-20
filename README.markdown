@@ -43,10 +43,10 @@ To see results:
 
 and point your browser to <http://localhost:9090>
 
-Documentation, in markdown format, is in src/xite/markdown directory.
-
 If you have followed the above instructions, you can read it from the local
 running Xite site at <http://localhost:9090/xite/index.html>
+
+Some other info on Xite, is at <http://enr.github.com/xite/>, a xite-generated site. 
 
 License
 -------
