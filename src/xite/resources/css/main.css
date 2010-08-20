@@ -82,7 +82,7 @@ html, body {
 /* --- footer --- */
 .footer {
   background: #fff;
-  text-align: right;
+  text-align: left;
 }
 
 .footer, .push {
@@ -94,13 +94,17 @@ div#footer-content {
   width: 900px;
   margin: 0px auto;
   padding: 20px;
-  text-align: right;
+  text-align: left;
   background-color: #eee;
 }
 
 h1 {
   color:orange;
   padding: 10px;
+}
+
+h2 {
+  margin-top: 10px;
 }
 
 p {

@@ -16,6 +16,5 @@ Set credentials in home/.xite/settings.groovy
     }
 
 The base directory should exists.
-(Caught: : could not change remote directory: 550 /www/atoito.com/projects/xite: No such file or directory)
-that's all
+That's all
 
