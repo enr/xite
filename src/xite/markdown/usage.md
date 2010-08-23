@@ -2,14 +2,12 @@
 Xite usage
 ==========
 
-untar dove vuoi
-bin/xite
+Follow <a href="/xite/installation.html">install instructions</a>
 
-first time
+Run Xite with -s 'source directory' -d 'destination directory'
 
-    gradle
     ./target/app/bin/xite -s test-app/src/xite/
 
-see results:
+To see results:
     
     ./target/app/bin/xite --port 9090 run

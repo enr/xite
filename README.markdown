@@ -15,17 +15,13 @@ or download it in either tar or zip formats:
     wget http://github.com/enr/xite/tarball/master
     wget http://github.com/enr/xite/zipball/master
 
-Xite is built using the Gradle build system, at the moment version 0.8.
+Xite is built using the Gradle build system, at the moment version 0.9-rc-1.
 
 You don't need to install Gradle to build the project. The project uses a Gradle provided wrapper that automatically downloads the correct version for you.
 
 To build from sources you can:
 
     ./gradlew -q
-
-If you have Gradle 0.8, you can use Gradle directly (to avoid the download, 18M circa):
-
-    gradle -q
 
 Sometimes, building from sources, you can have "unknown resolver" error messages.
 
@@ -47,6 +43,7 @@ If you have followed the above instructions, you can read it from the local
 running Xite site at <http://localhost:9090/xite/index.html>
 
 Some other info on Xite, is at <http://enr.github.com/xite/>, a xite-generated site. 
+
 
 License
 -------

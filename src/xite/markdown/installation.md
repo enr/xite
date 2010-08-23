@@ -1,32 +1,18 @@
 
-Xite
-====
-
-
 Installing Xite
----------------
+===============
 
 At the moment to use Xite you have to build it from the sources.
 
-Prerequisites to the build:
-
-* Gradle
-
-
 Build command:
-If you have Gradle version 0.8:
 
-    gradle  # implies gradle clean app itest
+    ./gradlew -q
 
-If you have Gradle > 0.8, you can try with:
-
-    gradle -b build-09.gradle
-    
-This build skips tests.
-
-These commands will build a working installation of Xite in target/app directory
+This command will build a working installation of Xite in target/app directory
 
 Add 'dist' to the command and you'll have a zip distribution archive.
+
+    ./gradlew dist
 
 To try Xite immediately, from the base directory:
 

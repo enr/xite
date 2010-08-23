@@ -2,24 +2,25 @@
 Xite for your software projects
 ===============================
 
-xite is the prfect tool to document your software project
+Xite is a good tool to document your software projects.
 
 
 Code plugin
 -----------
 
-crea file html x tutti i file sorgenti
+Code plugin generates html page for every source file.
+
 
 Code reports
 ------------
 
-se usi build tool es ant o maven puoi aggiungere report/apidoc creati da questi a resources directory
-e verranno importati automaticamente al tuo sito
+If your project uses some report tool you can add the reports destination directories to the resources and they will be imported in the Xite site.
+
 
 Syntax highlighting
 -------------------
 
-vedi come ho fatto x il sito di xite
+Follow <a href="/xite/code-highlighting.html">instructions</a> or view the Xite sources.
 
-usa http://shjs.sourceforge.net/
+Xite site uses <a href="http://shjs.sourceforge.net/">SHJS</a>, keeped out of the distributed sources, in a git-ignored directory.
 
