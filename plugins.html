@@ -8,12 +8,13 @@
 
  <div class="wrapper">
     <div id="header">
-      <a href="/xite/index.html">Xite</a> static site generator
+      <b><a href="/xite/index.html">Xite</a></b> static site generator
     </div>
 	<div id="navigation">
 
         <ul>
         <li><a href="/xite/faq.html">faq</a></li>
+        <li><a href="http://github.com/enr/xite/downloads">downloads</a></li>
         <li><a href="/xite/license.html">license</a></li>
         </ul>
 
@@ -22,8 +23,9 @@
 		<div id="content">  <!-- end of header template -->
 <h1>Plugins</h1>
 
-<p>Xite è organizzato a plugins.
-quelli core sono:</p>
+<p>Every Xite functionality is provided by a plugin.</p>
+
+<p>The core plugins (distributed with Xite sources) are markdown, resources, code, jetty and deploy.</p>
 
 <h2>Markdown</h2>
 
@@ -73,7 +75,7 @@ resources.sources.additionals directive</p>
 
 <h2>Jetty</h2>
 
-<p>start jetty</p>
+<p>Starts Jetty server</p>
 
 <pre><code>./target/app/bin/xite run   # default port 8080
 ./target/app/bin/xite --port 9090 run
@@ -81,13 +83,11 @@ resources.sources.additionals directive</p>
 
 <h2>Plugin development</h2>
 
-<p>creare un plugin</p>
+<p>A plugin is a directory containing groovy scripts ( pre/process/post.groovy ).</p>
 
-<p>e' una dir messa in xite_home / plugins</p>
+<p>Scripts are executed if in the source directory exists a direcotry named as the plugin (ok not a very refined approach, a better solution is in the todo list).</p>
 
-<p>se in site esiste una dir che si chiama come il plugin, vengono eseguiti pre/process/post.groovy in plugin dir</p>
-
-<p>prendere come template _plugin-template.groovy</p>
+<p>You can use, as a template the file src/dist/plugins/xite/_plugin-template.groovy</p>
 		</div> <!-- / content -->
 
 		<div id="aside">
@@ -119,7 +119,7 @@ resources.sources.additionals directive</p>
 
     </div> <!-- /wrapper -->
 <div id="footer">
-&copy; Xite
+<a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
 </div>
 
 </body>

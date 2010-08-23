@@ -8,46 +8,34 @@
 
  <div class="wrapper">
     <div id="header">
-      <a href="/xite/index.html">Xite</a> static site generator
+      <b><a href="/xite/index.html">Xite</a></b> static site generator
     </div>
 	<div id="navigation">
 
         <ul>
         <li><a href="/xite/faq.html">faq</a></li>
+        <li><a href="http://github.com/enr/xite/downloads">downloads</a></li>
         <li><a href="/xite/license.html">license</a></li>
         </ul>
 
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<h1>Xite</h1>
-
-<h2>Installing Xite</h2>
+<h1>Installing Xite</h1>
 
 <p>At the moment to use Xite you have to build it from the sources.</p>
 
-<p>Prerequisites to the build:</p>
+<p>Build command:</p>
 
-<ul>
-<li>Gradle</li>
-</ul>
-
-<p>Build command:
-If you have Gradle version 0.8:</p>
-
-<pre><code>gradle  # implies gradle clean app itest
+<pre><code>./gradlew -q
 </code></pre>
 
-<p>If you have Gradle > 0.8, you can try with:</p>
-
-<pre><code>gradle -b build-09.gradle
-</code></pre>
-
-<p>This build skips tests.</p>
-
-<p>These commands will build a working installation of Xite in target/app directory</p>
+<p>This command will build a working installation of Xite in target/app directory</p>
 
 <p>Add 'dist' to the command and you'll have a zip distribution archive.</p>
+
+<pre><code>./gradlew dist
+</code></pre>
 
 <p>To try Xite immediately, from the base directory:</p>
 
@@ -103,7 +91,7 @@ If you have Gradle version 0.8:</p>
 
     </div> <!-- /wrapper -->
 <div id="footer">
-&copy; Xite
+<a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
 </div>
 
 </body>

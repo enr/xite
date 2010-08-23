@@ -1,19 +1,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/xite/js/sh_main.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/xite/css/sh_nedit.min.css">
+    <link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body onload="sh_highlightDocument('/xite/js/lang/', '.min.js');">
 
 
  <div class="wrapper">
     <div id="header">
-      <a href="/xite/index.html">Xite</a> static site generator
+      <b><a href="/xite/index.html">Xite</a></b> static site generator
     </div>
 	<div id="navigation">
 
         <ul>
         <li><a href="/xite/faq.html">faq</a></li>
+        <li><a href="http://github.com/enr/xite/downloads">downloads</a></li>
         <li><a href="/xite/license.html">license</a></li>
         </ul>
 
@@ -23,6 +26,7 @@
 
 <div id="dir-listing">
 
+<p/><a href="/xite/code/code.txt.html" class="dir-listing-f">code.txt.html</a>
 <p/><span class="dir-listing-d">dist</span>
 <p/><span class="dir-listing-d">dist &gt; bin</span>
 <p/><a href="/xite/code/dist/bin/xite.sh.html" class="dir-listing-f">dist &gt; bin &gt; xite.sh.html</a>
@@ -38,13 +42,13 @@
 <p/><span class="dir-listing-d">dist &gt; plugins &gt; resources</span>
 <p/><a href="/xite/code/dist/plugins/resources/process.groovy.html" class="dir-listing-f">dist &gt; plugins &gt; resources &gt; process.groovy.html</a>
 <p/><span class="dir-listing-d">dist &gt; plugins &gt; xite</span>
-<p/><a href="/xite/code/dist/plugins/xite/_plugin-template.groovy.html" class="dir-listing-f">dist &gt; plugins &gt; xite &gt; _plugin-template.groovy.html</a>
 <p/><a href="/xite/code/dist/plugins/xite/clean.groovy.html" class="dir-listing-f">dist &gt; plugins &gt; xite &gt; clean.groovy.html</a>
 <p/><a href="/xite/code/dist/plugins/xite/deploy.groovy.html" class="dir-listing-f">dist &gt; plugins &gt; xite &gt; deploy.groovy.html</a>
 <p/><a href="/xite/code/dist/plugins/xite/init.groovy.html" class="dir-listing-f">dist &gt; plugins &gt; xite &gt; init.groovy.html</a>
 <p/><a href="/xite/code/dist/plugins/xite/main.groovy.html" class="dir-listing-f">dist &gt; plugins &gt; xite &gt; main.groovy.html</a>
 <p/><a href="/xite/code/dist/plugins/xite/process.groovy.html" class="dir-listing-f">dist &gt; plugins &gt; xite &gt; process.groovy.html</a>
 <p/><a href="/xite/code/dist/plugins/xite/run.groovy.html" class="dir-listing-f">dist &gt; plugins &gt; xite &gt; run.groovy.html</a>
+<p/><a href="/xite/code/dist/plugins/xite/_plugin-template.groovy.html" class="dir-listing-f">dist &gt; plugins &gt; xite &gt; _plugin-template.groovy.html</a>
 <p/><span class="dir-listing-d">main</span>
 <p/><span class="dir-listing-d">main &gt; groovy</span>
 <p/><span class="dir-listing-d">main &gt; groovy &gt; xite</span>
@@ -53,8 +57,8 @@
 <p/><span class="dir-listing-d">main &gt; java</span>
 <p/><span class="dir-listing-d">main &gt; java &gt; xite</span>
 <p/><a href="/xite/code/main/java/xite/Directories.java.html" class="dir-listing-f">main &gt; java &gt; xite &gt; Directories.java.html</a>
-<p/><a href="/xite/code/main/java/xite/FileTraverser.java.html" class="dir-listing-f">main &gt; java &gt; xite &gt; FileTraverser.java.html</a>
 <p/><a href="/xite/code/main/java/xite/Files.java.html" class="dir-listing-f">main &gt; java &gt; xite &gt; Files.java.html</a>
+<p/><a href="/xite/code/main/java/xite/FileTraverser.java.html" class="dir-listing-f">main &gt; java &gt; xite &gt; FileTraverser.java.html</a>
 <p/><a href="/xite/code/main/java/xite/HtmlDirectoryLister.java.html" class="dir-listing-f">main &gt; java &gt; xite &gt; HtmlDirectoryLister.java.html</a>
 <p/><a href="/xite/code/main/java/xite/Strings.java.html" class="dir-listing-f">main &gt; java &gt; xite &gt; Strings.java.html</a>
 <p/><span class="dir-listing-d">main &gt; resources</span>
@@ -70,10 +74,11 @@
 <p/><span class="dir-listing-d">test &gt; resources</span>
 <p/><a href="/xite/code/test/resources/log4j.properties.html" class="dir-listing-f">test &gt; resources &gt; log4j.properties.html</a>
 <p/><span class="dir-listing-d">xite</span>
+<p/><span class="dir-listing-d">xite &gt; code</span>
+<p/><a href="/xite/code/xite/code/code.txt.html" class="dir-listing-f">xite &gt; code &gt; code.txt.html</a>
 <p/><span class="dir-listing-d">xite &gt; xite</span>
 <p/><a href="/xite/code/xite/xite/site.groovy.html" class="dir-listing-f">xite &gt; xite &gt; site.groovy.html</a>
 <p/><a href="/xite/code/xite/xite/site.properties.html" class="dir-listing-f">xite &gt; xite &gt; site.properties.html</a>
-<p/><span class="dir-listing-d">xite &gt; code</span>
 </div>
 		</div> <!-- / content -->
 
@@ -106,7 +111,7 @@
 
     </div> <!-- /wrapper -->
 <div id="footer">
-&copy; Xite
+<a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
 </div>
 
 </body>
