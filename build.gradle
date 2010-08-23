@@ -9,15 +9,12 @@ version = '0.1-SNAPSHOT'
 
 defaultTasks 'clean', 'app', 'itest'
 
-usePlugin 'groovy'
-usePlugin 'eclipse'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
 
-// needed for integration tests
-usePlugin(com.smokejumperit.gradle.ClassLoadersPlugin)
+buildDir = 'target'
 
-buildDirName = 'target'
-
-appBuildDir = "${buildDirName}/app"
+appBuildDir = "${buildDir}/app"
 
 defaultLocalRepo = 'file://'+System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository"
 
@@ -60,40 +57,31 @@ dependencies {
             'org.slf4j:slf4j-log4j12:1.6.0',
             'log4j:log4j:1.2.16'
     testCompile 'org.testng:testng:5.12.1'
-    groovy module('org.codehaus.groovy:groovy-all:1.7.0')
+    groovy module('org.codehaus.groovy:groovy-all:1.7.4')
 }
-
-buildscript {
-  repositories {
-    mavenRepo urls:'http://repo.smokejumperit.com'
-  }
-  dependencies {
-    // classpath 'com.smokejumperit:gradle-plugins:0.6-SNAPSHOT'
-    classpath 'com.smokejumperit:gradle-plugins:0.5.1'
-  }
-}
-
 
 // --- integration tests
 task itest (type: Test, dependsOn: ':app'){
-  def projectRootDir = project.getRootDir().getAbsolutePath() 
-  useTestNG()
-  options {
-    systemProperties.put('xite.itest.project.rootDir', projectRootDir)
-  }
+    include '**/*IntegrationTest.*'
+    testResultsDir = file('target/test-results')
+    testReportDir = file('target/reports/tests')
+    classpath = test.classpath
+    testClassesDir = test.testClassesDir
+    useTestNG()
+    def projectRootDir = project.getRootDir().getAbsolutePath()
+    // tests system properties
+    systemProperties['xite.itest.project.rootDir'] = projectRootDir
 }
 
 itest.doFirst {
   def xiteHomeFile = project.file(appBuildDir)
-  def loader = project.classLoaderFor('testRuntime')
+  def loader = Thread.currentThread().getContextClassLoader()
   def jardir = new File( xiteHomeFile, 'lib' )
-  def jars   = jardir.listFiles().findAll { it.name.endsWith('.jar') } 
+  def jars   = jardir.listFiles().findAll { it.name.endsWith('.jar') }
   jars.each { 
     def j = it.toURI().toURL()
-    logger.debug("adding url ${j}")
     loader.addURL(j)
   }
-
   Paths = Class.forName( 'xite.Paths', true, loader )
 
   def xiteHome = xiteHomeFile.getAbsolutePath()
@@ -131,7 +119,7 @@ itest.doFirst {
 }
 
 task 'xite-deps'(dependsOn: configurations.default.buildArtifacts, type: Copy) {
-    into("${appBuildDir}/lib")
+    into "${appBuildDir}/lib"
     from configurations.default
     from configurations.default.allArtifacts*.file // (xite jars)
     description = 'Creates the working application in target directory.'
@@ -161,11 +149,11 @@ task app(dependsOn: 'xite-conf') {
 }
 
 app.doLast { 
-    logger.debug("App builded in ${appBuildDir}")
-    def binDir = new File("${appBuildDir}/bin")
-    if (binDir.exists()) {
-      ant.chmod(perm: "+x", dir: binDir, includes: '*')
-    }
+   logger.debug("App builded in ${appBuildDir}")
+   def binDir = new File("${appBuildDir}/bin")
+   if (binDir.exists()) {
+     ant.chmod(perm: "+x", dir: binDir, includes: '*')
+   }
 }
 
 task 'xite-doc'(dependsOn: ':app', type:Copy) {
@@ -177,8 +165,8 @@ task 'xite-doc'(dependsOn: ':app', type:Copy) {
 
 task dist(type: Zip, dependsOn: ':xite-doc') {
     description = 'Creates the distributable archive.'
-    zipFileSet(dir: appBuildDir)
-    destinationDir = new File('distributions')
+    from appBuildDir
+    into project.file('distributions')
     customName = "${archivesBaseName}-latest.zip"
 }
 
@@ -187,9 +175,7 @@ dist.doLast {
 }
 
 task wrapper(type: Wrapper) {
-    //gradleVersion = '0.9-20100118091626+0100'
-    gradleVersion = '0.8'
+    gradleVersion = '0.9-rc-1'
     jarPath = 'gradle/wrapper'
 }
-
 
