@@ -26,8 +26,10 @@ resources {
         // a map of: source directory   -> sub directory (of main destination dir) for these resources
         // if you want resources deploied in the root, leave an empty string as sub directory
         // relative paths are allowed
-        // not existing paths are skipped, but the process continue without errors
+        // not existing paths are skipped, but the process continue without errors, so you can
+        // add paths for every system you have access to
         //additionals = ['d:/dev/resources':'d-dev', '/tmp/blah':'tmp-blah']
+        additionals = ['./shjs':'']
     }
     excludedFilenameSuffix = ['~']
 }

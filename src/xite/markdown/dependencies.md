@@ -20,13 +20,7 @@ At the moment the complete list is:
                 'org.slf4j:slf4j-api:1.5.10',
                 'org.slf4j:slf4j-log4j12:1.5.10',
                 'log4j:log4j:1.2.14'
-        groovy module('org.codehaus.groovy:groovy-all:1.7.0')
+        groovy module('org.codehaus.groovy:groovy-all:1.7.4')
     }
-
-
-markdownj
-
-commons-net for ftp deploy
-
 
 

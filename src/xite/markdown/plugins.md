@@ -2,19 +2,20 @@
 Plugins
 =======
 
-Xite è organizzato a plugins.
-quelli core sono:
+Every Xite functionality is provided by a plugin.
+
+The core plugins (distributed with Xite sources) are markdown, resources, code, jetty and deploy.
 
 Markdown
 --------
 
 This plugin transform the contents in markdown directory into html pages in the destination directory, maintaining the directory structure and changing file extension to .html
 
-
     markdown {
         extensions = []
         // extensions = ['md', 'markdown']
     }
+
 
 Resources
 ---------
@@ -58,7 +59,7 @@ This plugin htmlize source code.
 Jetty
 -----
 
-start jetty
+Starts Jetty server
 
     ./target/app/bin/xite run   # default port 8080
     ./target/app/bin/xite --port 9090 run
@@ -67,12 +68,10 @@ start jetty
 Plugin development
 ------------------
 
-creare un plugin
+A plugin is a directory containing groovy scripts ( pre/process/post.groovy ).
 
-e' una dir messa in xite_home / plugins
+Scripts are executed if in the source directory exists a direcotry named as the plugin (ok not a very refined approach, a better solution is in the todo list).
 
-se in site esiste una dir che si chiama come il plugin, vengono eseguiti pre/process/post.groovy in plugin dir
+You can use, as a template the file src/dist/plugins/xite/_plugin-template.groovy
 
-
-prendere come template _plugin-template.groovy
 

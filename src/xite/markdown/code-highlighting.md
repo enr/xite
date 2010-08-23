@@ -16,7 +16,7 @@ In the header, insert the code for the js and css files
 
 Modify the body tag:
 
-    <body onload="sh_highlightDocument('/xite/js/lang/', '.min.js');">
+    <body onload="sh_highlightDocument('/[ your context path ]/js/lang/', '.min.js');">
     
 Put js and css files in a resources directory, to have something similar:
 
