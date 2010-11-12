@@ -11,6 +11,11 @@ project {
     destination = 'target/xite/xite'
 }
 
+plugins { 
+    enabled = [ 'code',
+                'markdown',
+                'resources']
+}
 
 markdown {
     extensions = ['md']

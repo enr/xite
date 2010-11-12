@@ -96,6 +96,7 @@ if (logger.isDebugEnabled()) {
 
 ////////////////////////////////////////////// GroovyScriptEngine initialization
 def roots = [ paths.pluginsDirectory ] as String[]
+logger.info('roots: {}', roots)
 GroovyScriptEngine gse = new GroovyScriptEngine(roots);
 
 

@@ -73,7 +73,7 @@ for (codeDir in codeSourceDirectories) {
     for (excluded in excludedDirs) {
       def rd = paths.normalize(new File(excluded).getAbsolutePath())
       if (fap.startsWith(rd)) {
-        logger.info("skipping file ${fap} in excluded dir")
+        logger.debug("skipping file ${fap} in excluded dir")
         return
       }
     }

@@ -33,22 +33,27 @@ def notReservedDirectoryFilter = new NotReservedDirectoryFilter()
 logger.debug("starting xite.process")
 
 def processableDirectories = new File(paths.sourceDirectory).listFiles(notReservedDirectoryFilter)
+logger.info('processableDirectories: {}', processableDirectories);
 
 logger.info("start processing ${paths.sourceDirectory}")
 
-phases = ['pre', 'process', 'post']
+def phases = ['pre', 'process', 'post']
+
+def plugins = configuration.plugins.enabled
 
 for (phase in phases)
 {
   logger.info("running phase ${phase}")
-  for (currentDirectory in processableDirectories)
+  //for (currentDirectory in processableDirectories)
+  for (plugin in plugins)
   {
-    logger.debug("${phase} ] looking for plugin: ${currentDirectory}")
-    if (!currentDirectory.exists()) {
+    //logger.debug("${phase} ] looking for plugin: ${currentDirectory}")
+    logger.debug("${phase} ] looking for plugin: ${plugin}")
+    /*if (!currentDirectory.exists()) {
       logger.info("skip ${currentDirectory} : not found")
       continue
-    }
-    def plugin = currentDirectory.name
+    }*/
+    //def plugin = currentDirectory.name
     def pluginScript = "${plugin}/${phase}.groovy"
     def pluginDirectory = new File(paths.pluginsDirectory, plugin)
     def pluginScriptFile = new File(pluginDirectory, "${phase}.groovy")

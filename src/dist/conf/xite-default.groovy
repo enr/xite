@@ -11,6 +11,12 @@ project {
     destination = 'target/xite'
 }
 
+plugins { 
+    enabled = [ 'code',
+                'html',
+                'markdown',
+                'resources']
+}
 // auth data should be defined in user settings
 deploy {
     ftp {

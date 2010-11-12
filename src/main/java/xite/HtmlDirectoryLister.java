@@ -168,7 +168,7 @@ public class HtmlDirectoryLister
                     String relativePath = Files.normalizedPath(f.getAbsolutePath()).replaceFirst(basePath, "");
                     String descriptivePath = relativePath.replaceFirst("/", "");
                     descriptivePath = descriptivePath.replace("/", " &gt; ");
-                    log().info("D descriptivePath : {}", descriptivePath);
+                    log().debug("D descriptivePath : {}", descriptivePath);
                     if ((descriptivePath == null) || ("".equals(descriptivePath.trim()))) return;
                     pageContent.append("\n<p/><span class=");
                     pageContent.append('"');
@@ -187,7 +187,7 @@ public class HtmlDirectoryLister
                 String relativePath = Files.normalizedPath(f.getAbsolutePath()).replaceFirst(basePath, "");
                 String descriptivePath = relativePath.replaceFirst("/", "");
                 descriptivePath = descriptivePath.replace("/", " &gt; ");
-                log().info("F descriptivePath : {}", descriptivePath);
+                log().debug("F descriptivePath : {}", descriptivePath);
                 if ((descriptivePath == null) || ("".equals(descriptivePath.trim()))) return;
                 pageContent.append("\n<p/><a href=");
                 pageContent.append('"');
