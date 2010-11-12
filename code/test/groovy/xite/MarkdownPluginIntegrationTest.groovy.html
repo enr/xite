@@ -1,11 +1,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <script type="text/javascript" src="/xite/js/sh_main.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="/xite/css/sh_nedit.min.css">
-    <link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href='/xite/css/sh/shCore.css' rel='stylesheet' type='text/css' />
+  <link href='/xite/css/sh/shThemeDefault.css' rel='stylesheet' type='text/css' />
+  <script src="/xite/js/sh/shCore.js" type="text/javascript"></script>
+  <script src="/xite/js/sh/shAutoloader.js" type="text/javascript"></script>
+  <link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
-<body onload="sh_highlightDocument('/xite/js/lang/', '.min.js');">
+<body>
 
 
  <div class="wrapper">
@@ -23,8 +25,7 @@
 	</div> <!-- / navigation -->
 	<div id="content-container">
 		<div id="content">  <!-- end of header template -->
-<pre class="sh_java">
-package xite;
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[package xite;
 
 
 import static org.testng.Assert.assertEquals;
@@ -125,8 +126,7 @@ It ùses &lt;Groovy> &amp; &lt;Gradle>.</p>
     }
 
 }
-
-</pre>		</div> <!-- / content -->
+]]></script>		</div> <!-- / content -->
 
 		<div id="aside">
         <p/>
@@ -161,4 +161,34 @@ It ùses &lt;Groovy> &amp; &lt;Gradle>.</p>
 </div>
 
 </body>
+
+<script type="text/javascript">
+function path()
+{
+  var args = arguments,
+      result = []
+      ;
+       
+  for(var i = 0; i < args.length; i++)
+      result.push(args[i].replace('@', '/xite/js/sh/'));
+       
+  return result
+};
+ 
+SyntaxHighlighter.autoloader.apply(null, path(
+  'bash shell             @shBrushBash.js',
+  'css                    @shBrushCss.js',
+  'diff patch pas         @shBrushDiff.js',
+  'groovy                 @shBrushGroovy.js',
+  'java                   @shBrushJava.js',
+  'js jscript javascript  @shBrushJScript.js',
+  'php                    @shBrushPhp.js',
+  'text plain             @shBrushPlain.js',
+  'py python              @shBrushPython.js',
+  'sql                    @shBrushSql.js',
+  'xml xhtml xslt html    @shBrushXml.js'
+));
+SyntaxHighlighter.all();
+</script>
+
 </html>

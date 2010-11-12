@@ -1,7 +1,11 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link href='/xite/css/sh/shCore.css' rel='stylesheet' type='text/css' />
+  <link href='/xite/css/sh/shThemeDefault.css' rel='stylesheet' type='text/css' />
+  <script src="/xite/js/sh/shCore.js" type="text/javascript"></script>
+  <script src="/xite/js/sh/shAutoloader.js" type="text/javascript"></script>
+  <link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -23,24 +27,70 @@
 		<div id="content">  <!-- end of header template -->
 <h1>Code highlighting</h1>
 
-<h2>Using SHJS</h2>
+<h2>Using SyntaxHighlighter</h2>
+
+<p>To use SyntaxHighlighter (<http://alexgorbatchev.com/SyntaxHighlighter) follow these steps.</p>
+
+<p>Create templates for code plugin and put them in templates directory.</p>
+
+<p>In the header, insert the code for the js and css files<script type="syntaxhighlighter" class="brush: html"><![CDATA[&lt;link href='/xite/css/sh/shCore.css' rel='stylesheet' type='text/css' /&gt;
+&lt;link href='/xite/css/sh/shThemeDefault.css' rel='stylesheet' type='text/css' /&gt;
+&lt;script src="/xite/js/sh/shCore.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/xite/js/sh/shAutoloader.js" type="text/javascript"&gt;&lt;/script&gt;]]></script>In the footer add SyntaxHighlighter configuration and startup<script type="syntaxhighlighter" class="brush: html"><![CDATA[[...]
+&lt;/body&gt;</p>
+
+<p>&lt;script type="text/javascript"&gt;
+function path()
+{
+  var args = arguments,
+      result = []
+      ;</p>
+
+<p>  for(var i = 0; i &lt; args.length; i++)
+      result.push(args[i].replace('@', '/xite/js/sh/'));</p>
+
+<p>  return result
+};</p>
+
+<p>SyntaxHighlighter.autoloader.apply(null, path(
+  'bash shell             @shBrushBash.js',
+  'css                    @shBrushCss.js',
+  'diff patch pas         @shBrushDiff.js',
+  'groovy                 @shBrushGroovy.js',
+  'java                   @shBrushJava.js',
+  'js jscript javascript  @shBrushJScript.js',
+  'php                    @shBrushPhp.js',
+  'text plain             @shBrushPlain.js',
+  'py python              @shBrushPython.js',
+  'sql                    @shBrushSql.js',
+  'xml xhtml xslt html    @shBrushXml.js'
+));
+SyntaxHighlighter.all();
+&lt;/script&gt;]]></script>Put js and css files in a resources directory, to have something similar:</p>
+
+<pre><code>/resources/js/sh/shAutoloader.js
+/resources/js/sh/shBrushAS3.js
+[...]
+/resources/js/sh/shBrushXml.js
+/resources/js/sh/shCore.js
+/resources/js/sh/shLegacy.js
+
+/resources/css/sh/shCore.css
+</code></pre>
+
+<p>Configure the code plugin in xite/site.groovy<script type="syntaxhighlighter" class="brush: groovy"><![CDATA[code {
+    //[...]
+template = '&lt;script type="syntaxhighlighter" class="brush: %s"&gt;&lt;![CDATA[%s]]&gt;&lt;/script&gt;';
+top = "templates/header-code.html"
+bottom = "templates/footer-code.html"
+}]]></script><h2>Using SHJS</h2></p>
 
 <p>To use SHJS (<a href="http://shjs.sourceforge.net">http://shjs.sourceforge.net</a>) follow these steps.</p>
 
 <p>Create templates for code plugin and put them in templates directory.</p>
 
-<p>In the header, insert the code for the js and css files</p>
-
-<pre><code>&lt;script type="text/javascript" src="/xite/js/sh_main.min.js"&gt;&lt;/script&gt;
-&lt;link type="text/css" rel="stylesheet" href="/xite/css/sh_nedit.min.css"&gt;
-</code></pre>
-
-<p>Modify the body tag:</p>
-
-<pre><code>&lt;body onload="sh_highlightDocument('/[ your context path ]/js/lang/', '.min.js');"&gt;
-</code></pre>
-
-<p>Put js and css files in a resources directory, to have something similar:</p>
+<p>In the header, insert the code for the js and css files<script type="syntaxhighlighter" class="brush: html"><![CDATA[&lt;script type="text/javascript" src="/xite/js/sh_main.min.js"&gt;&lt;/script&gt;
+&lt;link type="text/css" rel="stylesheet" href="/xite/css/sh_nedit.min.css"&gt;]]></script>Modify the body tag:<script type="syntaxhighlighter" class="brush: html"><![CDATA[&lt;body onload="sh_highlightDocument('/[ your context path ]/js/lang/', '.min.js');"&gt;]]></script>Put js and css files in a resources directory, to have something similar:</p>
 
 <pre><code>/resources/js/lang
 /resources/js/lang/sh_css.min.js
@@ -57,15 +107,12 @@
 /resources/css/sh_nedit.min.css
 </code></pre>
 
-<p>Configure the code plugin in xite/site.groovy</p>
-
-<pre><code>code {
+<p>Configure the code plugin in xite/site.groovy<script type="syntaxhighlighter" class="brush: groovy"><![CDATA[code {
     //[...]
     template = '&lt;pre class="sh_%s"&gt;\n%s\n&lt;/pre&gt;';
     top = "templates/header-code.html"
     bottom = "templates/footer-code.html"
-}
-</code></pre>
+}]]></script></p>
 		</div> <!-- / content -->
 
 		<div id="aside">
@@ -101,4 +148,34 @@
 </div>
 
 </body>
+
+<script type="text/javascript">
+function path()
+{
+  var args = arguments,
+      result = []
+      ;
+       
+  for(var i = 0; i < args.length; i++)
+      result.push(args[i].replace('@', '/xite/js/sh/'));
+       
+  return result
+};
+ 
+SyntaxHighlighter.autoloader.apply(null, path(
+  'bash shell             @shBrushBash.js',
+  'css                    @shBrushCss.js',
+  'diff patch pas         @shBrushDiff.js',
+  'groovy                 @shBrushGroovy.js',
+  'java                   @shBrushJava.js',
+  'js jscript javascript  @shBrushJScript.js',
+  'php                    @shBrushPhp.js',
+  'text plain             @shBrushPlain.js',
+  'py python              @shBrushPython.js',
+  'sql                    @shBrushSql.js',
+  'xml xhtml xslt html    @shBrushXml.js'
+));
+SyntaxHighlighter.all();
+</script>
+
 </html>
