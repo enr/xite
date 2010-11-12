@@ -175,7 +175,7 @@ dist.doLast {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '0.9-rc-1'
+    gradleVersion = '0.9-rc-2'
     jarPath = 'gradle/wrapper'
 }
 
