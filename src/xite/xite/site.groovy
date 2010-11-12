@@ -14,6 +14,9 @@ project {
 
 markdown {
     extensions = ['md']
+    code {
+        template = '<script type="syntaxhighlighter" class="brush: %s"><![CDATA[%s]]></script>';
+    }
 }
 
 resources {

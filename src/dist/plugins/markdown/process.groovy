@@ -30,7 +30,7 @@ app.setHeader(headerFileName)
 app.setFooter(footerFileName)
 app.setSource(markdownSourceDirectory)
 if (configuration.markdown.code.template) {
-    logger.warn('   app.setCodeBlockTemplate(configuration.markdown.code.template)')
+    logger.debug('   app.setCodeBlockTemplate(configuration.markdown.code.template)')
     app.setCodeBlockTemplate(configuration.markdown.code.template)
 }
 if (encoding != null) {
