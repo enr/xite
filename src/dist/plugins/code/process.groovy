@@ -142,38 +142,8 @@ def String codeLang(String extension)
 {
     if (extension == null) return ''
     if (extension == '') return ''
-    if (extension == 'groovy') return 'java'
+    if (extension == 'sh') return 'shell'
     if (extension == 'py') return 'python'
     return extension
 }
-
-
-// Quick and Dirty method for plain text word-wrap to a specified width
-// not working at the moment
-def String wrapLines(input, linewidth = 70, indent = 0) throws IllegalArgumentException {
-    if(input == null)
-        throw new IllegalArgumentException("Input String must be non-null")
-    if(linewidth <= 1)
-        throw new IllegalArgumentException("Line Width must be greater than 1")
-    if(indent < 0)
-        throw new IllegalArgumentException("Indent must be 0 or greater")
-    
-    def olines = ''
-    def oline = " " * indent
-    
-    input.split(" ").each() { word ->
-        wrd = (word.size() > linewidth) ? word[0..(linewidth - 10)] + ' [...]' : word
-        if( (oline.size() + wrd.size()) <= linewidth ) {
-            oline <<= wrd <<= " "
-        }else{
-            olines = "${olines}${oline}\n"
-            oline = " " * indent
-        }
-    }
-    olines = "${olines}${oline}\n"
-    return olines
-}
-
-
-
 

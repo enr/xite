@@ -59,7 +59,7 @@ public class CodePluginIntegrationTest extends BasePluginIntegrationTest
 <head></head>
 <body>
 
-<pre><code lang="java">
+<pre><code lang="groovy">
 
 println "hi àèìòù"
 
