@@ -71,8 +71,11 @@ task itest (type: Test, dependsOn: ':app'){
     classpath = test.classpath
     testClassesDir = test.testClassesDir
     useTestNG()
+
+    def xiteHomeFile = project.file(appBuildDir)
     def projectRootDir = project.getRootDir().getAbsolutePath()
     // tests system properties
+    systemProperties['xite.itest.XITE_HOME'] = xiteHomeFile.getAbsolutePath()
     systemProperties['xite.itest.project.rootDir'] = projectRootDir
 }
 
@@ -81,14 +84,16 @@ itest.doFirst {
   def loader = Thread.currentThread().getContextClassLoader()
   def jardir = new File( xiteHomeFile, 'lib' )
   def jars   = jardir.listFiles().findAll { it.name.endsWith('.jar') }
+  logger.debug('adding urls to class loader')
   jars.each { 
     def j = it.toURI().toURL()
+    logger.debug(" - ${j}")
     loader.addURL(j)
   }
-  Paths = Class.forName( 'xite.Paths', true, loader )
+  Class<?> pathsClass = Class.forName( 'xite.Paths', true, loader )
 
   def xiteHome = xiteHomeFile.getAbsolutePath()
-  def paths = Paths.newInstance(xiteHome)
+  def paths = pathsClass.newInstance(xiteHome)
 
   def itestDefaultConfigurationFile = new File(paths.confDirectory+'/xite-default.groovy')
   logger.debug("itestDefaultConfigurationFile ${itestDefaultConfigurationFile}")
@@ -104,13 +109,7 @@ itest.doFirst {
     
   // GroovyScriptEngine initialization
   def roots = [ paths.pluginsDirectory ] as String[]
-  GroovyScriptEngine gse = new GroovyScriptEngine(roots)
-  def cl = gse.getParentClassLoader()
-  jars.each { 
-    def j = it.toURI().toURL()
-    logger.debug("adding url ${j}")
-    cl.addURL(j)
-  }
+  GroovyScriptEngine gse = new GroovyScriptEngine(roots, loader)
   // binding setting
   Binding binding = new Binding();
   binding.setVariable("xite_paths", paths);

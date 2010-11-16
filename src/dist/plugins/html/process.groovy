@@ -1,6 +1,7 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import xite.Paths
 import xite.api.XitePlugin
 import xite.api.PluginResult
 import xite.plugin.html.HtmlPlugin

@@ -2,14 +2,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import xite.api.XitePlugin;
+import xite.api.ConfigurationAwareXitePlugin
+import xite.api.PathsAwareXitePlugin
+import xite.api.PluginResult
+import xite.Paths
 
 import org.apache.commons.lang.StringUtils;
+
+logger = LoggerFactory.getLogger('xite.process');
 
 def paths = binding.getVariable("xite_paths")
 def configuration = binding.getVariable("xite_config")
 def gse = binding.getVariable('xite_gse')
-
-logger = LoggerFactory.getLogger('xite.process');
 
 logger.debug("starting xite.process")
 
@@ -24,16 +28,25 @@ def plugins = pluginNames.collect { pluginName ->
     def pluginPackage = "${PLUGINS_PACKAGE_PREFIX}.${pluginName}"
     def pluginClassFullPath = "${pluginPackage}.${pluginClassName}"
     logger.debug("plugin ${pluginName} resolved: ${pluginClassFullPath}")
-    def currentPlugin = loadPlugin(pluginClassFullPath)
+    XitePlugin currentPlugin = loadPlugin(pluginClassFullPath)
     if (currentPlugin) {
         logger.debug("plugin ${currentPlugin.class} loaded")
     }
     currentPlugin
 }
 
+/*
+for (plugin in plugins) {
+    if (!plugin) continue;
+    if (plugin instanceof ConfigurationAwareXitePlugin) ((ConfigurationAwareXitePlugin)plugin).setConfiguration(configuration)
+    if (plugin instanceof PathsAwareXitePlugin) ((PathsAwareXitePlugin)plugin).setPaths(paths)
+    PluginResult result = plugin.apply()
+}
+*/
+
 for (phase in phases)
 {
-  logger.info("running phase ${phase}")
+  logger.debug("running phase ${phase}")
   //for (currentDirectory in processableDirectories)
   for (plugin in pluginNames)
   {
@@ -51,20 +64,20 @@ for (phase in phases)
   }
 }
 
+
 def XitePlugin loadPlugin(String pluginClassFullPath)
 {
     XitePlugin plugin
-     try {
-      Class<?> clazz = Class.forName(pluginClassFullPath);
-      Object o = clazz.newInstance(); // InstantiationException
-      if (o instanceof XitePlugin)
-      {
-         plugin = (XitePlugin) o   
-      }
-
+    try {
+        Class<?> clazz = Class.forName(pluginClassFullPath);
+        Object o = clazz.newInstance(); // InstantiationException
+        if (o instanceof XitePlugin)
+        {
+            plugin = (XitePlugin) o
+        }
       // production code should handle these exceptions more gracefully
     } catch (Throwable t) {
-      logger.warn("error resolving plugin '${pluginClassFullPath}': ${t.message}")
+        logger.warn("error resolving plugin '${pluginClassFullPath}': ${t.message}")
     }
     return plugin
 }

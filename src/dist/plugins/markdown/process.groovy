@@ -1,4 +1,5 @@
 
+import xite.Paths
 import xite.api.XitePlugin
 import xite.api.PluginResult
 import xite.plugin.markdown.MarkdownPlugin

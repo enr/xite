@@ -1,6 +1,7 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import xite.Paths
 
 def paths = binding.getVariable("xite_paths")
 def configuration = binding.getVariable("xite_config")

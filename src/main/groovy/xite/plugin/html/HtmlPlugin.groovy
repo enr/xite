@@ -41,7 +41,7 @@ def htmlAbsolutePath = paths.normalize(htmlDirectory.absolutePath)
 
 def ddf = new File(resourcesDestinationDirectoryName)
 def currentDestinationAbsolutePath = paths.normalize(ddf.absolutePath)
-logger.info("\nprocessing dir ${htmlAbsolutePath}\ntarget dir: ${currentDestinationAbsolutePath}")
+logger.warn("\nprocessing dir ${htmlAbsolutePath}\ntarget dir: ${currentDestinationAbsolutePath}")
 if (!htmlDirectory.exists()) {
   logger.warn("source directory ${htmlAbsolutePath} not found")
 }
