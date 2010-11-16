@@ -51,9 +51,10 @@ fi
 
 #echo $CLASSPATH
 
-STARTER_MAIN_CLASS="$XITE_HOME/plugins/xite/main.groovy"
+#STARTER_MAIN_CLASS="$XITE_HOME/plugins/xite/main.groovy"
+STARTER_MAIN_CLASS="xite.XiteMain"
 
-exec groovy -classpath "$CLASSPATH" \
+exec java -classpath "$CLASSPATH" \
         -Dxite.home="$XITE_HOME" \
         -Dlog4j.configuration=xite-logging.properties \
         $STARTER_MAIN_CLASS \

@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
  */
 public class CodePluginIntegrationTest extends BasePluginIntegrationTest
 {
-       
+
     /*
      * 
      */
@@ -94,7 +94,8 @@ println "hi àèìòù"
 </html>
 '''
         indexContent = Strings.normalizeEol(indexContent)
-    	File indexFile = new File(targetDir.getAbsolutePath()+'/code/index.html');
+        def destinationPath = targetDir.getAbsolutePath()+'/code/index.html'
+    	File indexFile = new File(destinationPath);
         assertTrue(indexFile.exists(), "${indexFile.getAbsolutePath()} not found");
         assertEquals(indexFile.text, indexContent);
     }    
