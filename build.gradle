@@ -6,6 +6,9 @@ import groovy.xml.XmlUtil
 
 group = 'xite'
 version = '0.1-SNAPSHOT'
+description = """Xite ${version}
+Static website generator.
+"""
 
 defaultTasks 'clean', 'app', 'itest'
 
