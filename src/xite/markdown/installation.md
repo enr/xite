@@ -32,7 +32,7 @@ For a real installation, move target/app where you like
 
 You can use symbolic link to have Xite in your path, without further settings
 
-    ln -s apps/xite/bin/xite /usr/bin/xite
+    ln -s $HOME/apps/xite/bin/xite /usr/bin/xite
 
 
 
