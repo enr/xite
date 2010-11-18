@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeClass;
  */
 public class BasePluginIntegrationTest
 {
-    static protected Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    static protected Logger logger = LoggerFactory.getLogger(BasePluginIntegrationTest.class.getName());
     
     File targetDir;
     ConfigObject testConfiguration
