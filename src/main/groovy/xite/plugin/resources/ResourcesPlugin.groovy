@@ -44,9 +44,6 @@ logger.debug('configuration.resources.sources.additionals: {}', configuration.re
 for (a in configuration.resources.sources.additionals) {
     resourcesDirectories.put(a.key, a.value)
 }
-if (configuration.resources.sources.additionals.size > 0) {
-  resourcesDirectories.putAll(configuration.resources.sources.additionals)
-}
 
 logger.info('resources directories: {}', resourcesDirectories);
 
