@@ -22,5 +22,5 @@ Syntax highlighting
 
 Follow <a href="/xite/code-highlighting.html">instructions</a> or view the Xite sources.
 
-Xite site uses <a href="http://shjs.sourceforge.net/">SHJS</a>, keeped out of the distributed sources, in a git-ignored directory.
+Xite site uses <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a>, keeped out of the distributed sources, in a git-ignored directory.
 
