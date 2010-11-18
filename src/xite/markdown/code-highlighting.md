@@ -62,7 +62,7 @@ Put js and css files in a resources directory, to have something similar:
     /resources/js/sh/shBrushXml.js
     /resources/js/sh/shCore.js
     /resources/js/sh/shLegacy.js
-    
+    [...]
     /resources/css/sh/shCore.css
 
 

@@ -54,6 +54,6 @@ code {
     //template = '<pre class="brush: %s">\n%s\n</pre>'; // http://alexgorbatchev.com/wiki/SyntaxHighlighter
     //template = '<pre class="sh_%s">\n%s\n</pre>'; // http://shjs.sourceforge.net/doc/documentation.html
     template = '<script type="syntaxhighlighter" class="brush: %s"><![CDATA[%s]]></script>'; // http://alexgorbatchev.com/wiki/SyntaxHighlighter
-    top = "templates/header-code.html"
-    bottom = "templates/footer-code.html"
+    //top = "templates/header-code.html"
+    //bottom = "templates/footer-code.html"
 }
