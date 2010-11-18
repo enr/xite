@@ -73,6 +73,7 @@ htmlDirectory.eachFileRecurse() { src ->
     def content = src.text
     def finalContent = Strings.normalizeEol("${header}${content}${footer}")
     //logger.warn(finalContent)
+    destinationFile.text = ''
     destinationFile << finalContent
   }
 }  

@@ -20,38 +20,36 @@ import org.testng.annotations.Test;
  * Integration test for site creation.
  *
  */
-public class HtmlPluginIntegrationTest extends BasePluginIntegrationTest
+public class HtmlPluginIntegrationTest //extends BasePluginIntegrationTest
 {
-    /*
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     File targetDir;
 
     HtmlPlugin plugin;
 
-@BeforeClass
+    @BeforeClass
     public void init()
     {
-        logger.warn('+++++++++init+++++++')
         String xiteHome = System.getProperty('xite.itest.XITE_HOME')
         Paths paths = new Paths(xiteHome)
     	String rootDir = System.getProperty("xite.itest.project.rootDir"); 
     	targetDir = new File(rootDir+"/target/itest"); 
-        logger.info("targetDir '{}' exists? {}", targetDir, targetDir.exists());
-        def itestDefaultConfigurationFile = new File(paths.confDirectory+'/xite-default.groovy')
-  logger.debug("itestDefaultConfigurationFile ${itestDefaultConfigurationFile}")
-  ConfigSlurper slurper = new ConfigSlurper(null)
-  ConfigObject itestDefaultConfiguration = slurper.parse(itestDefaultConfigurationFile.toURL())
+        logger.debug("targetDir '{}' exists? {}", targetDir, targetDir.exists());
+        File itestDefaultConfigurationFile = new File(paths.confDirectory+'/xite-default.groovy')
+        logger.debug("itestDefaultConfigurationFile ${itestDefaultConfigurationFile}")
+        ConfigSlurper slurper = new ConfigSlurper(null)
+        ConfigObject itestDefaultConfiguration = slurper.parse(itestDefaultConfigurationFile.toURL())
         File sourceDir = new File(rootDir+"/test-app/src/xite")
         paths.sourceDirectory = paths.normalize(sourceDir.getAbsolutePath())
-        def projectConfigurationFile = new File("${paths.sourceDirectory}/xite/site.groovy")
-        logger.warn("projectConfigurationFile ${projectConfigurationFile} ${projectConfigurationFile.getAbsolutePath()}")
-        def projectConfig = new ConfigSlurper().parse(projectConfigurationFile.toURL())
-        def itestFinalConfiguration = (ConfigObject) itestDefaultConfiguration.merge(projectConfig);
+        File projectConfigurationFile = new File("${paths.sourceDirectory}/xite/site.groovy")
+        logger.debug("projectConfigurationFile ${projectConfigurationFile} ${projectConfigurationFile.getAbsolutePath()}")
+        ConfigObject projectConfig = new ConfigSlurper().parse(projectConfigurationFile.toURL())
+        ConfigObject itestFinalConfiguration = (ConfigObject) itestDefaultConfiguration.merge(projectConfig);
         paths.destinationDirectory = paths.normalize(targetDir.getAbsolutePath())
-        plugin = new HtmlPlugin(configuration: projectConfig, paths: paths)
+        plugin = new HtmlPlugin(configuration: itestFinalConfiguration, paths: paths)
         plugin.apply()
-    }*/
+    }
 
     /*
      * 
