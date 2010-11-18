@@ -12,7 +12,9 @@ Go to [installation instructions] [3]
 
 <p/>
 
-<b>Getting started</b><br/>
+Getting started
+---------------
+
 <ul>
 <li><a href="/xite/installation.html">installation</a></li>
 <li><a href="/xite/usage.html">usage</a></li>
@@ -22,9 +24,11 @@ Go to [installation instructions] [3]
 <li><a href="/xite/code/">browse the source code</a></li>
 </ul>
 
-<b>How tos</b><br/>
+How tos
+-------
+
 <ul>
-<li><a href="/xite/build-your-site-for-xite.html">build-your-site-for-xite</a></li>
+<li><a href="/xite/build-your-site-for-xite.html">build your site for xite</a></li>
 <li><a href="/xite/code-highlighting.html">code highlighting</a></li>
 <li><a href="/xite/software-projects.html">xite for software projects</a></li>
 </ul>

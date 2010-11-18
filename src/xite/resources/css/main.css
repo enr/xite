@@ -22,17 +22,22 @@ html, body {
 /* --- header --- */
 #header
 {
-  width: 100%;
   background: #eee;
   padding: 20px;
+  width: 90%;
+  text-align: left;
+  margin-left: auto ;
+  margin-right: auto ;
 }
 
 /* --- navigation menu --- */
 #navigation
 {
-	float: left;
-	width: 100%;
-	background: #fff;
+  background: #fff;
+  width: 90%;
+  text-align: left;
+  margin-left: auto ;
+  margin-right: auto ;
 }
 #navigation ul
 {
@@ -58,12 +63,10 @@ html, body {
 /* --- content area --- */
 #content
 {
-	clear: left;
-	float: left;
-	width: 90%;
-	padding: 20px 0;
-	margin: 0 0 0 30px;
-	display: inline;
+  width: 90%;
+  text-align: left;
+  margin-left: auto ;
+  margin-right: auto ;
 }
 
 /* --- footer --- */
@@ -72,6 +75,8 @@ html, body {
   width: 90%;
   background-color: #fff;
   text-align: center;
+  margin-left: auto ;
+  margin-right: auto ;
 }
 
 .push {
@@ -104,6 +109,8 @@ pre {
     line-height: 120%;
     border-left: solid #d0d0d0 0.5em;
 }
+
+div.spacer { clear: both; margin-top: 20px; margin-bottom: 20px;}
 
 a:link {color:orange;}      /* unvisited link */
 a:visited {color:orange;}   /* visited link */
