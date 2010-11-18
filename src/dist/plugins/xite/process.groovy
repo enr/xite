@@ -35,34 +35,35 @@ def plugins = pluginNames.collect { pluginName ->
     currentPlugin
 }
 
-/*
+    logger.warn("plugins: ${plugins}")
+
 for (plugin in plugins) {
+    logger.warn(" - execute plugin ${plugin}")
     if (!plugin) continue;
     if (plugin instanceof ConfigurationAwareXitePlugin) ((ConfigurationAwareXitePlugin)plugin).setConfiguration(configuration)
     if (plugin instanceof PathsAwareXitePlugin) ((PathsAwareXitePlugin)plugin).setPaths(paths)
     PluginResult result = plugin.apply()
 }
-*/
 
-for (phase in phases)
-{
-  logger.debug("running phase ${phase}")
-  //for (currentDirectory in processableDirectories)
-  for (plugin in pluginNames)
-  {
-    //logger.debug("${phase} ] looking for plugin: ${currentDirectory}")
-    logger.debug("${phase} ] looking for plugin: ${plugin}")
-    def pluginScript = "${plugin}/${phase}.groovy"
-    def pluginDirectory = new File(paths.pluginsDirectory, plugin)
-    def pluginScriptFile = new File(pluginDirectory, "${phase}.groovy")
-    if (!pluginScriptFile.exists()) {
-      logger.info("skip plugin script '${pluginScriptFile}': not found")
-      continue
-    }
-    logger.debug("running plugin ${plugin} ${pluginScript}")
-    gse.run(pluginScript, binding);
-  }
-}
+//////////for (phase in phases)
+//////////{
+//////////  logger.debug("running phase ${phase}")
+//////////  //for (currentDirectory in processableDirectories)
+//////////  for (plugin in pluginNames)
+//////////  {
+//////////    //logger.debug("${phase} ] looking for plugin: ${currentDirectory}")
+//////////    logger.debug("${phase} ] looking for plugin: ${plugin}")
+//////////    def pluginScript = "${plugin}/${phase}.groovy"
+//////////    def pluginDirectory = new File(paths.pluginsDirectory, plugin)
+//////////    def pluginScriptFile = new File(pluginDirectory, "${phase}.groovy")
+//////////    if (!pluginScriptFile.exists()) {
+//////////      logger.info("skip plugin script '${pluginScriptFile}': not found")
+//////////      continue
+//////////    }
+//////////    logger.debug("running plugin ${plugin} ${pluginScript}")
+//////////    gse.run(pluginScript, binding);
+//////////  }
+//////////}
 
 
 def XitePlugin loadPlugin(String pluginClassFullPath)

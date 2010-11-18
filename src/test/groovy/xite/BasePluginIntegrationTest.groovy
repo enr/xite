@@ -11,21 +11,11 @@ import org.testng.annotations.BeforeClass;
  */
 public class BasePluginIntegrationTest
 {
-    static protected Logger logger = LoggerFactory.getLogger(this.getClass());
+    static protected Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     
     File targetDir;
     ConfigObject testConfiguration
     Paths testPaths
-
-    /*
-    @BeforeClass
-    public void init()
-    {
-    	String rootDir = System.getProperty("xite.itest.project.rootDir"); 
-    	targetDir = new File(rootDir+"/target/itest"); 
-        log().info("targetDir '{}' {}", targetDir, targetDir.exists());
-    }
-    */
 
     protected void buildEnvironment()
     {
