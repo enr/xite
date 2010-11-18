@@ -10,28 +10,31 @@ At the moment to use Xite you have to build it from the sources using [Gradle] [
 
 Go to [installation instructions] [3]
 
-<p/>
 
 Getting started
 ---------------
 
-<ul>
-<li><a href="/xite/installation.html">installation</a></li>
-<li><a href="/xite/usage.html">usage</a></li>
-<li><a href="/xite/plugins.html">plugins</a></li>
-<li><a href="/xite/deployment.html">deployment</a></li>
-<li><a href="/xite/configuration.html">configuration</a></li>
-<li><a href="/xite/code/">browse the source code</a></li>
-</ul>
+- [installation](/xite/installation.html)
+- [usage](/xite/usage.html)
+- [plugins](/xite/plugins.html)
+- [deployment](/xite/deployment.html)
+- [configuration](/xite/configuration.html)
+
 
 How tos
 -------
 
-<ul>
-<li><a href="/xite/build-your-site-for-xite.html">build your site for xite</a></li>
-<li><a href="/xite/code-highlighting.html">code highlighting</a></li>
-<li><a href="/xite/software-projects.html">xite for software projects</a></li>
-</ul>
+- [build your site for xite](/xite/build-your-site-for-xite.html)
+- [code highlighting](/xite/code-highlighting.html)
+- [xite for software projects](/xite/software-projects.html)
+
+
+Developer documentation
+-----------------------
+
+- [tests results](/xite/developers/tests/index.html)
+- [xite source code](/xite/code/index.html)
+
 
 
 
