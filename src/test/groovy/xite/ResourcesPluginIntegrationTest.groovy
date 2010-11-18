@@ -6,6 +6,8 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 
 import xite.Strings
+import xite.Paths
+import xite.plugin.resources.ResourcesPlugin
 
 import java.io.File;
 
@@ -20,10 +22,16 @@ import org.testng.annotations.Test;
  */
 public class ResourcesPluginIntegrationTest extends BasePluginIntegrationTest
 {
-  
-    /*
-     * 
-     */
+    ResourcesPlugin plugin;
+
+    @BeforeClass
+    public void init()
+    {
+        buildEnvironment()
+        plugin = new ResourcesPlugin(configuration: testConfiguration, paths: testPaths)
+        plugin.apply()
+    }
+    
     @Test
     public void testBasicProcess()
     {

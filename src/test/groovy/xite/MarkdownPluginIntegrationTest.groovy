@@ -6,6 +6,8 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 
 import xite.Strings
+import xite.Paths
+import xite.plugin.markdown.MarkdownPlugin
 
 import java.io.File;
 
@@ -20,6 +22,15 @@ import org.testng.annotations.Test;
  */
 public class MarkdownPluginIntegrationTest extends BasePluginIntegrationTest
 {
+    MarkdownPlugin plugin;
+
+    @BeforeClass
+    public void init()
+    {
+        buildEnvironment()
+        plugin = new MarkdownPlugin(configuration: testConfiguration, paths: testPaths)
+        plugin.apply()
+    }
     
     @Test
     public void testIndexPage()

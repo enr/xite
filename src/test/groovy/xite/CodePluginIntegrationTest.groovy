@@ -6,6 +6,8 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 
 import xite.Strings
+import xite.Paths
+import xite.plugin.code.CodePlugin
 
 import java.io.File;
 
@@ -20,10 +22,16 @@ import org.testng.annotations.Test;
  */
 public class CodePluginIntegrationTest extends BasePluginIntegrationTest
 {
+    CodePlugin plugin;
 
-    /*
-     * 
-     */
+    @BeforeClass
+    public void init()
+    {
+        buildEnvironment()
+        plugin = new CodePlugin(configuration: testConfiguration, paths: testPaths)
+        plugin.apply()
+    }
+
     @Test
     public void testBaseProcess()
     {    
