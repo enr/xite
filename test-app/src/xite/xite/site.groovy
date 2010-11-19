@@ -18,9 +18,8 @@ resources {
         suffix = '_'
     }
     sources {
-        additionals = [ 'additionals':'add', 
-                        'test-app/additionals':'add',
-                        '/tmp/blah':'tmp-blah',
+        additionals = [ 'test-app/additionals':'add',
+                        '/fake/path':'fake-path',
                         'test-app/single/file.html':'asinglefile.html']
     }
     excludedFilenameSuffix = ['~']
