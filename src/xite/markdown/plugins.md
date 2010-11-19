@@ -44,14 +44,28 @@ You can set the resources plugin to filter resources, processing placeholder wor
             suffix = '_'
         }
         sources {
-            // a map of: source directory   -> sub directory (of main destination dir) for these resources
-            // if you want resources deploied in the root, leave an empty string as sub directory
-            // relative paths are allowed
-            // not existing paths are skipped, but the process continue without errors
-            additionals = ['d:/dev/resources':'d-dev', '/tmp/blah':'tmp-blah', 'my/root':'']
+            additionals = [ 'd:/dev/resources':'d-dev',
+                            '/tmp/blah':'tmp-blah',
+                            'my/root':'']
         }
         excludedFilenameSuffix = ['~']
     }
+
+    
+The 'sources' property is a map with, as key a source directory and as value a sub directory (relative 
+to the main destination dir) for these resources.
+
+If you want resources deploied in the root, leave an empty string as sub directory.
+
+Relative paths are allowed.
+
+Not existing paths are skipped, but the process continue without errors, so you can add paths for every system you have access to.
+
+ie 
+
+    additionals = [ 'd:/my/win/resources':'dest', 
+                    '/tmp/my/nix/resources':'dest',
+                    '/Users/me/my/mac/resources':'dest']
 
 
 Variables can be included in your resources. 
@@ -59,6 +73,7 @@ Variables can be included in your resources.
 These variables, denoted by the prefix and suffix delimiters, will be replaced by the value of the given property written in resources.filter.properties file.
 
 The filter processing, happens only if resources.filter.enabled is setted to true.
+
 
 Code
 ----
