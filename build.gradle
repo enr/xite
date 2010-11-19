@@ -32,10 +32,10 @@ if (m2userSettingsFile.exists()) {
     def m2userSettings = m2userSettingsDoc.documentElement
     use(DOMCategory){
       def foundLocalRepo = m2userSettings.localRepository[0]?.text()
-      if (foundLocalRepo != null) localRepo = foundLocalRepo
+      if (foundLocalRepo != null) localRepo = new File(foundLocalRepo).toURL().toString()
     }
 }
-logger.debug("using local repository ${localRepo}")
+logger.warn("using local repository ${localRepo}")
 
 repositories {
     // libraries not in maven repo
