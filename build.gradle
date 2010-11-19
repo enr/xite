@@ -10,13 +10,12 @@ description = """Xite ${version}
 Static website generator.
 """
 
-defaultTasks 'clean', 'test', 'app' //, 'itest'
+defaultTasks 'clean', 'check', 'app'
 
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 
 buildDir = 'target'
-
 appBuildDir = "${buildDir}/app"
 
 defaultLocalRepo = 'file://'+System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository"
@@ -35,7 +34,7 @@ if (m2userSettingsFile.exists()) {
       if (foundLocalRepo != null) localRepo = new File(foundLocalRepo).toURL().toString()
     }
 }
-logger.warn("using local repository ${localRepo}")
+logger.debug("using local repository ${localRepo}")
 
 repositories {
     // libraries not in maven repo
@@ -79,67 +78,10 @@ test {
     }
 }
 
-// --- integration tests
-//////task itest (type: Test, dependsOn: ':app'){
-//////    include '**/*IntegrationTest.*'
-//////    testResultsDir = file('target/test-results')
-//////    testReportDir = file('target/reports/tests')
-//////    classpath = test.classpath
-//////    testClassesDir = test.testClassesDir
-//////    useTestNG()
-//////
-//////    def xiteHomeFile = project.file(appBuildDir)
-//////    def projectRootDir = project.getRootDir().getAbsolutePath()
-//////    // tests system properties
-//////    systemProperties['xite.itest.XITE_HOME'] = xiteHomeFile.getAbsolutePath()
-//////    systemProperties['xite.itest.project.rootDir'] = projectRootDir
-//////}
-//////
-//////itest.doFirst {
-//////  def xiteHomeFile = project.file(appBuildDir)
-//////  def loader = Thread.currentThread().getContextClassLoader()
-//////  def jardir = new File( xiteHomeFile, 'lib' )
-//////  def jars   = jardir.listFiles().findAll { it.name.endsWith('.jar') }
-//////  logger.debug('adding urls to class loader')
-//////  jars.each { 
-//////    def j = it.toURI().toURL()
-//////    logger.debug(" - ${j}")
-//////    loader.addURL(j)
-//////  }
-//////  Class<?> pathsClass = Class.forName( 'xite.Paths', true, loader )
-//////
-//////  def xiteHome = xiteHomeFile.getAbsolutePath()
-//////  def paths = pathsClass.newInstance(xiteHome)
-//////
-//////  def itestDefaultConfigurationFile = new File(paths.confDirectory+'/xite-default.groovy')
-//////  logger.debug("itestDefaultConfigurationFile ${itestDefaultConfigurationFile}")
-//////  ConfigSlurper slurper = new ConfigSlurper(null)
-//////  ConfigObject itestDefaultConfiguration = slurper.parse(itestDefaultConfigurationFile.toURL())
-//////
-//////  paths.sourceDirectory = paths.normalize(project.file('test-app/src/xite').getAbsolutePath())
-//////  def projectConfigurationFile = new File("${paths.sourceDirectory}/xite/site.groovy")
-//////  logger.debug("projectConfigurationFile ${projectConfigurationFile} ${projectConfigurationFile.getAbsolutePath()}")
-//////  def projectConfig = new ConfigSlurper().parse(projectConfigurationFile.toURL())
-//////  def itestFinalConfiguration = (ConfigObject) itestDefaultConfiguration.merge(projectConfig);
-//////  paths.destinationDirectory = paths.normalize(project.file('target/itest').getAbsolutePath())
-//////    
-//////  // GroovyScriptEngine initialization
-//////  def roots = [ paths.pluginsDirectory ] as String[]
-//////  GroovyScriptEngine gse = new GroovyScriptEngine(roots, loader)
-//////  // binding setting
-//////  Binding binding = new Binding();
-//////  binding.setVariable("xite_paths", paths);
-//////  binding.setVariable("xite_debug", false);
-//////  binding.setVariable("xite_config", itestFinalConfiguration);
-//////  binding.setVariable("xite_gse", gse);
-//////  gse.run('xite/init.groovy', binding);
-//////  gse.run('xite/process.groovy', binding);
-//////}
-
 task 'xite-deps'(dependsOn: configurations.default.buildArtifacts, type: Copy) {
     into "${appBuildDir}/lib"
     from configurations.default
-    from configurations.default.allArtifacts*.file // (xite jars)
+    from configurations.default.allArtifacts*.file
     description = 'Creates the working application in target directory.'
 }
 
@@ -183,9 +125,9 @@ task 'xite-doc'(dependsOn: ':app', type:Copy) {
 
 task dist(type: Zip, dependsOn: ':xite-doc') {
     description = 'Creates the distributable archive.'
-    from appBuildDir
-    into project.file('distributions')
-    customName = "${archivesBaseName}-latest.zip"
+    into("xite-${version}") {
+        from appBuildDir
+    }
 }
 
 dist.doLast { 
