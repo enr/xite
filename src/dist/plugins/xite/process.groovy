@@ -1,11 +1,14 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import xite.api.ResourceWriter;
 import xite.api.XitePlugin;
 import xite.api.ConfigurationAwareXitePlugin
 import xite.api.PathsAwareXitePlugin
+import xite.api.WriterAwareXitePlugin
 import xite.api.PluginResult
 import xite.Paths
+import xite.DefaultResourceWriter
 
 import org.apache.commons.lang.StringUtils;
 
@@ -14,6 +17,8 @@ logger = LoggerFactory.getLogger('xite.process');
 def paths = binding.getVariable("xite_paths")
 def configuration = binding.getVariable("xite_config")
 def gse = binding.getVariable('xite_gse')
+
+ResourceWriter writer = new DefaultResourceWriter(configuration: configuration)
 
 logger.debug("starting xite.process")
 
@@ -42,6 +47,7 @@ for (plugin in plugins) {
     if (!plugin) continue;
     if (plugin instanceof ConfigurationAwareXitePlugin) ((ConfigurationAwareXitePlugin)plugin).setConfiguration(configuration)
     if (plugin instanceof PathsAwareXitePlugin) ((PathsAwareXitePlugin)plugin).setPaths(paths)
+    if (plugin instanceof WriterAwareXitePlugin) ((WriterAwareXitePlugin)plugin).setWriter(writer)
     PluginResult result = plugin.apply()
 }
 
