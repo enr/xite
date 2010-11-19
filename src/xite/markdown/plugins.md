@@ -6,6 +6,16 @@ Every Xite functionality is provided by a plugin.
 
 The core plugins (distributed with Xite sources) are markdown, resources, code, jetty and deploy.
 
+The configuration section is:
+
+    plugins { 
+        enabled = [ 'code',
+                    'html',
+                    'markdown',
+                    'resources']
+    }
+
+
 Markdown
 --------
 
@@ -68,10 +78,8 @@ Starts Jetty server
 Plugin development
 ------------------
 
-A plugin is a directory containing groovy scripts ( pre/process/post.groovy ).
+A plugin is a class implementing xite.api.XitePlugin
 
-Scripts are executed if in the source directory exists a direcotry named as the plugin (ok not a very refined approach, a better solution is in the todo list).
-
-You can use, as a template the file src/dist/plugins/xite/_plugin-template.groovy
+To speed process and access some common functionality, you can extends xite.XiteAbstractPlugin
 
 
