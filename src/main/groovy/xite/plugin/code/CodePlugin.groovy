@@ -38,7 +38,6 @@ def encoding = configuration.app.encoding
 def header = new File(headerFileName).getText(encoding)
 def footer = new File(footerFileName).getText(encoding)
 
-
 def codeSourceDirectory = "${paths.sourceDirectory}/${configuration.code.source}"
 def codeDestinationDirectory = "${paths.destinationDirectory}/${configuration.code.destination}"
 // a map of resources directory -> sub directory of destination
