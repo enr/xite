@@ -38,15 +38,19 @@ public class ResourcesPluginIntegrationTest extends BasePluginIntegrationTest
     	File resource = new File(targetDir.getAbsolutePath()+'/icon_success.gif');
         assertTrue(resource.exists(), "${resource.getAbsolutePath()} not found");
     }
-    
-    /*
-     * 
-     */
+
     @Test
     public void testAdditionalResourcesInSubDirectory()
     {
     	File additional = new File(targetDir.getAbsolutePath()+'/add/test.html');
         assertTrue(additional.exists(), "${additional.getAbsolutePath()} not found");
     }
-    
+
+    @Test
+    public void testSingleFile()
+    {
+    	File single = new File(targetDir.getAbsolutePath()+'/asinglefile.html');
+        assertTrue(single.exists(), "${single.getAbsolutePath()} not found");
+        assertEquals(single.text, '<p>hi</p>\n');
+    }
 }

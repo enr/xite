@@ -65,9 +65,13 @@ for (resDir in resourcesDirectories)
   def dd = (dst.trim() != '') ? "${resourcesDestinationDirectoryName}/${dst}" : resourcesDestinationDirectoryName
   def ddf = new File(dd)
   def currentDestinationAbsolutePath = paths.normalize(ddf.absolutePath)
-  logger.info("\nprocessing dir ${currentResourcesAbsolutePath}\ntarget dir: ${currentDestinationAbsolutePath}")
+  logger.info("processing resource ${currentResourcesAbsolutePath} target path: ${currentDestinationAbsolutePath}")
   if (!rdf.exists()) {
-      logger.warn("resources directory ${currentResourcesAbsolutePath} not found")
+      logger.warn("resource ${currentResourcesAbsolutePath} not found")
+      continue
+  }
+  if (! rdf.isDirectory()) {
+      ddf.text = rdf.text
       continue
   }
   rdf.eachFileRecurse() { src ->

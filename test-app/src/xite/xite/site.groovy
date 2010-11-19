@@ -20,7 +20,8 @@ resources {
     sources {
         additionals = [ 'additionals':'add', 
                         'test-app/additionals':'add',
-                        '/tmp/blah':'tmp-blah']
+                        '/tmp/blah':'tmp-blah',
+                        'test-app/single/file.html':'asinglefile.html']
     }
     excludedFilenameSuffix = ['~']
 }
