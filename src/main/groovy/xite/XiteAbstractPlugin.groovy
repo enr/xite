@@ -17,9 +17,15 @@ abstract class XiteAbstractPlugin implements XitePlugin, ConfigurationAwareXiteP
     ConfigObject configuration
     ResourceWriter writer
     
-    PluginResult init() {}
+    PluginResult init() {
+        logger.debug('init()')
+    }
+
     abstract PluginResult apply()
-    PluginResult cleanup() {}
+
+    PluginResult cleanup() {
+        logger.debug('cleanup()')
+    }
 }
 
 

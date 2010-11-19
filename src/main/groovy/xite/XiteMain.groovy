@@ -7,6 +7,10 @@ import xite.UserOptions
 
 import xite.Paths
 
+import xite.api.XiteCommand
+import xite.api.CommandResult
+import xite.command.ProcessCommand
+
 class XiteMain
 {
     public static void main(String[] args)
@@ -115,10 +119,13 @@ if (doInit) {
 
 /////////////////////////////////////////////////////////////////// xite process
 if (doProcess) {
-  logger.info("starting xite.process")
-  gse.run('xite/process.groovy', binding);
+    logger.info("starting xite.process")
+    XiteCommand command = new ProcessCommand(paths: paths, configuration: configuration)
+    command.init()
+    CommandResult result = command.execute()
+    command.cleanup()
 } else {
-  logger.info("skipping action process. Requested action: ${action}")
+    logger.info("skipping action process. Requested action: ${action}")
 }
 
 //////////////////////////////////////////////////////////////////// xite deploy
