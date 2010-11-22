@@ -54,7 +54,7 @@ html, body {
 	display: block;
 	float: left;
 	padding: 5px 10px;
-	color: orange;
+	color: #ff6600;
 	text-decoration: none;
 	border-right: 1px solid #ccc;
 }
@@ -83,20 +83,15 @@ html, body {
   font-weight:bold
 }
 
+/* --- page layout --- */
 .push {
   height: 4em;
   clear: both;
 }
 
-h1 {
-  color:orange;
-  padding: 10px;
-}
+div.spacer { clear: both; margin-top: 20px; margin-bottom: 20px;}
 
-h2 {
-  margin-top: 10px;
-}
-
+/* --- typography --- */
 p {
   padding: 10px;
 }
@@ -115,19 +110,17 @@ pre {
     border-left: solid #d0d0d0 0.5em;
 }
 
-div.spacer { clear: both; margin-top: 20px; margin-bottom: 20px;}
-
-a:link {color:orange;}      /* unvisited link */
-a:visited {color:orange;}   /* visited link */
-a:hover {color:orange;}     /* mouse over link */
-a:active {color:orange;}    /* selected link */
-
 h1 {
-  margin: 25px 0 25px 20px;
+  color: #ff6600;
+  padding: 10px;
+  margin: 25px 20px 25px 20px;
   border-bottom: 1px dashed #ccc;
 }
+
 h2 {
-  margin: 20px 0 20px 20px; 
+  color: #aaa;
+  margin-top: 10px;
+  margin: 20px 20px 20px 20px; 
 }
 
 .dir-listing-d {
@@ -137,6 +130,11 @@ h2 {
 .dir-listing-f {
 }
 
+a:link {color: #ff6600;}      /* unvisited link */
+a:visited {color: #ff6600;}   /* visited link */
+a:hover {color: #ff6600;}     /* mouse over link */
+a:active {color: #ff6600;}    /* selected link */
 /* fix for firefox links' dotted border */
 a:active, a:active * { outline: none !important; -moz-outline-style: none !important; }
 a:focus, a:focus * { outline: none !important; -moz-outline-style: none !important; }
+
