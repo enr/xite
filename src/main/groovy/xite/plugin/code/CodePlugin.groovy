@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 import xite.HtmlDirectoryLister;
 import xite.Strings;
 import xite.Files;
+import xite.FilePaths;
 
 import xite.XiteAbstractPlugin
 import xite.api.PluginResult
@@ -61,7 +62,7 @@ for (codeDir in codeSourceDirectories) {
   def dd = (dst.trim() != '') ? "${codeDestinationDirectory}/${dst}" : codeDestinationDirectory
   def ddf = new File(dd)
   def currentDestinationAbsolutePath = paths.normalize(ddf.absolutePath)
-  logger.debug("\nprocessing dir ${currentCodeAbsolutePath}\ntarget dir: ${currentDestinationAbsolutePath}")
+  logger.warn("\nprocessing dir ${currentCodeAbsolutePath}\ntarget dir: ${currentDestinationAbsolutePath}")
 
   if (!csf.exists()) {
       logger.warn("source directory ${currentCodeAbsolutePath} not found")
@@ -88,18 +89,18 @@ for (codeDir in codeSourceDirectories) {
     }
 
     
-    //logger.debug("processing ${fap}")
+    logger.warn("processing ${fap}")
     //logger.debug("replace: ${currentCodeAbsolutePath} . ${currentDestinationAbsolutePath}")
     // qua: trovare estensione file
-    def extension = Files.extension(fap)
+    def extension = FilePaths.extension(fap.toString())
     // what if file has no extension??
     def lang = codeLang(extension)
-    logger.debug("lang : ${lang}")
+    logger.warn("lang : ${lang}")
     // estensione file diventa lang
     // e viene sostituita da html nel destination file path
     def destinationFileNameNoHtmlExtension = fap.replace(currentCodeAbsolutePath, currentDestinationAbsolutePath)
     def destinationFileName = "${destinationFileNameNoHtmlExtension}.html"
-    logger.debug("destinationFileName : ${destinationFileName}")
+    logger.warn("destinationFileName : ${destinationFileName}")
     def destinationFile = new File(destinationFileName)
     if (destinationFile.exists()) { destinationFile.delete() }
     //logger.debug("destinationFileNameNoHtmlExtension : ${destinationFileNameNoHtmlExtension}")
@@ -122,13 +123,14 @@ for (codeDir in codeSourceDirectories) {
       String codeString = src.getText(encoding);
       def content = String.format(configuration.code.template, lang, codeString)
       String finalContent = Strings.normalizeEol("${header}${content}${footer}");
-      //logger.warn(finalContent)
+      logger.warn(' end {}', src)
       //destinationFile << finalContent
       FileUtils.writeStringToFile(destinationFile, finalContent, encoding) 
+      logger.warn(' end {}', src)
     }
   }
 }
-
+logger.warn('........... htmllister start')
 //IndexPage index = new IndexPage()
 //index.header = header
 //index.footer = footer
@@ -141,8 +143,10 @@ HtmlDirectoryLister lister = new HtmlDirectoryLister.Builder(new File(codeDestin
                             .directoryCssClass('dir-listing-d')
                             .fileCssClass('dir-listing-f')
                             .build();
+logger.warn('........... htmllister 1')
 lister.write();
 
+logger.warn('........... htmllister stop')
 
         
         

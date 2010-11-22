@@ -19,39 +19,6 @@ public class Files
     private Files()
     {
     }
-
-    /**
-     * Resolve the extension for the given filename. Throws NPE if filename is
-     * null.
-     * 
-     * @param filename
-     * @return the file extension (without dot) if any, or empty string if filename doesn't contain any dot.
-     */
-    public static String extension(String filename)
-    {
-        String extension = "";
-        String fn = filename.trim();
-        int dotPos = fn.lastIndexOf(".");
-        if (dotPos == -1)
-        {
-            return "";
-        }
-        extension = fn.substring(dotPos + 1);
-        return extension;
-    }
-
-    /**
-     * Replaces all backslashes with slash char. Throws NPE if the original path
-     * is null.
-     * 
-     * @param original :
-     *            the path to normalize.
-     * @return
-     */
-    public static String normalizedPath(String original)
-    {
-        return original.replace(File.separatorChar, '/');
-    }
     
     /**
      * writes using platform default encoding

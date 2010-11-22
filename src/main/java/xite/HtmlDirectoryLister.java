@@ -149,6 +149,7 @@ public class HtmlDirectoryLister
 
     public void write()
     {
+        log().warn(" ################ START");
         if (!directory.exists()) directory.mkdirs();
         File page = new File(directory, "index.html");
         pageContent = new StringBuilder(Strings.normalizeEol(header));
@@ -158,17 +159,21 @@ public class HtmlDirectoryLister
         pageContent.append('"');
         pageContent.append(">\n");
         
-        basePath = Files.normalizedPath(directory.getAbsolutePath());
+        basePath = FilePaths.absoluteNormalized(directory);
+        log().warn("basePath : {}", basePath);
         
         FileTraverser ft = new FileTraverser() {
             @Override
             public void onDirectory(final File f)
             {
                 if ((! Directories.isEmpty(f)) || (listEmptyDirs)) {
-                    String relativePath = Files.normalizedPath(f.getAbsolutePath()).replaceFirst(basePath, "");
+                    log().warn("D f : {}", f);
+                    String relativePath = FilePaths.absoluteNormalized(f).replaceFirst(basePath, "");
+                    log().warn("D relativePath : {}", relativePath);
                     String descriptivePath = relativePath.replaceFirst("/", "");
+                    log().warn("D descriptivePath 1: {}", descriptivePath);
                     descriptivePath = descriptivePath.replace("/", " &gt; ");
-                    log().debug("D descriptivePath : {}", descriptivePath);
+                    log().warn("D descriptivePath 2: {}", descriptivePath);
                     if ((descriptivePath == null) || ("".equals(descriptivePath.trim()))) return;
                     pageContent.append("\n<p/><span class=");
                     pageContent.append('"');
@@ -184,10 +189,12 @@ public class HtmlDirectoryLister
             @Override
             public void onFile(final File f)
             {
-                String relativePath = Files.normalizedPath(f.getAbsolutePath()).replaceFirst(basePath, "");
+                log().warn("F  : {}", f);
+                String relativePath = FilePaths.absoluteNormalized(f).replaceFirst(basePath, "");
+                log().warn("F relative path : {}", relativePath);
                 String descriptivePath = relativePath.replaceFirst("/", "");
                 descriptivePath = descriptivePath.replace("/", " &gt; ");
-                log().debug("F descriptivePath : {}", descriptivePath);
+                log().warn("F descriptivePath : {}", descriptivePath);
                 if ((descriptivePath == null) || ("".equals(descriptivePath.trim()))) return;
                 pageContent.append("\n<p/><a href=");
                 pageContent.append('"');
