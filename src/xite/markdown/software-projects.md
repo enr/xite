@@ -16,6 +16,12 @@ Code reports
 
 If your project uses some report tool you can add the reports destination directories to the resources and they will be imported in the Xite site.
 
+Xite uses Gradle as build system, TestNG for tests and ReportNG for test reports.
+
+You can look at our build.gradle and src/xite/xite/site.groovy for a hint. 
+
+
+
 
 Syntax highlighting
 -------------------

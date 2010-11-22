@@ -1,6 +1,6 @@
 
-Xite
-====
+Xite FAQ
+========
 
 
 How can I test the site without deploy to a web server?
@@ -18,7 +18,7 @@ You can pass the port number to use:
 How can I use Maven reports in my Xite site?
 --------------------------------------------
 
-Add to resources configuration every maven site target directory and ensure to
+Add to resources configuration every Maven site target directory and ensure to
 execute mvn site before the xite command
 
 

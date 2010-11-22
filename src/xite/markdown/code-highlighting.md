@@ -22,20 +22,16 @@ In the footer add SyntaxHighlighter configuration and startup
     lang:html
     [...]
     </body>
-    
     <script type="text/javascript">
     function path()
     {
       var args = arguments,
-          result = []
-          ;
-           
+          result = [];
       for(var i = 0; i < args.length; i++)
           result.push(args[i].replace('@', '/context/js/sh/'));
-           
+
       return result
     };
-     
     SyntaxHighlighter.autoloader.apply(null, path(
       'bash shell             @shBrushBash.js',
       'css                    @shBrushCss.js',
