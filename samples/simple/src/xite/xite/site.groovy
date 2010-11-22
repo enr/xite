@@ -1,15 +1,13 @@
 
 app {
-    version = "1.0-TEST"
-    baseContext = '/xite'
+    version = "1.0-SNAPSHOT"
+    baseContext = '/simple'
     encoding = 'UTF-8'
 }
 
 markdown {
     extensions = ['md']
 }
-
-//def adr = System.getProperty("xite.itest.project.rootDir")
 
 resources {
     filter {
@@ -18,14 +16,14 @@ resources {
         suffix = '_'
     }
     sources {
-        additionals = [ 'test-app/additionals':'add',
+        additionals = [ 'samples/simple/additionals':'add',
                         '/fake/path':'fake-path',
-                        'test-app/single/file.html':'asinglefile.html']
+                        'samples/simple/single/file.html':'asinglefile.html']
     }
     excludedFilenameSuffix = ['~']
 }
 
 code {
-    baseContext = '/xite'
+    baseContext = '/simple'
     excludedFilenameSuffix = ['~']
 }

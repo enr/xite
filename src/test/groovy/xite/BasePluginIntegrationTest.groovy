@@ -17,7 +17,7 @@ public class BasePluginIntegrationTest
     ConfigObject testConfiguration
     Paths testPaths
 
-    protected void buildEnvironment()
+    protected void buildEnvironmentForsampleApp(String appName)
     {
         String xiteHome = System.getProperty('xite.itest.XITE_HOME')
         testPaths = new Paths(xiteHome)
@@ -28,7 +28,7 @@ public class BasePluginIntegrationTest
         logger.debug("itestDefaultConfigurationFile ${itestDefaultConfigurationFile}")
         ConfigSlurper slurper = new ConfigSlurper(null)
         ConfigObject itestDefaultConfiguration = slurper.parse(itestDefaultConfigurationFile.toURL())
-        File sourceDir = new File(rootDir+"/test-app/src/xite")
+        File sourceDir = new File("${rootDir}/samples/${appName}/src/xite")
         testPaths.sourceDirectory = testPaths.normalize(sourceDir.getAbsolutePath())
         File projectConfigurationFile = new File("${testPaths.sourceDirectory}/xite/site.groovy")
         logger.debug("projectConfigurationFile ${projectConfigurationFile} ${projectConfigurationFile.getAbsolutePath()}")
