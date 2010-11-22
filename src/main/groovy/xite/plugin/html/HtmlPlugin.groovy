@@ -14,72 +14,69 @@ import xite.api.PluginResult
  */
 class HtmlPlugin extends XiteAbstractPlugin
 {
+    private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    
+    private static final String SRC_BASE_DIR = 'html'
+    
     PluginResult init() {}
+
     PluginResult apply() {
+        def htmlSourceDirectoryName = paths.sourceDirectory + '/' + SRC_BASE_DIR
+        def resourcesDestinationDirectoryName = paths.destinationDirectory
+        logger.debug('htmlSourceDirectoryName {}', htmlSourceDirectoryName)
+        logger.debug('resourcesDestinationDirectoryName {}', resourcesDestinationDirectoryName)
+        def headerFileName = "${paths.sourceDirectory}/${configuration.templates.directory}/${configuration.templates.top}"
+        def footerFileName = "${paths.sourceDirectory}/${configuration.templates.directory}/${configuration.templates.bottom}"
+        logger.debug("headerFileName ${headerFileName}")
+        logger.debug("footerFileName ${footerFileName}")
 
-def logger = LoggerFactory.getLogger('xite.html');
+        def header = new File(headerFileName).text
+        def footer = new File(footerFileName).text
 
-def htmlSourceDirectoryName = paths.sourceDirectory + '/html'
-def resourcesDestinationDirectoryName = paths.destinationDirectory
+        def htmlPath = paths.normalize(htmlSourceDirectoryName)
+        def htmlDirectory = new File(htmlPath)
+        def htmlAbsolutePath = paths.normalize(htmlDirectory.absolutePath)
 
-logger.debug('htmlSourceDirectoryName {}', htmlSourceDirectoryName)
-logger.debug('resourcesDestinationDirectoryName {}', resourcesDestinationDirectoryName)
+        def ddf = new File(resourcesDestinationDirectoryName)
+        def currentDestinationAbsolutePath = paths.normalize(ddf.absolutePath)
+        logger.debug("processing dir ${htmlAbsolutePath}")
+        logger.debug("target dir: ${currentDestinationAbsolutePath}")
+        if (!htmlDirectory.exists()) {
+            logger.warn("source directory ${htmlAbsolutePath} not found")
+        }
 
-
-def headerFileName = "${paths.sourceDirectory}/${configuration.templates.directory}/${configuration.templates.top}"
-def footerFileName = "${paths.sourceDirectory}/${configuration.templates.directory}/${configuration.templates.bottom}"
-
-logger.debug("headerFileName ${headerFileName}")
-logger.debug("footerFileName ${footerFileName}")
-
-def header = new File(headerFileName).text
-def footer = new File(footerFileName).text
-
-def htmlPath = paths.normalize(htmlSourceDirectoryName)
-def htmlDirectory = new File(htmlPath)
-def htmlAbsolutePath = paths.normalize(htmlDirectory.absolutePath)
-
-def ddf = new File(resourcesDestinationDirectoryName)
-def currentDestinationAbsolutePath = paths.normalize(ddf.absolutePath)
-logger.debug("processing dir ${htmlAbsolutePath}")
-logger.debug("target dir: ${currentDestinationAbsolutePath}")
-if (!htmlDirectory.exists()) {
-  logger.warn("source directory ${htmlAbsolutePath} not found")
-}
-  
-htmlDirectory.eachFileRecurse() { src ->
-  def fap = paths.normalize(src.absolutePath)
-
-  logger.debug("processing ${fap}")
-  logger.debug("replace: ${htmlAbsolutePath} . ${currentDestinationAbsolutePath}")
-
-  def destinationFileName = fap.replace(htmlAbsolutePath, currentDestinationAbsolutePath)  
-  logger.debug("${src.getPath()} -> ${destinationFileName}")
-  def destinationFile = new File(destinationFileName)
-
-  if (src.isDirectory()) {
-    if (!destinationFile.exists()) {
-        destinationFile.mkdirs()
+        htmlDirectory.eachFileRecurse() { src ->
+          def fap = paths.normalize(src.absolutePath)
+        
+          logger.debug("processing ${fap}")
+          logger.debug("replace: ${htmlAbsolutePath} . ${currentDestinationAbsolutePath}")
+        
+          def destinationFileName = fap.replace(htmlAbsolutePath, currentDestinationAbsolutePath)  
+          logger.debug("${src.getPath()} -> ${destinationFileName}")
+          def destinationFile = new File(destinationFileName)
+        
+          if (src.isDirectory()) {
+            if (!destinationFile.exists()) {
+                destinationFile.mkdirs()
+            }
+          }
+          
+          if (src.isFile()) {
+            def parentDirectory = new File(destinationFile.parent)
+            if (!parentDirectory.exists()) {
+              logger.info("directory ${parentDirectory} NO exists. creating...")
+              def success = parentDirectory.mkdirs()
+              //parentDirectory.setWritable(true)
+              assert success 
+            }
+            def content = src.text
+            def finalContent = Strings.normalizeEol("${header}${content}${footer}")
+            destinationFile.text = ''
+            destinationFile << finalContent
+          }
+        }  
     }
-  }
-  
-  if (src.isFile()) {
-    def parentDirectory = new File(destinationFile.parent)
-    if (!parentDirectory.exists()) {
-      logger.info("directory ${parentDirectory} NO exists. creating...")
-      def success = parentDirectory.mkdirs()
-      //parentDirectory.setWritable(true)
-      assert success 
-    }
-    def content = src.text
-    def finalContent = Strings.normalizeEol("${header}${content}${footer}")
-    //logger.warn(finalContent)
-    destinationFile.text = ''
-    destinationFile << finalContent
-  }
-}  
 
-    }
     PluginResult cleanup() {}
 }
 

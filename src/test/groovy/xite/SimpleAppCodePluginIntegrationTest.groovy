@@ -39,7 +39,7 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
 <head></head>
 <body>
 
-<pre><code lang="html">
+<p/><h3>/header.html</h3><p/><pre><code lang="html">
 <html>
 <head></head>
 <body>
@@ -67,7 +67,7 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
 <head></head>
 <body>
 
-<pre><code lang="groovy">
+<p/><h3>/groovy/file.groovy</h3><p/><pre><code lang="groovy">
 
 println "hi àèìòù"
 

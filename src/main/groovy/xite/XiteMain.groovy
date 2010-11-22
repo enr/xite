@@ -84,13 +84,16 @@ if (logger.isDebugEnabled()) {
     configuration.each { k, v ->
         logger.debug("${k}:      ${v}")  
     }
+    /*
     logger.debug("urls in classpath:")
     def cl = this.class.classLoader
+    logger.debug("cl: ${cl}")
     def loader = cl.rootLoader
     for (u in loader.getURLs()){
         logger.debug("${u}")
     }
     logger.debug('paths: {}', paths)
+    */
 }
 
 ////////////////////////////////////////////// GroovyScriptEngine initialization
