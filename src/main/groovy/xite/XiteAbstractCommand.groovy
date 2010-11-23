@@ -12,6 +12,7 @@ abstract class XiteAbstractCommand implements XiteCommand
     
     Paths paths
     ConfigObject configuration
+    Map context
 
     CommandResult init() {
         logger.debug('init()')

@@ -9,7 +9,10 @@ import xite.Paths
 
 import xite.api.XiteCommand
 import xite.api.CommandResult
+import xite.command.CleanCommand
 import xite.command.ProcessCommand
+import xite.command.RunCommand
+import xite.command.DeployCommand
 
 class XiteMain
 {
@@ -26,14 +29,12 @@ def options = new UserOptions(args)
 ///////////////////////////////////////////////////////////////////////// action
 def action = options.action
 def runPort = options.port
-def doInit = ((action == 'init') || (action == 'process') || (action == 'deploy'))
 def doProcess = ((action == 'process') || (action == 'deploy'))
 def doDeploy =  (action == 'deploy')
 def doRun = (action == 'run')
 def doClean = (action == 'clean')
 
 logger.debug("action     : ${action}")
-logger.debug("do init    : ${doInit}")
 logger.debug("do process : ${doProcess}")
 logger.debug("do deploy  : ${doDeploy}")
 logger.debug("do run     : ${doRun}")
@@ -84,16 +85,6 @@ if (logger.isDebugEnabled()) {
     configuration.each { k, v ->
         logger.debug("${k}:      ${v}")  
     }
-    /*
-    logger.debug("urls in classpath:")
-    def cl = this.class.classLoader
-    logger.debug("cl: ${cl}")
-    def loader = cl.rootLoader
-    for (u in loader.getURLs()){
-        logger.debug("${u}")
-    }
-    logger.debug('paths: {}', paths)
-    */
 }
 
 ////////////////////////////////////////////// GroovyScriptEngine initialization
@@ -111,14 +102,8 @@ binding.setVariable("xite_gse", gse);
 ///////////////////////////////////////////////////////////// additional options
 binding.setVariable("xite_option_port", runPort);
 
-
-////////////////////////////////////////////////////////////////////// xite init
-if (doInit) {
-  logger.info("starting xite.init")
-  gse.run('xite/init.groovy', binding);
-} else {
-  logger.info("skipping action init. Requested action: ${action}")
-}
+Map commandContext = [:]
+commandContext.put("xite_port", runPort);
 
 /////////////////////////////////////////////////////////////////// xite process
 if (doProcess) {
@@ -133,24 +118,33 @@ if (doProcess) {
 
 //////////////////////////////////////////////////////////////////// xite deploy
 if (doDeploy) {
-  logger.info("starting xite.deploy")
-  gse.run('xite/deploy.groovy', binding);
+    logger.info("starting xite.process")
+    XiteCommand command = new DeployCommand(paths: paths, configuration: configuration)
+    command.init()
+    CommandResult result = command.execute()
+    command.cleanup()
 } else {
   logger.info("skipping action deploy. Requested action: ${action}")
 }
 
 /////////////////////////////////////////////////////////////////////// xite run
 if (doRun) {
-  logger.info("starting xite.run")
-  gse.run('xite/run.groovy', binding);
+    logger.info("starting xite.process")
+    XiteCommand command = new RunCommand(paths: paths, configuration: configuration, context:commandContext)
+    command.init()
+    CommandResult result = command.execute()
+    command.cleanup()
 } else {
   logger.info("skipping action run. Requested action: ${action}")
 }
 
 ///////////////////////////////////////////////////////////////////// xite clean
 if (doClean) {
-  logger.info("starting xite.clean")
-  gse.run('xite/clean.groovy', binding);
+    logger.info("starting xite.process")
+    XiteCommand command = new CleanCommand(paths: paths, configuration: configuration)
+    command.init()
+    CommandResult result = command.execute()
+    command.cleanup()
 } else {
   logger.info("skipping action clean. Requested action: ${action}")
 }

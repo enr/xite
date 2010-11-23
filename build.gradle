@@ -92,13 +92,7 @@ task 'xite-bin'(dependsOn: 'xite-deps', type:Copy) {
     description = 'Creates the working application in target directory.'
 }
 
-task 'xite-plugins'(dependsOn: 'xite-bin', type:Copy) {
-    from 'src/dist/plugins'
-    into "${appBuildDir}/plugins"
-    description = 'Creates the working application in target directory.'
-}
-
-task 'xite-conf'(dependsOn: 'xite-plugins', type:Copy) {
+task 'xite-conf'(dependsOn: 'xite-bin', type:Copy) {
     from 'src/dist/conf'
     into "${appBuildDir}/conf"
     description = 'Creates the working application in target directory.'
