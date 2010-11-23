@@ -1,0 +1,113 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="shortcut icon" href="/xite/favicon.ico">
+  <link href="/xite/css/sh/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="/xite/css/sh/shThemeDefault.css" rel="stylesheet" type="text/css" />
+  <script src="/xite/js/sh/shCore.js" type="text/javascript"></script>
+  <script src="/xite/js/sh/shAutoloader.js" type="text/javascript"></script>
+  <link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="header">
+      <b><a href="/xite/index.html">Xite</a></b> static site generator
+    </div>
+	<div id="navigation">
+
+        <ul>
+        <li><a href="/xite/faq.html">faq</a></li>
+        <li><a href="http://github.com/enr/xite/downloads">downloads</a></li>
+        <li><a href="/xite/license.html">license</a></li>
+        </ul>
+
+	</div> <!-- / navigation -->
+
+	<div class="spacer"> </div>
+
+ <div class="wrapper">
+
+
+    <div id="content">  <!-- end of header template -->
+<p/><h3>/main/groovy/xite/command/DeployCommand.groovy</h3><p/><script type="syntaxhighlighter" class="brush: groovy"><![CDATA[package xite.command
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import xite.XiteAbstractCommand
+import xite.api.CommandResult
+
+class DeployCommand extends XiteAbstractCommand
+{
+    private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+
+    CommandResult execute() {
+        def ftp = configuration.deploy.ftp
+        logger.info("ftp : {}", ftp)
+        if (ftp.enabled == true) {
+            ant = new AntBuilder()
+            
+            ant.ftp( 
+                server: ftp.host,
+                userid: ftp.username,
+                password: ftp.password,
+                //passive:"yes",
+                //verbose:"yes",
+                // the ftp action to perform, defaulting to "send"
+                // action:"get",
+                remotedir: ftp.baseDirectory,
+                // selects binary-mode ("yes") or text-mode ("no") transfers. Defaults to "yes"
+                binary:"yes" ) {
+                    fileset( dir: paths.destinationDirectory ) {
+                        //include( name:'* * / *' )
+                    }
+                }
+        }
+    }
+
+}
+
+
+]]></script>    </div> <!-- / content -->
+
+    <div class="push"></div>
+
+    </div> <!-- /wrapper -->
+    
+<div class="spacer"> </div>
+
+<div id="footer">
+<a href="/xite/index.html">Home</a> | <a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
+</div>
+
+</body>
+
+<script type="text/javascript">
+function path()
+{
+  var args = arguments,
+      result = []
+      ;
+       
+  for(var i = 0; i < args.length; i++)
+      result.push(args[i].replace('@', '/xite/js/sh/'));
+       
+  return result
+};
+ 
+SyntaxHighlighter.autoloader.apply(null, path(
+  'bash shell             @shBrushBash.js',
+  'css                    @shBrushCss.js',
+  'diff patch pas         @shBrushDiff.js',
+  'groovy                 @shBrushGroovy.js',
+  'java                   @shBrushJava.js',
+  'js jscript javascript  @shBrushJScript.js',
+  'php                    @shBrushPhp.js',
+  'text plain             @shBrushPlain.js',
+  'py python              @shBrushPython.js',
+  'sql                    @shBrushSql.js',
+  'xml xhtml xslt html    @shBrushXml.js'
+));
+SyntaxHighlighter.all();
+</script>
+
+</html>

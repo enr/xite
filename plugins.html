@@ -1,16 +1,14 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <link href='/xite/css/sh/shCore.css' rel='stylesheet' type='text/css' />
-  <link href='/xite/css/sh/shThemeDefault.css' rel='stylesheet' type='text/css' />
+  <link rel="shortcut icon" href="/xite/favicon.ico">
+  <link href="/xite/css/sh/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="/xite/css/sh/shThemeDefault.css" rel="stylesheet" type="text/css" />
   <script src="/xite/js/sh/shCore.js" type="text/javascript"></script>
   <script src="/xite/js/sh/shAutoloader.js" type="text/javascript"></script>
   <link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
-
- <div class="wrapper">
     <div id="header">
       <b><a href="/xite/index.html">Xite</a></b> static site generator
     </div>
@@ -23,13 +21,30 @@
         </ul>
 
 	</div> <!-- / navigation -->
-	<div id="content-container">
-		<div id="content">  <!-- end of header template -->
+
+	<div class="spacer"> </div>
+
+ <div class="wrapper">
+
+
+    <div id="content">  <!-- end of header template -->
 <h1>Plugins</h1>
 
 <p>Every Xite functionality is provided by a plugin.</p>
 
-<p>The core plugins (distributed with Xite sources) are markdown, resources, code, jetty and deploy.</p>
+<p>The core plugins (distributed with Xite sources) are markdown, resources, code, and html.</p>
+
+<p>The default configuration section, to set which plugin is enabled, is:</p>
+
+<pre><code>plugins { 
+    enabled = [ 'code',
+                'html',
+                'markdown',
+                'resources']
+}
+</code></pre>
+
+<p>For every plugin, you can see default configuration, looking at conf/xite-default.groovy in your local installation.</p>
 
 <h2>Markdown</h2>
 
@@ -57,14 +72,28 @@ resources.sources.additionals directive</p>
         suffix = '_'
     }
     sources {
-        // a map of: source directory   -&gt; sub directory (of main destination dir) for these resources
-        // if you want resources deploied in the root, leave an empty string as sub directory
-        // relative paths are allowed
-        // not existing paths are skipped, but the process continue without errors
-        additionals = ['d:/dev/resources':'d-dev', '/tmp/blah':'tmp-blah', 'my/root':'']
+        additionals = [ 'd:/dev/resources':'d-dev',
+                        '/tmp/blah':'tmp-blah',
+                        'my/root':'']
     }
     excludedFilenameSuffix = ['~']
 }
+</code></pre>
+
+<p>The 'sources' property is a map with, as key a source directory and as value a sub directory (relative 
+to the main destination dir) for these resources.</p>
+
+<p>If you want resources deploied in the root, leave an empty string as sub directory.</p>
+
+<p>Relative paths are allowed.</p>
+
+<p>Not existing paths are skipped, but the process continue without errors, so you can add paths for every system you have access to.</p>
+
+<p>ie </p>
+
+<pre><code>additionals = [ 'd:/my/win/resources':'dest', 
+                '/tmp/my/nix/resources':'dest',
+                '/Users/me/my/mac/resources':'dest']
 </code></pre>
 
 <p>Variables can be included in your resources. </p>
@@ -77,53 +106,43 @@ resources.sources.additionals directive</p>
 
 <p>This plugin htmlize source code.</p>
 
-<h2>Jetty</h2>
+<p>By default process every file in code.source property and put it in code.destination.</p>
 
-<p>Starts Jetty server</p>
+<p>The code.baseContext property is used to build links.</p>
 
-<pre><code>./target/app/bin/xite run   # default port 8080
-./target/app/bin/xite --port 9090 run
+<p>User can add additional sources dir (useful for multimodules projects).</p>
+
+<pre><code>code {
+    enabled = true
+    source = "code"
+    baseContext = ''
+    destination = "code"
+    top = "templates/header.html"
+    bottom = "templates/footer.html"
+    template = '&lt;pre&gt;&lt;code lang="%s"&gt;%n%s%n&lt;/code&gt;&lt;/pre&gt;'
+    sources {
+        additionals = [:]
+        excludes = []
+    }
+    excludedFilenameSuffix = []
+}
 </code></pre>
 
 <h2>Plugin development</h2>
 
-<p>A plugin is a directory containing groovy scripts ( pre/process/post.groovy ).</p>
+<p>A plugin is a class implementing xite.api.XitePlugin</p>
 
-<p>Scripts are executed if in the source directory exists a direcotry named as the plugin (ok not a very refined approach, a better solution is in the todo list).</p>
+<p>To speed process and access some common functionality, you can extends xite.XiteAbstractPlugin</p>
+    </div> <!-- / content -->
 
-<p>You can use, as a template the file src/dist/plugins/xite/_plugin-template.groovy</p>
-		</div> <!-- / content -->
-
-		<div id="aside">
-        <p/>
-
-        <b>Getting started</b><br/>
-        <ul>
-        <li><a href="/xite/installation.html">installation</a></li>
-        <li><a href="/xite/usage.html">usage</a></li>
-        <li><a href="/xite/plugins.html">plugins</a></li>
-        <li><a href="/xite/deployment.html">deployment</a></li>
-        <li><a href="/xite/configuration.html">configuration</a></li>
-        <li><a href="/xite/code/">browse the source code</a></li>
-        </ul>
-
-        <b>How tos</b><br/>
-        <ul>
-        <li><a href="/xite/build-your-site-for-xite.html">build-your-site-for-xite</a></li>
-        <li><a href="/xite/code-highlighting.html">code highlighting</a></li>
-        <li><a href="/xite/software-projects.html">xite for software projects</a></li>
-        </ul>
-
-
-		</div>
-
-	</div> <!-- /content container -->
-
-     <div class="push"></div>
+    <div class="push"></div>
 
     </div> <!-- /wrapper -->
+    
+<div class="spacer"> </div>
+
 <div id="footer">
-<a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
+<a href="/xite/index.html">Home</a> | <a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
 </div>
 
 </body>

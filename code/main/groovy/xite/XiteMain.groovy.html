@@ -1,0 +1,229 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="shortcut icon" href="/xite/favicon.ico">
+  <link href="/xite/css/sh/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="/xite/css/sh/shThemeDefault.css" rel="stylesheet" type="text/css" />
+  <script src="/xite/js/sh/shCore.js" type="text/javascript"></script>
+  <script src="/xite/js/sh/shAutoloader.js" type="text/javascript"></script>
+  <link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="header">
+      <b><a href="/xite/index.html">Xite</a></b> static site generator
+    </div>
+	<div id="navigation">
+
+        <ul>
+        <li><a href="/xite/faq.html">faq</a></li>
+        <li><a href="http://github.com/enr/xite/downloads">downloads</a></li>
+        <li><a href="/xite/license.html">license</a></li>
+        </ul>
+
+	</div> <!-- / navigation -->
+
+	<div class="spacer"> </div>
+
+ <div class="wrapper">
+
+
+    <div id="content">  <!-- end of header template -->
+<p/><h3>/main/groovy/xite/XiteMain.groovy</h3><p/><script type="syntaxhighlighter" class="brush: groovy"><![CDATA[package xite
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import xite.UserOptions
+
+import xite.Paths
+
+import xite.api.XiteCommand
+import xite.api.CommandResult
+import xite.command.CleanCommand
+import xite.command.ProcessCommand
+import xite.command.RunCommand
+import xite.command.DeployCommand
+
+class XiteMain
+{
+    public static void main(String[] args)
+    {
+///////////////////////////////////////////////////////// logging initialization
+def logger = LoggerFactory.getLogger('xite.main');
+def loggingConfigurationFile = org.apache.log4j.helpers.Loader.getResource(System.getProperty('log4j.configuration'), Logger.class) 
+logger.debug("Logging started using file ${loggingConfigurationFile}")
+
+/////////////////////////////////////////////////////////////////// user options
+def options = new UserOptions(args)
+
+///////////////////////////////////////////////////////////////////////// action
+def action = options.action
+def runPort = options.port
+def doProcess = ((action == 'process') || (action == 'deploy'))
+def doDeploy =  (action == 'deploy')
+def doRun = (action == 'run')
+def doClean = (action == 'clean')
+
+logger.debug("action     : ${action}")
+logger.debug("do process : ${doProcess}")
+logger.debug("do deploy  : ${doDeploy}")
+logger.debug("do run     : ${doRun}")
+logger.debug("do clean   : ${doClean}")
+logger.debug("runPort    : ${runPort}")
+
+/////////////////////////////////////////////////////////// paths initialization
+def xiteHome = System.getProperty('xite.home')
+def paths = new Paths(xiteHome)
+
+////////////////////////////////////////////////////////// default configuration
+def enviroment = options.enviroment
+def defaultConfigurationFile = new File(paths.confDirectory+'/xite-default.groovy')
+ConfigObject configuration = new ConfigSlurper(enviroment).parse(defaultConfigurationFile.toURL())
+
+/////////////////////////////////////////////////////// resolve source directory
+def requiringSourceActions = ['deploy', 'process']
+def sourcePath = (options.source) ?: configuration.project.source
+def sourceDirectory = new File(sourcePath)
+if ((!sourceDirectory.exists()) && (action in requiringSourceActions)) {
+    logger.warn("source directory ${sourcePath} not found. exiting")
+    System.exit(1)
+}
+paths.sourceDirectory = paths.normalize(sourceDirectory.absolutePath)
+
+////////////////////////////////////////////////////// additional configurations
+def userHome = System.getProperty('user.home')
+def userConfigurationFile = new File("${userHome}/.xite/settings.groovy")
+def projectConfigurationFile = new File("${paths.sourceDirectory}/xite/site.groovy")
+def configurationFiles = [userConfigurationFile, projectConfigurationFile]
+for (configurationFile in configurationFiles) {
+  logger.debug("Looking for configuration file ${configurationFile}")
+  if (configurationFile.exists()) {
+    logger.debug("${configurationFile} found")
+    def config = new ConfigSlurper(enviroment).parse(configurationFile.toURL())
+    configuration = (ConfigObject) configuration.merge(config);
+  }
+}
+
+////////////////////////////////////////////////// resolve destination directory
+def destinationPath = (options.destination) ?: configuration.project.destination
+def destinationDirectory = new File(destinationPath)
+paths.destinationDirectory = paths.normalize(destinationDirectory.absolutePath)
+
+//////////////////////////////////////////////////////////////////////// summary
+if (logger.isDebugEnabled()) {
+    logger.debug("configuration:")
+    configuration.each { k, v ->
+        logger.debug("${k}:      ${v}")  
+    }
+}
+
+////////////////////////////////////////////// GroovyScriptEngine initialization
+def roots = [ paths.pluginsDirectory ] as String[]
+logger.info('roots: {}', roots)
+GroovyScriptEngine gse = new GroovyScriptEngine(roots);
+
+//////////////////////////////////////////////////////////////// binding setting
+Binding binding = new Binding();
+binding.setVariable("xite_paths", paths);
+binding.setVariable("xite_debug", false);
+binding.setVariable("xite_config", configuration);
+binding.setVariable("xite_gse", gse);
+
+///////////////////////////////////////////////////////////// additional options
+binding.setVariable("xite_option_port", runPort);
+
+Map commandContext = [:]
+commandContext.put("xite_port", runPort);
+
+/////////////////////////////////////////////////////////////////// xite process
+if (doProcess) {
+    logger.info("starting xite.process")
+    XiteCommand command = new ProcessCommand(paths: paths, configuration: configuration)
+    command.init()
+    CommandResult result = command.execute()
+    command.cleanup()
+} else {
+    logger.info("skipping action process. Requested action: ${action}")
+}
+
+//////////////////////////////////////////////////////////////////// xite deploy
+if (doDeploy) {
+    logger.info("starting xite.process")
+    XiteCommand command = new DeployCommand(paths: paths, configuration: configuration)
+    command.init()
+    CommandResult result = command.execute()
+    command.cleanup()
+} else {
+  logger.info("skipping action deploy. Requested action: ${action}")
+}
+
+/////////////////////////////////////////////////////////////////////// xite run
+if (doRun) {
+    logger.info("starting xite.process")
+    XiteCommand command = new RunCommand(paths: paths, configuration: configuration, context:commandContext)
+    command.init()
+    CommandResult result = command.execute()
+    command.cleanup()
+} else {
+  logger.info("skipping action run. Requested action: ${action}")
+}
+
+///////////////////////////////////////////////////////////////////// xite clean
+if (doClean) {
+    logger.info("starting xite.process")
+    XiteCommand command = new CleanCommand(paths: paths, configuration: configuration)
+    command.init()
+    CommandResult result = command.execute()
+    command.cleanup()
+} else {
+  logger.info("skipping action clean. Requested action: ${action}")
+}
+
+    }
+}
+
+
+]]></script>    </div> <!-- / content -->
+
+    <div class="push"></div>
+
+    </div> <!-- /wrapper -->
+    
+<div class="spacer"> </div>
+
+<div id="footer">
+<a href="/xite/index.html">Home</a> | <a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
+</div>
+
+</body>
+
+<script type="text/javascript">
+function path()
+{
+  var args = arguments,
+      result = []
+      ;
+       
+  for(var i = 0; i < args.length; i++)
+      result.push(args[i].replace('@', '/xite/js/sh/'));
+       
+  return result
+};
+ 
+SyntaxHighlighter.autoloader.apply(null, path(
+  'bash shell             @shBrushBash.js',
+  'css                    @shBrushCss.js',
+  'diff patch pas         @shBrushDiff.js',
+  'groovy                 @shBrushGroovy.js',
+  'java                   @shBrushJava.js',
+  'js jscript javascript  @shBrushJScript.js',
+  'php                    @shBrushPhp.js',
+  'text plain             @shBrushPlain.js',
+  'py python              @shBrushPython.js',
+  'sql                    @shBrushSql.js',
+  'xml xhtml xslt html    @shBrushXml.js'
+));
+SyntaxHighlighter.all();
+</script>
+
+</html>

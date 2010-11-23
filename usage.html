@@ -1,16 +1,14 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <link href='/xite/css/sh/shCore.css' rel='stylesheet' type='text/css' />
-  <link href='/xite/css/sh/shThemeDefault.css' rel='stylesheet' type='text/css' />
+  <link rel="shortcut icon" href="/xite/favicon.ico">
+  <link href="/xite/css/sh/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="/xite/css/sh/shThemeDefault.css" rel="stylesheet" type="text/css" />
   <script src="/xite/js/sh/shCore.js" type="text/javascript"></script>
   <script src="/xite/js/sh/shAutoloader.js" type="text/javascript"></script>
   <link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
-
- <div class="wrapper">
     <div id="header">
       <b><a href="/xite/index.html">Xite</a></b> static site generator
     </div>
@@ -23,53 +21,73 @@
         </ul>
 
 	</div> <!-- / navigation -->
-	<div id="content-container">
-		<div id="content">  <!-- end of header template -->
+
+	<div class="spacer"> </div>
+
+ <div class="wrapper">
+
+
+    <div id="content">  <!-- end of header template -->
 <h1>Xite usage</h1>
 
 <p>Follow <a href="/xite/installation.html">install instructions</a></p>
 
+<p>Xite offers you commands to build your site, run the site for testing purposes, and deply the site via FTP.</p>
+
+<h2>Build the site</h2>
+
+<p>The build command is the default, so you have only to provide source and destination directories.</p>
+
 <p>Run Xite with -s 'source directory' -d 'destination directory'</p>
 
-<pre><code>./target/app/bin/xite -s test-app/src/xite/
+<pre><code>/path/to/xite -s samples/simple/src/xite/ -d /var/www/site
 </code></pre>
+
+<p>If source or destination are not provided, Xite asume them as src/xite and target/xite/$app-name</p>
+
+<h2>Run the site</h2>
+
+<p>The run command is intended for testing purpose.</p>
+
+<p>It fires an embedded Jetty server.</p>
 
 <p>To see results:</p>
 
-<pre><code>./target/app/bin/xite --port 9090 run
+<pre><code>/path/to/xite --port 9090 run
 </code></pre>
-		</div> <!-- / content -->
 
-		<div id="aside">
-        <p/>
+<p>The port is optional, if not specified it will be 8080.</p>
 
-        <b>Getting started</b><br/>
-        <ul>
-        <li><a href="/xite/installation.html">installation</a></li>
-        <li><a href="/xite/usage.html">usage</a></li>
-        <li><a href="/xite/plugins.html">plugins</a></li>
-        <li><a href="/xite/deployment.html">deployment</a></li>
-        <li><a href="/xite/configuration.html">configuration</a></li>
-        <li><a href="/xite/code/">browse the source code</a></li>
-        </ul>
+<h2>Deploy the site</h2>
 
-        <b>How tos</b><br/>
-        <ul>
-        <li><a href="/xite/build-your-site-for-xite.html">build-your-site-for-xite</a></li>
-        <li><a href="/xite/code-highlighting.html">code highlighting</a></li>
-        <li><a href="/xite/software-projects.html">xite for software projects</a></li>
-        </ul>
+<p>The deploy command, transfer your site to a remote server via FTP.</p>
 
+<p>You have to tell Xite username and password, and set the deploy.ftp.enabled property to true.</p>
 
-		</div>
+<p>For a shared project, the best way to do it, is to set credentials in home/.xite/settings.groovy</p>
 
-	</div> <!-- /content container -->
+<pre><code>deploy {
+    ftp {
+        enabled = true
+        username = 'Us3rn4me'
+        password = 'p455w0rd'
+        host = 'my.host'
+        baseDirectory = '/var/www/the-site-root'
+    }
+}
+</code></pre>
 
-     <div class="push"></div>
+<p>The base directory should exists.</p>
+    </div> <!-- / content -->
+
+    <div class="push"></div>
 
     </div> <!-- /wrapper -->
+    
+<div class="spacer"> </div>
+
 <div id="footer">
-<a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
+<a href="/xite/index.html">Home</a> | <a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
 </div>
 
 </body>

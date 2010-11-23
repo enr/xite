@@ -1,0 +1,130 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="shortcut icon" href="/xite/favicon.ico">
+  <link href="/xite/css/sh/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="/xite/css/sh/shThemeDefault.css" rel="stylesheet" type="text/css" />
+  <script src="/xite/js/sh/shCore.js" type="text/javascript"></script>
+  <script src="/xite/js/sh/shAutoloader.js" type="text/javascript"></script>
+  <link href="/xite/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="header">
+      <b><a href="/xite/index.html">Xite</a></b> static site generator
+    </div>
+	<div id="navigation">
+
+        <ul>
+        <li><a href="/xite/faq.html">faq</a></li>
+        <li><a href="http://github.com/enr/xite/downloads">downloads</a></li>
+        <li><a href="/xite/license.html">license</a></li>
+        </ul>
+
+	</div> <!-- / navigation -->
+
+	<div class="spacer"> </div>
+
+ <div class="wrapper">
+
+
+    <div id="content">  <!-- end of header template -->
+<p/><h3>/main/groovy/xite/command/ProcessCommand.groovy</h3><p/><script type="syntaxhighlighter" class="brush: groovy"><![CDATA[package xite.command
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import xite.XiteAbstractCommand
+import xite.api.CommandResult
+
+import xite.api.ResourceWriter;
+import xite.api.XitePlugin;
+import xite.api.ConfigurationAwareXitePlugin
+import xite.api.PathsAwareXitePlugin
+import xite.api.WriterAwareXitePlugin
+import xite.api.PluginResult
+import xite.Paths
+import xite.DefaultResourceWriter
+
+import xite.ComponentsLoader
+
+/**
+ * The command executed by default.
+ *
+ * It resolves which plugins are to be applied and execute them.
+ *
+ */
+class ProcessCommand extends XiteAbstractCommand
+{
+    private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    
+    CommandResult execute() {
+        ResourceWriter writer = new DefaultResourceWriter(configuration: configuration)
+        logger.info("start processing ${paths.sourceDirectory}")
+        def phases = ['pre', 'process', 'post']
+        def pluginNames = configuration.plugins.enabled
+        def PLUGINS_PACKAGE_PREFIX = 'xite.plugin'
+        def plugins = pluginNames.collect { pluginName ->
+            XitePlugin currentPlugin = ComponentsLoader.pluginForName(pluginName)
+            if (currentPlugin) {
+                logger.debug("plugin ${currentPlugin.class} loaded")
+            }
+            currentPlugin
+        }
+        logger.debug("plugins: ${plugins}")
+        for (plugin in plugins) {
+            logger.debug(" - execute plugin ${plugin}")
+            if (!plugin) continue;
+            if (plugin instanceof ConfigurationAwareXitePlugin) ((ConfigurationAwareXitePlugin)plugin).setConfiguration(configuration)
+            if (plugin instanceof PathsAwareXitePlugin) ((PathsAwareXitePlugin)plugin).setPaths(paths)
+            if (plugin instanceof WriterAwareXitePlugin) ((WriterAwareXitePlugin)plugin).setWriter(writer)
+            PluginResult result = plugin.apply()
+        }
+    }
+
+}
+
+
+]]></script>    </div> <!-- / content -->
+
+    <div class="push"></div>
+
+    </div> <!-- /wrapper -->
+    
+<div class="spacer"> </div>
+
+<div id="footer">
+<a href="/xite/index.html">Home</a> | <a href="http://github.com/enr/xite">Source code</a> | <a href="http://github.com/enr/xite/downloads">Downloads</a> | <a href="/xite/faq.html">FAQ</a> | <a href="/xite/license.html">License</a>
+</div>
+
+</body>
+
+<script type="text/javascript">
+function path()
+{
+  var args = arguments,
+      result = []
+      ;
+       
+  for(var i = 0; i < args.length; i++)
+      result.push(args[i].replace('@', '/xite/js/sh/'));
+       
+  return result
+};
+ 
+SyntaxHighlighter.autoloader.apply(null, path(
+  'bash shell             @shBrushBash.js',
+  'css                    @shBrushCss.js',
+  'diff patch pas         @shBrushDiff.js',
+  'groovy                 @shBrushGroovy.js',
+  'java                   @shBrushJava.js',
+  'js jscript javascript  @shBrushJScript.js',
+  'php                    @shBrushPhp.js',
+  'text plain             @shBrushPlain.js',
+  'py python              @shBrushPython.js',
+  'sql                    @shBrushSql.js',
+  'xml xhtml xslt html    @shBrushXml.js'
+));
+SyntaxHighlighter.all();
+</script>
+
+</html>
