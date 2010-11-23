@@ -17,7 +17,6 @@ Getting started
 - [installation](/xite/installation.html)
 - [usage](/xite/usage.html)
 - [plugins](/xite/plugins.html)
-- [deployment](/xite/deployment.html)
 - [configuration](/xite/configuration.html)
 
 

@@ -4,9 +4,9 @@ Plugins
 
 Every Xite functionality is provided by a plugin.
 
-The core plugins (distributed with Xite sources) are markdown, resources, code, jetty and deploy.
+The core plugins (distributed with Xite sources) are markdown, resources, code, and html.
 
-The configuration section is:
+The default configuration section, to set which plugin is enabled, is:
 
     plugins { 
         enabled = [ 'code',
@@ -15,6 +15,7 @@ The configuration section is:
                     'resources']
     }
 
+For every plugin, you can see default configuration, looking at conf/xite-default.groovy in your local installation.
 
 Markdown
 --------
@@ -80,14 +81,26 @@ Code
 
 This plugin htmlize source code.
 
+By default process every file in code.source property and put it in code.destination.
 
-Jetty
------
+The code.baseContext property is used to build links.
 
-Starts Jetty server
+User can add additional sources dir (useful for multimodules projects).
 
-    ./target/app/bin/xite run   # default port 8080
-    ./target/app/bin/xite --port 9090 run
+    code {
+        enabled = true
+        source = "code"
+        baseContext = ''
+        destination = "code"
+        top = "templates/header.html"
+        bottom = "templates/footer.html"
+        template = '<pre><code lang="%s">%n%s%n</code></pre>'
+        sources {
+            additionals = [:]
+            excludes = []
+        }
+        excludedFilenameSuffix = []
+    }
 
 
 Plugin development
