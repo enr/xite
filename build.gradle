@@ -18,7 +18,9 @@ apply plugin: 'eclipse'
 buildDir = 'target'
 appBuildDir = "${buildDir}/app"
 
-defaultLocalRepo = 'file://'+System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository"
+//defaultLocalRepo = 'file://'+System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository"
+def home = new File(System.getProperty('user.home'))
+defaultLocalRepo = home.toURI().toString() + "/.m2/repository"
 
 localRepo = defaultLocalRepo
 
@@ -54,13 +56,18 @@ dependencies {
             'commons-codec:commons-codec:1.4',
             'org.apache.ant:ant-nodeps:1.8.0',
             'org.apache.ant:ant-commons-net:1.8.0',
-            'org.eclipse.jetty:jetty-server:7.0.1.v20091125',
+            'org.eclipse.jetty:jetty-server:7.2.2.v20101205',
+            'org.eclipse.jetty:jetty-util:7.2.2.v20101205',
             'org.slf4j:slf4j-api:1.6.0',
             'org.slf4j:slf4j-log4j12:1.6.0',
             'log4j:log4j:1.2.16'
     testCompile 'org.testng:testng:5.14.2',
+                'com.beust:jcommander:1.5',     // required from testng
+                'com.google.inject:guice:2.0',  // required from testng
+                'org.beanshell:bsh:2.0b4',      // required from testng
                 'org.uncommons.reportng:reportng:1.1.2',
-                'org.apache.velocity:velocity:1.6.2'
+                'org.apache.velocity:velocity:1.6.2',           // required from reportng
+                'commons-collections:commons-collections:3.2.1' // required from reportng
     groovy module('org.codehaus.groovy:groovy-all:1.7.4')
 }
 
@@ -129,7 +136,8 @@ dist.doLast {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '0.9-rc-3'
+    //gradleVersion = '0.9-rc-3'
+    gradleVersion = '1.0-milestone-1'
     jarPath = 'gradle/wrapper'
 }
 
