@@ -47,6 +47,7 @@ In the footer add SyntaxHighlighter configuration and startup
     ));
     SyntaxHighlighter.all();
     </script>
+    [...]
 
     
 Put js and css files in a resources directory, to have something similar:

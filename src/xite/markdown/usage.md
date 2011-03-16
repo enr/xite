@@ -2,9 +2,9 @@
 Xite usage
 ==========
 
-Follow <a href="/xite/installation.html">install instructions</a>
+Follow <a href="/xite/installation.html">install instructions</a>.
 
-Xite offers you commands to build your site, run the site for testing purposes, and deply the site via FTP.
+Xite offers you commands to build your site, run the site for testing purposes, and deploy the site via FTP.
 
 Build the site
 --------------
@@ -15,7 +15,7 @@ Run Xite with -s 'source directory' -d 'destination directory'
 
     /path/to/xite -s samples/simple/src/xite/ -d /var/www/site
     
-If source or destination are not provided, Xite asume them as src/xite and target/xite/$app-name
+If source or destination are not provided, Xite assumes them as src/xite and target/xite/$app-name
 
 
 Run the site

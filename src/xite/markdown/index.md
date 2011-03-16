@@ -31,6 +31,7 @@ How tos
 Developer documentation
 -----------------------
 
+- [dependencies](/xite/dependencies.html)
 - [tests results](/xite/developers/tests/index.html)
 - [xite source code](/xite/code/index.html)
 
