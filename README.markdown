@@ -62,9 +62,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Other libraries licenses:
+Other libraries licenses
+------------------------
 
-* MarkdownJ: BSD License
+Xite lib folder contains some jar not present in public Maven repositories:
+
+* enr/markdownj <http://github.com/enr/markdownj> distributed under BSD License
     
-* markdownj-extras: Apache 2.0
+* markdownj-extras <http://github.com/enr/markdownj-extras> distributed under Apache 2.0
+
+* ReportNG <http://reportng.uncommons.org> distributed under Apache 2.0
 

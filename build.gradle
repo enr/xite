@@ -18,7 +18,6 @@ apply plugin: 'eclipse'
 buildDir = 'target'
 appBuildDir = "${buildDir}/app"
 
-//defaultLocalRepo = 'file://'+System.getProperty('user.home') + File.separator + ".m2" + File.separator + "repository"
 def home = new File(System.getProperty('user.home'))
 defaultLocalRepo = home.toURI().toString() + "/.m2/repository"
 
@@ -33,7 +32,9 @@ if (m2userSettingsFile.exists()) {
     def m2userSettings = m2userSettingsDoc.documentElement
     use(DOMCategory){
       def foundLocalRepo = m2userSettings.localRepository[0]?.text()
-      if (foundLocalRepo != null) localRepo = new File(foundLocalRepo).toURL().toString()
+      if (foundLocalRepo != null) {
+          localRepo = new File(foundLocalRepo).toURL().toString()
+      }
     }
 }
 logger.debug("using local repository ${localRepo}")
@@ -65,7 +66,7 @@ dependencies {
                 'com.beust:jcommander:1.5',     // required from testng
                 'com.google.inject:guice:2.0',  // required from testng
                 'org.beanshell:bsh:2.0b4',      // required from testng
-                'org.uncommons.reportng:reportng:1.1.2',
+                'org.uncommons.reportng:reportng:1.1.3',
                 'org.apache.velocity:velocity:1.6.2',           // required from reportng
                 'commons-collections:commons-collections:3.2.1' // required from reportng
     groovy module('org.codehaus.groovy:groovy-all:1.7.4')
@@ -78,7 +79,8 @@ test {
     systemProperties['xite.itest.XITE_HOME'] = xiteHomeFile.getAbsolutePath()
     systemProperties['xite.itest.project.rootDir'] = projectRootDir
     //systemProperties['org.uncommons.reportng.stylesheet'] = "${projectDir}/resources/hudsonesque.css"
-    systemProperties['org.uncommons.reportng.locale'] = 'en'
+    systemProperties['org.uncommons.reportng.locale'] = 'en_US'
+    systemProperties['org.uncommons.reportng.title'] = "Xite ${version} test reports"
     options {
             listeners << 'org.uncommons.reportng.HTMLReporter'
             listeners << 'org.uncommons.reportng.JUnitXMLReporter'
@@ -136,8 +138,6 @@ dist.doLast {
 }
 
 task wrapper(type: Wrapper) {
-    //gradleVersion = '0.9-rc-3'
     gradleVersion = '1.0-milestone-1'
-    jarPath = 'gradle/wrapper'
 }
 
