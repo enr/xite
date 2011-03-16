@@ -13,7 +13,7 @@ To get sources, you can clone the project using Git:
 or download it in either tar or zip formats:
 
     wget --no-check-certificate https://github.com/enr/xite/tarball/master
-     wget --no-check-certificate https://github.com/enr/xite/zipball/master
+    wget --no-check-certificate https://github.com/enr/xite/zipball/master
 
 Xite is built using the Gradle build system, at the moment version 0.9-rc-2.
 
