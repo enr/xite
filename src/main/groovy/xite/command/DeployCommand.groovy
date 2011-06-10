@@ -11,6 +11,7 @@ class DeployCommand extends XiteAbstractCommand
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     CommandResult execute() {
+        CommandResult commandResult = new CommandResult()
         def ftp = configuration.deploy.ftp
         logger.info("ftp : {}", ftp)
         if (ftp.enabled == true) {
@@ -32,6 +33,7 @@ class DeployCommand extends XiteAbstractCommand
                     }
                 }
         }
+        return commandResult
     }
 
 }

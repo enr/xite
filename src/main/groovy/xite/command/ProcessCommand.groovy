@@ -28,6 +28,7 @@ class ProcessCommand extends XiteAbstractCommand
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     
     CommandResult execute() {
+        CommandResult commandResult = new CommandResult()
         ResourceWriter writer = new DefaultResourceWriter(configuration: configuration)
         logger.info("start processing ${paths.sourceDirectory}")
         def phases = ['pre', 'process', 'post']
@@ -49,6 +50,7 @@ class ProcessCommand extends XiteAbstractCommand
             if (plugin instanceof WriterAwareXitePlugin) ((WriterAwareXitePlugin)plugin).setWriter(writer)
             PluginResult result = plugin.apply()
         }
+        return commandResult
     }
 
 }

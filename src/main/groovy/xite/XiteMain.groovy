@@ -16,10 +16,18 @@ import xite.command.DeployCommand
 
 class XiteMain
 {
+    def logger = LoggerFactory.getLogger('xite.main');
+    
     public static void main(String[] args)
     {
+        XiteMain xite = new XiteMain()
+        int result = xite.process(args)
+        System.exit(result)
+    }
+    
+    public int process(String[] args) {
 ///////////////////////////////////////////////////////// logging initialization
-def logger = LoggerFactory.getLogger('xite.main');
+
 def loggingConfigurationFile = org.apache.log4j.helpers.Loader.getResource(System.getProperty('log4j.configuration'), Logger.class) 
 logger.debug("Logging started using file ${loggingConfigurationFile}")
 
@@ -104,51 +112,45 @@ binding.setVariable("xite_option_port", runPort);
 
 Map commandContext = [:]
 commandContext.put("xite_port", runPort);
-
+CommandResult result = null;
 /////////////////////////////////////////////////////////////////// xite process
 if (doProcess) {
-    logger.info("starting xite.process")
-    XiteCommand command = new ProcessCommand(paths: paths, configuration: configuration)
-    command.init()
-    CommandResult result = command.execute()
-    command.cleanup()
+    result = executeCommand(new ProcessCommand(paths: paths, configuration: configuration))
 } else {
     logger.info("skipping action process. Requested action: ${action}")
 }
 
 //////////////////////////////////////////////////////////////////// xite deploy
 if (doDeploy) {
-    logger.info("starting xite.process")
-    XiteCommand command = new DeployCommand(paths: paths, configuration: configuration)
-    command.init()
-    CommandResult result = command.execute()
-    command.cleanup()
+    result = executeCommand(new DeployCommand(paths: paths, configuration: configuration))
 } else {
-  logger.info("skipping action deploy. Requested action: ${action}")
+    logger.info("skipping action deploy. Requested action: ${action}")
 }
 
 /////////////////////////////////////////////////////////////////////// xite run
 if (doRun) {
-    logger.info("starting xite.process")
-    XiteCommand command = new RunCommand(paths: paths, configuration: configuration, context:commandContext)
-    command.init()
-    CommandResult result = command.execute()
-    command.cleanup()
+    result = executeCommand(new RunCommand(paths: paths, configuration: configuration, context:commandContext))
 } else {
-  logger.info("skipping action run. Requested action: ${action}")
+    logger.info("skipping action run. Requested action: ${action}")
 }
 
 ///////////////////////////////////////////////////////////////////// xite clean
 if (doClean) {
-    logger.info("starting xite.process")
-    XiteCommand command = new CleanCommand(paths: paths, configuration: configuration)
-    command.init()
-    CommandResult result = command.execute()
-    command.cleanup()
+    result = executeCommand(new CleanCommand(paths: paths, configuration: configuration))
 } else {
-  logger.info("skipping action clean. Requested action: ${action}")
+    logger.info("skipping action clean. Requested action: ${action}")
 }
-
+int exitValue = ((result) ? result.exitValue : 1)
+logger.info "process finished with result ${exitValue}"
+return exitValue
+    }
+    
+    private CommandResult executeCommand(XiteCommand command) {
+        logger.info "executing command ${command}"
+        command.init()
+        CommandResult result = command.execute()
+        command.cleanup()
+        return result
     }
 }
 

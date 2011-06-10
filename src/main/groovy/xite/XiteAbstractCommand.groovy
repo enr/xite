@@ -23,4 +23,8 @@ abstract class XiteAbstractCommand implements XiteCommand
     CommandResult cleanup() {
         logger.debug('cleanup()')
     }
+    
+    public String toString() {
+        return this.getClass().getName()
+    }
 }

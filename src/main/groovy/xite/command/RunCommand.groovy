@@ -21,6 +21,7 @@ class RunCommand extends XiteAbstractCommand
     private static final String PORT_CONTEXT_KEY = 'xite_port'
     
     CommandResult execute() {
+        CommandResult commandResult = new CommandResult()
         def port = context.get(PORT_CONTEXT_KEY)
         def resourceBaseDirectoryName = paths.destinationDirectory
         resourceBaseDirectoryName = resourceBaseDirectoryName.substring(0, resourceBaseDirectoryName.lastIndexOf(configuration.app.baseContext));
@@ -44,6 +45,7 @@ class RunCommand extends XiteAbstractCommand
         server.setHandler(handlers);
         server.start();
         server.join();
+        return commandResult
     }
 }
 
