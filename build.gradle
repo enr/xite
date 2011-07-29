@@ -9,6 +9,7 @@ defaultTasks 'clean', 'check', 'app'
 
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
+apply plugin: 'maven'
 
 buildDir = 'target'
 appBuildDir = "${buildDir}/app"
