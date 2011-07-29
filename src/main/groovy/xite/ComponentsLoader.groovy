@@ -35,7 +35,7 @@ class ComponentsLoader
     {
         XitePlugin plugin
         try {
-            Class<?> clazz = Class.forName(pluginClassFullPath);
+            Class<?> clazz = Class.forName(pluginClassFullPath, false, ComponentsLoader.class.getClassLoader());
             Object o = clazz.newInstance();
             if (o instanceof XitePlugin)
             {
