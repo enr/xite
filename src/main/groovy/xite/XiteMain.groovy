@@ -27,9 +27,8 @@ class XiteMain
     
     public int process(String[] args) {
 ///////////////////////////////////////////////////////// logging initialization
-
-def loggingConfigurationFile = org.apache.log4j.helpers.Loader.getResource(System.getProperty('log4j.configuration'), Logger.class) 
-logger.debug("Logging started using file ${loggingConfigurationFile}")
+//def loggingConfigurationFile = org.apache.log4j.helpers.Loader.getResource(System.getProperty('log4j.configuration'), Logger.class) 
+//logger.debug("Logging started using file ${loggingConfigurationFile}")
 
 /////////////////////////////////////////////////////////////////// user options
 def options = new UserOptions(args)
@@ -55,9 +54,22 @@ def paths = new Paths(xiteHome)
 
 ////////////////////////////////////////////////////////// default configuration
 def enviroment = options.enviroment
-def defaultConfigurationFile = new File(paths.confDirectory+'/xite-default.groovy')
-ConfigObject configuration = new ConfigSlurper(enviroment).parse(defaultConfigurationFile.toURL())
-
+//def defaultConfigurationFile = new File(paths.confDirectory+'/xite-default.groovy')
+//ConfigObject configuration = new ConfigSlurper(enviroment).parse(defaultConfigurationFile.toURL())
+String configurationFileBasename = 'xite-default.groovy'
+URL configurationUrl = null
+if (xiteHome) {
+    def defaultConfigurationFile = new File(paths.confDirectory+'/'+configurationFileBasename)
+    configurationUrl = defaultConfigurationFile.toURL()
+} else {
+    // embedded mode
+    configurationUrl = this.getClass().getClassLoader().getResource(configurationFileBasename);
+}
+println "configurationUrl ${configurationUrl}"
+            if (configurationUrl == null) {
+                throw new RuntimeException("NOT FOUND configurationUrl = ${configurationUrl}")  
+            }
+ConfigObject configuration = new ConfigSlurper(enviroment).parse(configurationUrl)
 /////////////////////////////////////////////////////// resolve source directory
 def requiringSourceActions = ['deploy', 'process']
 def sourcePath = (options.source) ?: configuration.project.source

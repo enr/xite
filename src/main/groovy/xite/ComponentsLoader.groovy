@@ -43,6 +43,7 @@ class ComponentsLoader
             }
         } catch (Throwable t) {
             logger.warn("error resolving plugin '${pluginClassFullPath}': ${t.message}")
+            throw new RuntimeException(t)
         }
         return plugin
     }

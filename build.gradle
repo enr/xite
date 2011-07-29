@@ -1,9 +1,4 @@
 
-import java.io.File;
-import groovy.xml.DOMBuilder
-import groovy.xml.dom.DOMCategory
-import groovy.xml.XmlUtil
-
 group = 'xite'
 version = '0.1-SNAPSHOT'
 description = """Xite ${version}
@@ -18,32 +13,9 @@ apply plugin: 'eclipse'
 buildDir = 'target'
 appBuildDir = "${buildDir}/app"
 
-def home = new File(System.getProperty('user.home'))
-defaultLocalRepo = home.toURI().toString() + "/.m2/repository"
-
-localRepo = defaultLocalRepo
-
-def m2userSettingsPath = System.getProperty('user.home') + File.separator + ".m2" + File.separator + "settings.xml"
-
-def m2userSettingsFile = new File(m2userSettingsPath)
-
-if (m2userSettingsFile.exists()) {
-    def m2userSettingsDoc = DOMBuilder.parse(new FileReader(m2userSettingsFile))
-    def m2userSettings = m2userSettingsDoc.documentElement
-    use(DOMCategory){
-      def foundLocalRepo = m2userSettings.localRepository[0]?.text()
-      if (foundLocalRepo != null) {
-          localRepo = new File(foundLocalRepo).toURL().toString()
-      }
-    }
-}
-logger.debug("using local repository ${localRepo}")
-
 repositories {
-    // libraries not in maven repo
     flatDir(dirs: file('lib'))
-    // usually $HOME/.m2/repository
-    mavenRepo urls: [defaultLocalRepo, localRepo]
+    mavenLocal()
     mavenCentral()
 }
 
@@ -76,7 +48,7 @@ dependencies {
 test {
     useTestNG()
     def xiteHomeFile = project.file(appBuildDir)
-    def projectRootDir = project.getRootDir().getAbsolutePath()
+    def projectRootDir = project.projectDir.getAbsolutePath()
     systemProperties['xite.itest.XITE_HOME'] = xiteHomeFile.getAbsolutePath()
     systemProperties['xite.itest.project.rootDir'] = projectRootDir
     //systemProperties['org.uncommons.reportng.stylesheet'] = "${projectDir}/resources/hudsonesque.css"
