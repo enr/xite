@@ -15,7 +15,7 @@ or download it in either tar or zip formats:
     wget --no-check-certificate https://github.com/enr/xite/tarball/master
     wget --no-check-certificate https://github.com/enr/xite/zipball/master
 
-Xite is built using the Gradle build system, at the moment version 1.0-milestone-3.
+Xite is built using the Gradle build system, at the moment version 1.0-milestone-7.
 
 You don't need to install Gradle to build the project. The project uses a Gradle provided wrapper that automatically downloads the correct version for you.
 
