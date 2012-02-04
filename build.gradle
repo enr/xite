@@ -61,7 +61,7 @@ test {
     }
 }
 
-task 'xite-deps'(dependsOn: configurations.default.buildArtifacts, type: Copy) {
+task 'xite-deps'(dependsOn: configurations.default.getAllArtifacts().getBuildDependencies(), type: Copy) {
     into "${appBuildDir}/lib"
     from configurations.default
     from configurations.default.allArtifacts*.file
