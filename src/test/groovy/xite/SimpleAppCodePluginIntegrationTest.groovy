@@ -63,19 +63,8 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
         assertTrue(groovyFile.exists(), "${groovyFile.getAbsolutePath()} not found");
     	def actualContent = Strings.normalizeEol(groovyFile.getText("UTF-8"));
         
-        def groovyFileContent = '''<html>
-<head></head>
-<body>
-
-<p/><h3>/groovy/file.groovy</h3><p/><pre><code lang="groovy">
-
-println "hi àèìòù"
-
-
-</code></pre></body>
-</html>
-'''
-        String expectedContent = new String(groovyFileContent.toString().getBytes(), 'UTF-8');
+        def groovyFileContent = "<html>\n<head></head>\n<body>\n\n<p/><h3>/groovy/file.groovy</h3><p/><pre><code lang=\"groovy\">\n\nprintln \"hi àèìòù\"\n\n\n</code></pre></body>\n</html>\n"
+        String expectedContent = new String(groovyFileContent.toString().getBytes("UTF-8"), "UTF-8");
         expectedContent = Strings.normalizeEol(expectedContent);
         assertEquals(actualContent, expectedContent);
     }

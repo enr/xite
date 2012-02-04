@@ -71,18 +71,8 @@ public class SimpleAppMarkdownPluginIntegrationTest extends BasePluginIntegratio
     	File escaped = new File(targetDir.getAbsolutePath()+'/special-chars.html');
         assertTrue(escaped.exists(), "${escaped.getAbsolutePath()} not found");
     	def actualEscaped = Strings.normalizeEol(escaped.getText("UTF-8"))
-        def expectedEscaped = '''<html>
-<head></head>
-<body>
-
-<h1>Xite</h1>
-
-<p>Xite ìs à statiç sités generatòr.
-It ùses &lt;Groovy> &amp; &lt;Gradle>.</p>
-</body>
-</html>
-'''
-        String es = new String(expectedEscaped.toString().getBytes(), 'UTF-8')
+        String expectedEscaped = "<html>\n<head></head>\n<body>\n\n<h1>Xite</h1>\n\n<p>Xite ìs à statiç sités generatòr.\nIt ùses &lt;Groovy> &amp; &lt;Gradle>.</p>\n</body>\n</html>\n"
+        String es = new String(expectedEscaped.toString().getBytes("UTF-8"), "UTF-8")
         es = Strings.normalizeEol(es)
         assertEquals actualEscaped, es
     }
