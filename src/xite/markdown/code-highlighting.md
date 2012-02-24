@@ -5,7 +5,7 @@ Code highlighting
 Using SyntaxHighlighter
 -----------------------
 
-To use SyntaxHighlighter (<http://alexgorbatchev.com/SyntaxHighlighter) follow these steps.
+To use SyntaxHighlighter (<http://alexgorbatchev.com/SyntaxHighlighter>) follow these steps.
 
 Create templates for code plugin and put them in templates directory.
 
@@ -72,6 +72,8 @@ Configure the code plugin in xite/site.groovy
     top = "templates/header-code.html"
     bottom = "templates/footer-code.html"
     }
+
+Xite uses SyntaxHighlighter for this site, so you can look at Xite configuration for a hint.
 
 
 

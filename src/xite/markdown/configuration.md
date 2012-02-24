@@ -26,6 +26,7 @@ Configurations data that should not be bundled to any specific project, or
 distributed to an audience.
 
 These include values such as authentication information for the deployment.
+
 The file is $HOME/.xite/settings.groovy
 
 
@@ -35,7 +36,7 @@ Enviroment
 Xite is enviroment friendly :)
 
 You can override specific conf values using the enviroment section in one of the
-configuration files (tech note: using the standard ConfigSlurper syntax)
+configuration files (tech note: using the standard Groovy ConfigSlurper syntax)
 
 Customize
 ---------

@@ -24,7 +24,7 @@ To see results:
 
     ./target/app/bin/xite --port 9090 run
 
-and point your browser to <http://localhost:9090>
+and point your browser to <http://localhost:9090/xite>
 
 For a real installation, move target/app where you like
 

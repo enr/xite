@@ -106,8 +106,8 @@ User can add additional sources dir (useful for multimodules projects).
 Plugin development
 ------------------
 
-A plugin is a class implementing xite.api.XitePlugin
+A plugin is a class implementing `xite.api.XitePlugin`.
 
-To speed process and access some common functionality, you can extends xite.XiteAbstractPlugin
+To speed process and access some common functionality, you can extends `xite.XiteAbstractPlugin`.
 
 
