@@ -30,12 +30,12 @@ These include values such as authentication information for the deployment.
 The file is $HOME/.xite/settings.groovy
 
 
-Enviroment
+Environment
 ----------
 
-Xite is enviroment friendly :)
+Xite is environment friendly :)
 
-You can override specific conf values using the enviroment section in one of the
+You can override specific conf values using the environment section in one of the
 configuration files (tech note: using the standard Groovy ConfigSlurper syntax)
 
 Customize

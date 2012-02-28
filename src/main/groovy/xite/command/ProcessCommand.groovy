@@ -33,7 +33,6 @@ class ProcessCommand extends XiteAbstractCommand
         logger.info("start processing ${paths.sourceDirectory}")
         def phases = ['pre', 'process', 'post']
         def pluginNames = configuration.plugins.enabled
-        def PLUGINS_PACKAGE_PREFIX = 'xite.plugin'
         def plugins = pluginNames.collect { pluginName ->
             XitePlugin currentPlugin = ComponentsLoader.pluginForName(pluginName)
             if (currentPlugin) {

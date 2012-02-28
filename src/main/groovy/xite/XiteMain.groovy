@@ -32,6 +32,7 @@ class XiteMain
 
 /////////////////////////////////////////////////////////////////// user options
 def options = new UserOptions(args)
+logger.debug("options    : ${options}")
 
 ///////////////////////////////////////////////////////////////////////// action
 def action = options.action
@@ -53,9 +54,9 @@ def xiteHome = System.getProperty('xite.home')
 def paths = new Paths(xiteHome)
 
 ////////////////////////////////////////////////////////// default configuration
-def enviroment = options.enviroment
+def environment = options.environment
 //def defaultConfigurationFile = new File(paths.confDirectory+'/xite-default.groovy')
-//ConfigObject configuration = new ConfigSlurper(enviroment).parse(defaultConfigurationFile.toURL())
+//ConfigObject configuration = new ConfigSlurper(environment).parse(defaultConfigurationFile.toURL())
 String configurationFileBasename = 'xite-default.groovy'
 URL configurationUrl = null
 if (xiteHome) {
@@ -65,11 +66,12 @@ if (xiteHome) {
     // embedded mode
     configurationUrl = this.getClass().getClassLoader().getResource(configurationFileBasename);
 }
-println "configurationUrl ${configurationUrl}"
-            if (configurationUrl == null) {
-                throw new RuntimeException("NOT FOUND configurationUrl = ${configurationUrl}")  
-            }
-ConfigObject configuration = new ConfigSlurper(enviroment).parse(configurationUrl)
+logger.debug("configurationUrl ${configurationUrl}")
+if (configurationUrl == null) {
+    throw new RuntimeException("configuration not found")  
+}
+ConfigObject configuration = new ConfigSlurper(environment).parse(configurationUrl)
+
 /////////////////////////////////////////////////////// resolve source directory
 def requiringSourceActions = ['deploy', 'process']
 def sourcePath = (options.source) ?: configuration.project.source
@@ -79,6 +81,7 @@ if ((!sourceDirectory.exists()) && (action in requiringSourceActions)) {
     System.exit(1)
 }
 paths.sourceDirectory = paths.normalize(sourceDirectory.absolutePath)
+logger.debug("paths.sourceDirectory ${paths.sourceDirectory}")
 
 ////////////////////////////////////////////////////// additional configurations
 def userHome = System.getProperty('user.home')
@@ -89,7 +92,7 @@ for (configurationFile in configurationFiles) {
   logger.debug("Looking for configuration file ${configurationFile}")
   if (configurationFile.exists()) {
     logger.debug("${configurationFile} found")
-    def config = new ConfigSlurper(enviroment).parse(configurationFile.toURL())
+    def config = new ConfigSlurper(environment).parse(configurationFile.toURL())
     configuration = (ConfigObject) configuration.merge(config);
   }
 }
@@ -97,7 +100,15 @@ for (configurationFile in configurationFiles) {
 ////////////////////////////////////////////////// resolve destination directory
 def destinationPath = (options.destination) ?: configuration.project.destination
 def destinationDirectory = new File(destinationPath)
-paths.destinationDirectory = paths.normalize(destinationDirectory.absolutePath)
+// destination directory should have configuration.app.baseContext as basename
+// CLEAR THIS CODE
+def d = paths.normalize(destinationDirectory.absolutePath)
+if (d.endsWith(configuration.app.baseContext)) {
+    paths.destinationDirectory = d
+} else {
+    paths.destinationDirectory = d + configuration.app.baseContext
+}
+logger.debug("paths.destinationDirectory ${paths.destinationDirectory}")
 
 //////////////////////////////////////////////////////////////////////// summary
 if (logger.isDebugEnabled()) {
@@ -140,6 +151,7 @@ if (doDeploy) {
 }
 
 /////////////////////////////////////////////////////////////////////// xite run
+logger.debug(' ::::::::  paths {}', paths)
 if (doRun) {
     result = executeCommand(new RunCommand(paths: paths, configuration: configuration, context:commandContext))
 } else {

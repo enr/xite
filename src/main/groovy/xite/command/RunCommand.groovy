@@ -23,6 +23,7 @@ class RunCommand extends XiteAbstractCommand
     CommandResult execute() {
         CommandResult commandResult = new CommandResult()
         def port = context.get(PORT_CONTEXT_KEY)
+        logger.debug(' ---------- paths {}', paths)
         def resourceBaseDirectoryName = paths.destinationDirectory
         resourceBaseDirectoryName = resourceBaseDirectoryName.substring(0, resourceBaseDirectoryName.lastIndexOf(configuration.app.baseContext));
         logger.debug('port {}', port)
