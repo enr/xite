@@ -34,14 +34,14 @@ class RunCommand extends XiteAbstractCommand
             System.exit(1)
         }
         Server server = new Server(port == null ? DEFAULT_PORT_NUMBER : Integer.parseInt(port));
-        ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setDirectoriesListed(true);
+        ResourceHandler resourceHandler = new ResourceHandler();
+        resourceHandler.setDirectoriesListed(true);
         String[] welcomeFiles = [ "index.html" ] as String[]
-        resource_handler.setWelcomeFiles(welcomeFiles);
-        resource_handler.setResourceBase(resourceBaseDirectoryName);
-        logger.info("serving {}", resource_handler.getBaseResource());
+        resourceHandler.setWelcomeFiles(welcomeFiles);
+        resourceHandler.setResourceBase(resourceBaseDirectoryName);
+        logger.info("serving {}", resourceHandler.getBaseResource());
         HandlerList handlers = new HandlerList();
-        Handler[] hs = [ resource_handler, new DefaultHandler() ] as Handler[]
+        Handler[] hs = [ resourceHandler, new DefaultHandler() ] as Handler[]
         handlers.setHandlers(hs);
         server.setHandler(handlers);
         server.start();

@@ -103,11 +103,14 @@ def destinationDirectory = new File(destinationPath)
 // destination directory should have configuration.app.baseContext as basename
 // CLEAR THIS CODE
 def d = paths.normalize(destinationDirectory.absolutePath)
+// if context equals destinationDirectory.getname
 if (d.endsWith(configuration.app.baseContext)) {
     paths.destinationDirectory = d
 } else {
+    logger.warn("destination directory ${d} should end with ${configuration.app.baseContext}");
     paths.destinationDirectory = d + configuration.app.baseContext
 }
+//paths.destinationDirectory = paths.normalize(destinationDirectory.absolutePath)
 logger.debug("paths.destinationDirectory ${paths.destinationDirectory}")
 
 //////////////////////////////////////////////////////////////////////// summary
