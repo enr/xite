@@ -8,27 +8,23 @@ Build command:
 
     ./gradlew -q
 
-This command will build a working installation of Xite in target/app directory
-
-Add 'dist' to the command and you'll have a zip distribution archive.
-
-    ./gradlew dist
+This command will build a working installation of Xite in target/install/xite directory
 
 To try Xite immediately, from the base directory:
 
-    ./target/app/bin/xite
+    ./target/install/xite/bin/xite
     
 This builds Xite site.
 
 To see results:
 
-    ./target/app/bin/xite --port 9090 run
+    ./target/install/xite/bin/xite --port 9090 run
 
 and point your browser to <http://localhost:9090/xite>
 
-For a real installation, move target/app where you like
+For a real installation, move target/install/xite where you like
 
-    mv target/app $HOME/apps/xite
+    mv target/install/xite $HOME/apps/xite
 
 You can use symbolic link to have Xite in your path, without further settings
 

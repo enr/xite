@@ -29,13 +29,13 @@ The messages can be ignored. You get them only in the first build after a reposi
     
 To try Xite, change to the base directory and, after the build command:
 
-    ./target/app/bin/xite
+    ./target/install/xite/bin/xite
     
 This builds Xite's site.
 
 To see results:
 
-    ./target/app/bin/xite --port 9090 run
+    ./target/install/xite/bin/xite --port 9090 run
 
 and point your browser to <http://localhost:9090>
 

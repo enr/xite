@@ -5,7 +5,7 @@ description = """Xite ${version}
 Static website generator.
 """
 
-defaultTasks 'clean', 'check', 'app'
+defaultTasks 'clean', 'check', 'test', 'installApp'
 
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
