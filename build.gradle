@@ -27,7 +27,10 @@ buildscript {
 
 
 buildDir = 'target'
-appBuildDir = "${buildDir}/app"
+
+ext {
+  appBuildDir = "${buildDir}/app"
+}
 
 repositories {
     flatDir(dirs: file('lib'))
@@ -127,6 +130,6 @@ dist.doLast {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-8a'
+    gradleVersion = '1.0-rc-2'
 }
 
