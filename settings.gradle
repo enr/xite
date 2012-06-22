@@ -1,0 +1,18 @@
+include 'modules:core',
+		'modules:cli',
+		'modules:acceptance-tests',
+		'modules:original'
+        
+rootProject.name = 'xite'
+
+def setBuildFile(project) {
+	project.buildFileName = "${project.name}.gradle"
+	project.children.each {
+		setBuildFile(it)
+	}
+}
+
+rootProject.children.each {
+	setBuildFile(it)
+}
+
