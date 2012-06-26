@@ -1,4 +1,4 @@
-package xite.plugin.code
+package xite.plugins
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

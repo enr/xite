@@ -7,7 +7,7 @@ import static org.testng.Assert.assertFalse;
 
 import xite.Strings
 import xite.Paths
-import xite.plugin.resources.ResourcesPlugin
+import xite.plugins.ResourcesPlugin;
 
 import java.io.File;
 

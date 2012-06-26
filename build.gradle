@@ -5,26 +5,14 @@ description = """Xite ${version}
 Static website generator.
 """
 
-defaultTasks 'clean', 'check', 'test', 'installApp'
+defaultTasks 'clean', 'check', 'installApp', 'uat'
 
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
-apply plugin: 'release'
 
 apply plugin:'application'
 mainClassName = 'xite.XiteMain'
-
-buildscript {
-  repositories {
-     ivy { artifactPattern 'http://evgeny-goldin.org/artifactory/repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]' }
-  }
-
-  dependencies {
-    classpath 'gradle-release:gradle-release:0.9.0'
-  }
-}
-
 
 buildDir = 'target'
 
@@ -66,10 +54,12 @@ dependencies {
 
 test {
     useTestNG()
+    /*
     def xiteHomeFile = project.file(appBuildDir)
     def projectRootDir = project.projectDir.getAbsolutePath()
     systemProperties['xite.itest.XITE_HOME'] = xiteHomeFile.getAbsolutePath()
     systemProperties['xite.itest.project.rootDir'] = projectRootDir
+    */
     //systemProperties['org.uncommons.reportng.stylesheet'] = "${projectDir}/resources/hudsonesque.css"
     systemProperties['org.uncommons.reportng.locale'] = 'en_US'
     systemProperties['org.uncommons.reportng.title'] = "Xite ${version} test reports"
@@ -79,6 +69,14 @@ test {
     }
 }
 
+eclipse {
+    classpath {
+        defaultOutputDir = new File("${project.buildDir}/eclipse/classes");
+        downloadJavadoc = true
+    }
+}
+
+/*
 task 'xite-deps'(dependsOn: configurations.default.getAllArtifacts().getBuildDependencies(), type: Copy) {
     into "${appBuildDir}/lib"
     from configurations.default
@@ -124,12 +122,24 @@ task dist(type: Zip, dependsOn: ':xite-doc') {
         from appBuildDir
     }
 }
+*/
 
-dist.doLast { 
-  logger.debug("Distribution file ${dist.archiveName}")
+artifacts {
+    archives distZip
+}
+
+distZip.doLast { 
+    println "Distribution file ${distZip.archivePath}"
+  	configurations.archives.allArtifacts.files.each { File file ->
+        println "Uploading $file"
+    }
+}
+
+task uat( dependsOn: [installApp],
+    description: 'Builds the system under test (using installApp) and runs the user acceptance tests.') << {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.0-rc-2'
+    gradleVersion = '1.0'
 }
 

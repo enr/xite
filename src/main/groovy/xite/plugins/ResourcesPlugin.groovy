@@ -1,4 +1,4 @@
-package xite.plugin.resources
+package xite.plugins
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +9,8 @@ import xite.api.PluginResult
 class ResourcesPlugin extends XiteAbstractPlugin
 {
     PluginResult init() {}
+
     PluginResult apply() {
-
-
 
 def logger = LoggerFactory.getLogger('xite.resources');
 

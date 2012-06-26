@@ -20,11 +20,11 @@ public class FileTraverser
         onFile(f);
     }
 
-    public void onDirectory(@SuppressWarnings("unused") final File d)
+    public void onDirectory(final File d)
     {
     }
 
-    public void onFile(@SuppressWarnings("unused") final File f)
+    public void onFile(final File f)
     {
     }
 }

@@ -21,14 +21,13 @@ class XiteMain
     public static void main(String[] args)
     {
         XiteMain xite = new XiteMain()
-        int result = xite.process(args)
+		File location = ClasspathUtil.getClasspathForClass(XiteMain.class);
+		File home = location.getParentFile().getParentFile();
+        int result = xite.process(home, args)
         System.exit(result)
     }
     
-    public int process(String[] args) {
-///////////////////////////////////////////////////////// logging initialization
-//def loggingConfigurationFile = org.apache.log4j.helpers.Loader.getResource(System.getProperty('log4j.configuration'), Logger.class) 
-//logger.debug("Logging started using file ${loggingConfigurationFile}")
+    public int process(File home, String[] args) {
 
 /////////////////////////////////////////////////////////////////// user options
 def options = new UserOptions(args)
@@ -36,6 +35,12 @@ logger.debug("options    : ${options}")
 
 ///////////////////////////////////////////////////////////////////////// action
 def action = options.action
+def availableActions = ['deploy', 'process', 'run', 'clean']
+if (! (action in availableActions)) {
+	logger.warn "action not found ${action}"
+	return 1
+}
+
 def runPort = options.port
 def doProcess = ((action == 'process') || (action == 'deploy'))
 def doDeploy =  (action == 'deploy')
@@ -50,7 +55,7 @@ logger.debug("do clean   : ${doClean}")
 logger.debug("runPort    : ${runPort}")
 
 /////////////////////////////////////////////////////////// paths initialization
-def xiteHome = System.getProperty('xite.home')
+String xiteHome = home.getAbsolutePath()
 def paths = new Paths(xiteHome)
 
 ////////////////////////////////////////////////////////// default configuration
@@ -101,7 +106,6 @@ for (configurationFile in configurationFiles) {
 def destinationPath = (options.destination) ?: configuration.project.destination
 def destinationDirectory = new File(destinationPath)
 // destination directory should have configuration.app.baseContext as basename
-// CLEAR THIS CODE
 def d = paths.normalize(destinationDirectory.absolutePath)
 // if context equals destinationDirectory.getname
 if (d.endsWith(configuration.app.baseContext)) {
@@ -143,29 +147,28 @@ CommandResult result = null;
 if (doProcess) {
     result = executeCommand(new ProcessCommand(paths: paths, configuration: configuration))
 } else {
-    logger.info("skipping action process. Requested action: ${action}")
+    logger.debug("skipping action process. Requested action: ${action}")
 }
 
 //////////////////////////////////////////////////////////////////// xite deploy
 if (doDeploy) {
     result = executeCommand(new DeployCommand(paths: paths, configuration: configuration))
 } else {
-    logger.info("skipping action deploy. Requested action: ${action}")
+    logger.debug("skipping action deploy. Requested action: ${action}")
 }
 
 /////////////////////////////////////////////////////////////////////// xite run
-logger.debug(' ::::::::  paths {}', paths)
 if (doRun) {
     result = executeCommand(new RunCommand(paths: paths, configuration: configuration, context:commandContext))
 } else {
-    logger.info("skipping action run. Requested action: ${action}")
+    logger.debug("skipping action run. Requested action: ${action}")
 }
 
 ///////////////////////////////////////////////////////////////////// xite clean
 if (doClean) {
     result = executeCommand(new CleanCommand(paths: paths, configuration: configuration))
 } else {
-    logger.info("skipping action clean. Requested action: ${action}")
+    logger.debug("skipping action clean. Requested action: ${action}")
 }
 int exitValue = ((result) ? result.exitValue : 1)
 logger.info "process finished with result ${exitValue}"
@@ -179,6 +182,7 @@ return exitValue
         command.cleanup()
         return result
     }
+
 }
 
 
