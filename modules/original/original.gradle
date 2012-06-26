@@ -5,11 +5,12 @@ defaultTasks 'clean', 'check', 'test', 'installApp'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
-apply plugin: 'release'
+//apply plugin: 'release'
 
 apply plugin:'application'
 mainClassName = 'xite.XiteMain'
 
+/*
 buildscript {
   repositories {
      ivy { artifactPattern 'http://evgeny-goldin.org/artifactory/repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]' }
@@ -19,6 +20,7 @@ buildscript {
     classpath 'gradle-release:gradle-release:0.9.0'
   }
 }
+*/
 
 
 buildDir = 'target'
