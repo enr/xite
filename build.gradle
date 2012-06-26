@@ -28,7 +28,7 @@ if (['1.7'].contains(System.getProperty('java.version'))) {
 ext {
     groovyVersion = '2.0.0-beta-3'
     javaModules = [
-        ':modules:core', ':modules:cli', ':modules:acceptance-tests', ':modules:original'
+        ':modules:core', ':modules:acceptance-tests'
     ]
     acceptanceTests = [':modules:acceptance-tests']
 }
