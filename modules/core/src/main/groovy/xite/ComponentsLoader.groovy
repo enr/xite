@@ -15,12 +15,12 @@ class ComponentsLoader
 {
     private static logger = LoggerFactory.getLogger(ComponentsLoader.class.name);
     
-    private static String PLUGINS_PACKAGE_PREFIX = 'xite.plugin'
+    private static String PLUGINS_PACKAGE_PREFIX = 'xite.plugins'
     private static String PLUGINS_CLASS_SUFFIX = 'Plugin'
     
     public static XitePlugin pluginForName(String pluginName) {
         def pluginClassName = StringUtils.capitalize(pluginName) + PLUGINS_CLASS_SUFFIX
-        def pluginPackage = "${PLUGINS_PACKAGE_PREFIX}.${pluginName}"
+        def pluginPackage = "${PLUGINS_PACKAGE_PREFIX}" // .${pluginName}"
         def pluginClassFullPath = "${pluginPackage}.${pluginClassName}"
         logger.debug("plugin ${pluginName} resolved: ${pluginClassFullPath}")
         XitePlugin plugin = pluginForClassName(pluginClassFullPath)
