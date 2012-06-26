@@ -1,4 +1,4 @@
 
 dependencies {
-    compile     project(':modules:cli')
+    compile     project(':modules:core')
 }

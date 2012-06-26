@@ -1,0 +1,34 @@
+
+
+apply plugin: 'application'
+
+applicationName = 'xite'
+mainClassName = 'xite.XiteMain' //com.github.enr.xite.Main'
+
+ext {
+    appBuildDir = "${buildDir}/app"
+    // name of directory created from distZip task
+    distributionArchiveDir = "${distZip.baseName}-${distZip.version}"
+}
+
+/*
+dependencies {
+    compile project(':modules:core')
+    compile 'com.beust:jcommander:1.12'
+}
+*/
+
+/*
+distZip {
+    /
+    from('src/main/dist/') {
+        include '** /*'
+        into("${distributionArchiveDir}")
+    }
+    /
+    
+    from '../../README.markdown'
+    into "${distributionArchiveDir}/"
+    rename('.markdown$', '.txt')
+}
+*/

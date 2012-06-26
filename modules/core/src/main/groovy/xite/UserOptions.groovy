@@ -8,6 +8,8 @@ class UserOptions
     def environment
     def port
     def action = 'process'
+	
+	boolean help = false
     
     def UserOptions(args)
     {
@@ -24,7 +26,8 @@ class UserOptions
       def options = cli.parse(args)
 
       if (options.h) {
-          cli.usage() 
+          cli.usage()
+		  help = true
           return
       }
       
@@ -39,6 +42,10 @@ class UserOptions
       }
 
     }
+	
+	boolean isHelp() {
+		return help;
+	}
 
     String toString()
     {

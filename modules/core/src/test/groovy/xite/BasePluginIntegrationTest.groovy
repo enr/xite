@@ -1,5 +1,7 @@
 package xite;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
@@ -19,20 +21,28 @@ public class BasePluginIntegrationTest
 
     protected void buildEnvironmentForsampleApp(String appName)
     {
-        //String xiteHome = "target" //System.getProperty('xite.itest.XITE_HOME')
-        testPaths = new Paths("target")
+        File cc = ClasspathUtil.getClasspathForClass(BasePluginIntegrationTest.class);
+        File modules = cc.getParentFile().getParentFile().getParentFile().getParentFile();
+		String xiteRoot = modules.getParentFile().getAbsolutePath();
+		String projectRoot = new StringBuilder(modules.getAbsolutePath()).append(File.separatorChar)
+		.append("core").toString()
+		String fakeHome = new StringBuilder(modules.getAbsolutePath()).append(File.separatorChar)
+		.append("core").append(File.separatorChar)
+		.append("target").toString()
+		        //String xiteHome = "target" //System.getProperty('xite.itest.XITE_HOME')
+        testPaths = new Paths(fakeHome)
     	//String rootDir = System.getProperty("xite.itest.project.rootDir"); 
-    	targetDir = new File("target/itest"); 
+    	targetDir = new File("${fakeHome}/itest"); 
         logger.debug("targetDir '{}' exists? {}", targetDir, targetDir.exists());
-        File itestDefaultConfigurationFile = new File('src/dist/conf/xite-default.groovy')
+        File itestDefaultConfigurationFile = new File("${projectRoot}/src/dist/conf/xite-default.groovy")
         logger.debug("itestDefaultConfigurationFile ${itestDefaultConfigurationFile}")
         ConfigSlurper slurper = new ConfigSlurper(null)
         ConfigObject itestDefaultConfiguration = slurper.parse(itestDefaultConfigurationFile.toURL())
-        File sourceDir = new File("samples/${appName}/src/xite")
+        File sourceDir = new File("${projectRoot}/samples/${appName}/src/xite")
         testPaths.sourceDirectory = testPaths.normalize(sourceDir.getAbsolutePath())
         File projectConfigurationFile = new File("${testPaths.sourceDirectory}/xite/site.groovy")
         logger.debug("projectConfigurationFile ${projectConfigurationFile} ${projectConfigurationFile.getAbsolutePath()}")
-        ConfigObject projectConfig = new ConfigSlurper().parse(projectConfigurationFile.toURL())
+        ConfigObject projectConfig = new ConfigSlurper().parse(projectConfigurationFile.toURI().toURL())
         testConfiguration = (ConfigObject) itestDefaultConfiguration.merge(projectConfig);
         testPaths.destinationDirectory = testPaths.normalize(targetDir.getAbsolutePath())
     }

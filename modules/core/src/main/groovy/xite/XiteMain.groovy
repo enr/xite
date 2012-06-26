@@ -33,8 +33,12 @@ class XiteMain
 def options = new UserOptions(args)
 logger.debug("options    : ${options}")
 
+if (options.isHelp()) {
+	return 0
+}
 ///////////////////////////////////////////////////////////////////////// action
 def action = options.action
+
 def availableActions = ['deploy', 'process', 'run', 'clean']
 if (! (action in availableActions)) {
 	logger.warn "action not found ${action}"
@@ -66,7 +70,7 @@ String configurationFileBasename = 'xite-default.groovy'
 URL configurationUrl = null
 if (xiteHome) {
     def defaultConfigurationFile = new File(paths.confDirectory+'/'+configurationFileBasename)
-    configurationUrl = defaultConfigurationFile.toURL()
+    configurationUrl = defaultConfigurationFile.toURI().toURL()
 } else {
     // embedded mode
     configurationUrl = this.getClass().getClassLoader().getResource(configurationFileBasename);
@@ -83,7 +87,7 @@ def sourcePath = (options.source) ?: configuration.project.source
 def sourceDirectory = new File(sourcePath)
 if ((!sourceDirectory.exists()) && (action in requiringSourceActions)) {
     logger.warn("source directory ${sourcePath} not found. exiting")
-    System.exit(1)
+    return 1
 }
 paths.sourceDirectory = paths.normalize(sourceDirectory.absolutePath)
 logger.debug("paths.sourceDirectory ${paths.sourceDirectory}")
@@ -182,6 +186,10 @@ return exitValue
         command.cleanup()
         return result
     }
+	
+	private void printHelp() {
+		println "xite [action]"
+	}
 
 }
 

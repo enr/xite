@@ -1,46 +1,45 @@
 package com.github.enr.xite;
 
+import java.io.File;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import xite.ClasspathUtil;
+import xite.XiteMain;
 
-import com.github.enr.xite.App;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-/*
- * base class for user acceptance tests.
- * 
- */
 public class BaseUat {
+
+    /**
+     * The home for the xite installation used for the tests.
+     */
+    File installedHome;
+    
+    File xiteRoot;
 
     @BeforeClass
     public void setUp() throws Exception {
-    	/*
-        File cc = ClasspathUtil.getClasspathForClass(BasicFunctionalitySmokeUat.class);
+    	
+        File cc = ClasspathUtil.getClasspathForClass(BaseUat.class);
         File modules = cc.getParentFile().getParentFile().getParentFile().getParentFile();
-        String installPath = Joiner.on(File.separatorChar).join(modules.getAbsolutePath(), "cli", "target", "install",
-                "please");
+        String installPath = new StringBuilder(modules.getAbsolutePath()).append(File.separatorChar)
+        			.append("core").append(File.separatorChar)
+        			.append("target").append(File.separatorChar)
+        			.append("install").append(File.separatorChar)
+        			.append("xite").toString();
         installedHome = new File(installPath);
+        xiteRoot = modules.getParentFile();
 
-        testDataPath = Joiner.on(File.separatorChar).join(modules.getAbsolutePath(), "acceptance-tests", "src", "test",
-                "data");
-
-        */
     }
 
     @AfterClass
     public void tearDown() {
-        
+
     }
 
-    /*
-     * mimic Main class.
-     */
-    protected void runApplicationWithArgs(String[] args) {
-        Injector injector = Guice.createInjector(new AcceptanceTestsModule());
-        App app = injector.getInstance(App.class);
-        app.run(args);
+    protected int runApplicationWithArgs(String[] args) {
+        XiteMain xite = new XiteMain();
+        return xite.process(installedHome, args);
     }
 
 }

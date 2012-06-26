@@ -39,15 +39,15 @@ class CodePlugin extends XiteAbstractPlugin
         // a map of resources directory -> sub directory of destination
         def codeSourceDirectories = [:]
         codeSourceDirectories.put(codeSourceDirectory, '')
-        logger.debug('configuration.code.sources.additionals: {}', configuration.code.sources.additionals)
+        logger.warn('configuration.code.sources.additionals: {}', configuration.code.sources.additionals)
         for (additional in configuration.code.sources.additionals) {
             codeSourceDirectories.put(additional.key, additional.value)
         }
 
         logger.debug("headerFileName ${headerFileName}")
         logger.debug("footerFileName ${footerFileName}")
-        logger.debug("codeSourceDirectories ${codeSourceDirectories}")
-        logger.debug("codeDestinationDirectory ${codeDestinationDirectory}")
+        logger.warn("codeSourceDirectories ${codeSourceDirectories}")
+        logger.warn("codeDestinationDirectory ${codeDestinationDirectory}")
 
         for (codeDir in codeSourceDirectories) {
           def cs = paths.normalize(codeDir.key)
@@ -57,7 +57,7 @@ class CodePlugin extends XiteAbstractPlugin
           def dd = (dst.trim() != '') ? "${codeDestinationDirectory}/${dst}" : codeDestinationDirectory
           def ddf = new File(dd)
           def currentDestinationAbsolutePath = paths.normalize(ddf.absolutePath)
-          logger.debug("processing dir ${currentCodeAbsolutePath}, target dir: ${currentDestinationAbsolutePath}")
+          logger.warn("processing dir ${currentCodeAbsolutePath}, target dir: ${currentDestinationAbsolutePath}")
         
           if (!csf.exists()) {
               logger.warn("source directory ${currentCodeAbsolutePath} not found")
@@ -68,7 +68,7 @@ class CodePlugin extends XiteAbstractPlugin
             def fap = paths.normalize(src.absolutePath)
             for (efs in excludedFilenameSuffix) {
                 if (fap.endsWith(efs)) {
-                    logger.info("skipping ${fap} (${efs})")
+                    logger.warn("skipping ${fap} (${efs})")
                     return
                 }
             }
@@ -77,7 +77,7 @@ class CodePlugin extends XiteAbstractPlugin
             for (excluded in excludedDirs) {
               def rd = paths.normalize(new File(excluded).getAbsolutePath())
               if (fap.startsWith(rd)) {
-                logger.debug("skipping file ${fap} in excluded dir")
+                logger.warn("skipping file ${fap} in excluded dir")
                 return
               }
             }
@@ -92,7 +92,7 @@ class CodePlugin extends XiteAbstractPlugin
             def fileTitle = fap.replace(currentCodeAbsolutePath, "")
             logger.debug("         fileTitle : ${fileTitle}")
             def destinationFileName = "${destinationFileNameNoHtmlExtension}.html"
-            logger.debug("destinationFileName : ${destinationFileName}")
+            logger.warn("destinationFileName : ${destinationFileName}")
             def destinationFile = new File(destinationFileName)
             if (destinationFile.exists()) { destinationFile.delete() }
             def destinationFileNoHtmlExtension = new File(destinationFileNameNoHtmlExtension)
