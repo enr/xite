@@ -1,4 +1,6 @@
 
+import java.text.SimpleDateFormat
+
 // --- release plugin
 // see: http://tellurianring.com/wiki/gradle/release
 apply from: "https://launchpad.net/gradle-release/trunk/latest/+download/apply.groovy"
@@ -6,8 +8,7 @@ apply from: "https://launchpad.net/gradle-release/trunk/latest/+download/apply.g
 // --- about plugin
 // see: http://evgeny-goldin.com/wiki/Gradle-about-plugin
 
-group = 'com.github.enr' // Replace with your GitHub username
-//version = '0.0.1' // Or whatever your version is
+group = 'com.github.enr'
 
 buildscript {
     repositories { mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/repo/' }
@@ -30,8 +31,11 @@ ext {
     javaModules = [
         ':modules:core', ':modules:acceptance-tests'
     ]
+    archiveables = [':modules:core']
     acceptanceTests = [':modules:acceptance-tests']
     localRepo = "${rootProject.projectDir}/lib"
+    uploadables = [ "xite-${version}.zip".toString(), 
+                    "xite-${version}.zip.MD5".toString()]
 }
 
 allprojects { project ->
@@ -47,7 +51,18 @@ allprojects { project ->
             url 'https://oss.sonatype.org/content/repositories/releases/'
         }
     }
+    
+    afterEvaluate {
+        tasks.withType(Zip) { task ->
+            task.doLast {
+                ant.checksum file: it.archivePath
+            }
+        }
+    }
 }
+
+
+
 
 
 subprojects {
@@ -58,6 +73,8 @@ subprojects {
         apply plugin: 'about'        
         
         // work-around for jdk 7 javac warning for setting an older source without bootclasspath
+        // println "${System.getProperty('java.version')}"
+        // def jdk6home = '/opt/java/jdk1.6.0_24'
         if (['1.7'].contains(System.getProperty('java.version'))) {
             println "Java 7 detected (Java ${System.getProperty('java.version')})"
             compileGroovy.options.bootClasspath = '/opt/java/jdk1.6.0_24/jre/lib/rt.jar'
@@ -105,17 +122,61 @@ subprojects {
         sourceCompatibility = 1.6
         targetCompatibility = 1.6
 
- 
-/* 
-tasks.withType(Compile) {
-    options.compilerArgs << "-Xlint:deprecation"
-}
-*/
-        jar {
-            manifest {
-                attributes( "Implementation-Title": "Gradle",
-                            "Implementation-Version": version,
-                            "Project":project.name)
+        jar.doLast { task ->
+            println  task
+            ant.checksum file: task.archivePath
+        }
+        
+        task sourceJar(type: Jar) {
+            from sourceSets.main.allSource
+            classifier = 'sources'
+        }
+
+        task javadocJar(type: Jar, dependsOn: 'javadoc') {
+            from javadoc.destinationDir
+            classifier = 'javadoc'
+        }
+        
+        tasks.withType(Jar).each{ jarTask ->
+            jarTask.manifest {
+                Date buildTime = new Date()
+                attributes(
+                    'Built-By': System.properties['user.name'],
+                    'Created-By': System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+                    'Build-Date': new SimpleDateFormat('dd-MMM-yyyy').format(buildTime),
+                    'Build-Time': new SimpleDateFormat('hh:mm aa').format(buildTime),
+                    'Implementation-Title': project.name,
+                    'Implementation-Version': project.version
+                )
+            }
+        }
+
+        artifacts {
+            archives sourceJar, javadocJar
+            def md5 = []
+            configurations.archives.allArtifacts.files.each { File file ->
+                md5 << "${file.getAbsolutePath()}.MD5"
+            }
+            md5.each { checksum ->
+                archives file(checksum)
+            }
+        }
+
+        /*
+        assemble.doFirst {
+            configurations.archives.allArtifacts.files.each { File file ->
+                println "archive : $file"
+            }
+        }
+        */
+
+        assemble.doLast { task ->
+            configurations.archives.allArtifacts.each { artifact ->
+                def uploadable = (artifact.file.getName() in uploadables)
+                if (! uploadable) {
+                    println "removing '${fname}' from uploadable archives"
+                    configurations.archives.artifacts.remove(artifact)
+                }
             }
         }
         
@@ -132,18 +193,28 @@ tasks.withType(Compile) {
             }
         }
     }
+    
+    if (project.path in archiveables) {
+        task archive(   dependsOn: [':modules:core:assemble'],
+                        description: 'Print archives') << {
+            configurations.archives.allArtifacts.files.each { File file ->
+                    println "[ARCHIVE] $file"
+            }
+        }
+    }
 
     if (project.path in acceptanceTests) {
         test.enabled = false
         task sut(   dependsOn: [':modules:core:test', ':modules:core:test', ':modules:core:installApp'],
                     description: 'Builds the system under test (using installApp).') << {
                     test.enabled = true
-        }    
+        }
         task uat(   dependsOn: [sut, test], 
                     description: 'Runs the user acceptance tests.') << {
                     test.enabled = true
         }
     }
 }
+
 
 

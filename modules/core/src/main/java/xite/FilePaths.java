@@ -14,7 +14,7 @@ public class FilePaths {
 	 * D:\path\to\tests\docs
 	 * 
 	 * @param path
-	 * @return
+	 * @return the normalized, absolute path
 	 */
 	public static String absoluteNormalized(String path) {
 		File file = new File(path);
