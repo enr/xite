@@ -64,9 +64,6 @@ allprojects { project ->
 }
 
 
-
-
-
 subprojects {
 
     if (project.path in javaModules) {
@@ -204,21 +201,32 @@ subprojects {
             }
         }
         
-if (java7) {
-    // After 'group' is set...
-    apply from:'github-dev.gradle' //'http://smokejumperit.com/github-dev.gradle'
+        if (java7) {
+            // After 'group' is set...
+            apply from:'github-dev.gradle' //'http://smokejumperit.com/github-dev.gradle'
 
-    //   gradle uploadArchives -Dgithub.password=***
-    ghUpload {
-        username = 'enr' // If the code guesses the username wrong: see source for defaults
-        //password = '***' // Or set Java prop 'github.password' or system env 'GITHUB_PASS'
-    }
-    uploadArchives.doFirst {
-            configurations.archives.allArtifacts.files.each { File file ->
-                println "archive : $file"
+            //   gradle uploadArchives -Dgithub.password=***
+            //   gradle ghUpload -Dgithub.password=***
+            ghUpload {
+                username = 'enr' // If the code guesses the username wrong: see source for defaults
+                //password = '***' // Or set Java prop 'github.password' or system env 'GITHUB_PASS'
             }
-    }
-}
+            ghUpload.doFirst { task ->
+                configurations.archives.allArtifacts.each { artifact ->
+                    def artifactFileName = artifact.file.getName()
+                    def uploadable = (artifactFileName in uploadables)
+                    if (! uploadable) {
+                        println "removing '${artifactFileName}' from uploadable archives"
+                        configurations.archives.artifacts.remove(artifact)
+                    }
+                }
+            }
+            uploadArchives.doFirst {
+                configurations.archives.allArtifacts.files.each { File file ->
+                    println "archive : $file"
+                }
+            }
+        }
     }
 
     if (project.path in acceptanceTests) {
