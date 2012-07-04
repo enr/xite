@@ -33,6 +33,7 @@ Developer documentation
 
 - [dependencies](/xite/dependencies.html)
 - [tests results](/xite/developers/tests/index.html)
+- [uat](/xite/developers/uat/index.html)
 - [xite source code](/xite/code/index.html)
 
 

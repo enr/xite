@@ -37,7 +37,9 @@ resources {
         // not existing paths are skipped, but the process continue without errors, so you can
         // add paths for every system you have access to
         //additionals = ['d:/dev/resources':'d-dev', '/tmp/blah':'tmp-blah']
-        additionals = ['/opt/syntaxhighlighter/3.0.83':'', 'target/reports/tests/html':'developers/tests']
+        additionals = [ '/opt/syntaxhighlighter/3.0.83':'', 
+                        'modules/core/target/reports/tests/html':'developers/tests', 
+                        'modules/acceptance-tests/target/reports/tests/html':'developers/uat']
     }
     excludedFilenameSuffix = ['~']
 }
@@ -45,7 +47,7 @@ resources {
 code {
     excludedFilenameSuffix = ['~']
     sources {
-        additionals = ['src':'']
+        additionals = ['modules/core/src':'']
         excludes = ['src/xite/resources',
                     'src/xite/markdown/',
                     'src/xite/templates']
@@ -57,3 +59,4 @@ code {
     //top = "templates/header-code.html"
     //bottom = "templates/footer-code.html"
 }
+
