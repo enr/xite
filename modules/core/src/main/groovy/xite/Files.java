@@ -1,9 +1,11 @@
 package xite;
 
-import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+
+import com.google.common.base.Charsets;
 
 /**
  * Provides utility methods for working with files.
@@ -43,9 +45,10 @@ public class Files
         if (data == null) {
             throw new RuntimeException("xite.Files.write(): data cannot be null.");
         }
+        Charset charsetInUse = (charset == null) ? Charsets.UTF_8 : charset;
         File outFile = outputFile;
         String contentToWrite = data;
-        String encoding = (charset == null) ? null : charset.name();
+        //String encoding = (charset == null) ? null : charset.name();
         // creates the needed directory structure
         File parent = outFile.getParentFile();
         if (!parent.exists())
@@ -60,7 +63,8 @@ public class Files
         try
         {
             outFile.createNewFile();
-            FileUtils.writeStringToFile(outputFile, contentToWrite, encoding);
+            //FileUtils.writeStringToFile(outputFile, contentToWrite, encoding);
+            com.google.common.io.Files.write(contentToWrite, outputFile, charsetInUse);
         } catch (IOException e)
         {
             throw new RuntimeException(e);

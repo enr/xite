@@ -3,7 +3,9 @@ package xite.plugins
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.commons.io.FileUtils;
+import com.google.common.base.Charsets;
+
+import java.nio.charset.Charset
 
 import xite.HtmlDirectoryLister;
 import xite.Strings;
@@ -63,6 +65,11 @@ class CodePlugin extends XiteAbstractPlugin
               logger.warn("source directory ${currentCodeAbsolutePath} not found")
               continue
           }
+		  
+		  File indexFile = new File(ddf, "index.html")
+		  if (indexFile.exists()) {
+			  indexFile.delete()
+		  }
           
           csf.eachFileRecurse() { src ->
             def fap = paths.normalize(src.absolutePath)
@@ -116,7 +123,7 @@ class CodePlugin extends XiteAbstractPlugin
               def content = String.format(configuration.code.template, lang, codeString)
               def headerWithHeading = "${header}<p/><h3>${fileTitle}</h3><p/>"
               String finalContent = Strings.normalizeEol("${headerWithHeading}${content}${footer}");
-              FileUtils.writeStringToFile(destinationFile, finalContent, encoding) 
+			  Files.write(destinationFile, finalContent, Charset.forName(encoding));
             }
           }
         }
