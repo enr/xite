@@ -23,9 +23,6 @@ At the moment the complete list is:
 - com.beust:jcommander:1.12
 - com.google.inject:guice:2.0
 - org.beanshell:bsh:2.0b4
-- org.uncommons.reportng:reportng:1.1.3
-- org.apache.velocity:velocity:1.6.2
-- commons-collections:commons-collections:3.2.1
 - org.codehaus.groovy:groovy:1.8.1
 
 *See build.gradle for the completed and updated list.*
@@ -35,7 +32,4 @@ Xite lib directory contains some jar not available in public Maven repositories:
 
     
 * markdownj-extras <http://github.com/enr/markdownj-extras> distributed under Apache 2.0
-
-* ReportNG <http://reportng.uncommons.org> distributed under Apache 2.0
-
 

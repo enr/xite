@@ -38,8 +38,8 @@ resources {
         // add paths for every system you have access to
         //additionals = ['d:/dev/resources':'d-dev', '/tmp/blah':'tmp-blah']
         additionals = [ '/opt/syntaxhighlighter/3.0.83':'', 
-                        '../modules/core/target/reports/tests/html':'developers/tests', 
-                        '../modules/acceptance-tests/target/reports/tests/html':'developers/uat']
+                        '../modules/core/target/reports/tests':'developers/tests', 
+                        '../modules/acceptance-tests/target/reports/tests':'developers/uat']
     }
     excludedFilenameSuffix = ['~']
 }
