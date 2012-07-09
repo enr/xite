@@ -2,6 +2,7 @@ package xite.command
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.io.FileUtils;
 
 import xite.XiteAbstractCommand
 import xite.api.CommandResult

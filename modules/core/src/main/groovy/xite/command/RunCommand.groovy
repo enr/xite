@@ -1,13 +1,12 @@
 package xite.command
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
- 
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.DefaultHandler;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.server.Handler
+import org.eclipse.jetty.server.Server
+import org.eclipse.jetty.server.handler.DefaultHandler
+import org.eclipse.jetty.server.handler.HandlerList
+import org.eclipse.jetty.server.handler.ResourceHandler
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import xite.XiteAbstractCommand
 import xite.api.CommandResult

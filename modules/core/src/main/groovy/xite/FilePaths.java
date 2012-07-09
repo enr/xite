@@ -15,27 +15,29 @@ public class FilePaths {
 	 * 
 	 * @param path
 	 * @return the normalized, absolute path
-	 */
-	public static String absoluteNormalized(String path) {
+	 *
+	public static String _absoluteNormalized(String path) {
 		File file = new File(path);
 		return absoluteNormalized(file);
-	}
+	}*/
 
 	public static String absoluteNormalized(File file) {
 		URI ud = file.toURI();
 		URI un = ud.normalize();
 		File f = new File(un);
 		String absolutePath = f.getAbsolutePath();
-		return normalized(absolutePath);
+		return absolutePath.replace(File.separatorChar, '/');
 	}	
 
-	public static String absolute(File file) {
+	/*
+	public static String _absolute(File file) {
 		URI ud = file.toURI();
 		URI un = ud.normalize();
 		File f = new File(un);
 		String absolutePath = f.getAbsolutePath();
 		return absolutePath;
 	}
+	*/
 
     /**
      * Replaces all backslashes with slash char. Throws NPE if the original path
@@ -44,11 +46,11 @@ public class FilePaths {
      * @param original :
      *            the path to normalize.
      *
-     */
-    public static String normalized(String original)
+     *
+    public static String _normalized(String original)
     {
         return original.replace(File.separatorChar, '/');
-    }
+    }*/
     
 
     /**
@@ -57,8 +59,8 @@ public class FilePaths {
      * 
      * @param filename
      * @return the file extension (without dot) if any, or empty string if filename doesn't contain any dot.
-     */
-    public static String extension(String filename)
+     *
+    public static String _extension(String filename)
     {
         String extension = "";
         String fn = filename.trim();
@@ -70,14 +72,16 @@ public class FilePaths {
         extension = fn.substring(dotPos + 1);
         return extension;
     }
+    */
 
-    public static String stripExtension(String filename) {
+	/*
+    public static String _stripExtension(String filename) {
         int extensionIndex = filename.lastIndexOf(".");
         if (extensionIndex == -1) {
             return filename;
         }
         return filename.substring(0, extensionIndex);
     }
-
+	*/
 
 }

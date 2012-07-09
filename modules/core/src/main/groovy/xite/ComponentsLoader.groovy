@@ -21,7 +21,7 @@ class ComponentsLoader
 			return null;
 		}
 		char capital = Character.toUpperCase(pluginName.charAt(0));
-        def pluginClassName = capital + pluginName.substring(1, pluginName.length()) + PLUGINS_CLASS_SUFFIX
+        def pluginClassName = "" + capital + pluginName.substring(1, pluginName.length()) + PLUGINS_CLASS_SUFFIX
         def pluginPackage = "${PLUGINS_PACKAGE_PREFIX}" // .${pluginName}"
         def pluginClassFullPath = "${pluginPackage}.${pluginClassName}"
         logger.debug("plugin ${pluginName} resolved: ${pluginClassFullPath}")

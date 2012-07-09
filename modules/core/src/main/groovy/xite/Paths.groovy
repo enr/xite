@@ -1,5 +1,7 @@
 package xite
 
+import java.io.File;
+
 import com.google.common.io.Files;
 
 /**
@@ -53,7 +55,7 @@ class Paths
 			return "";
 		}
 		String simplified = Files.simplifyPath(path);
-        return simplified.replaceAll('\\\\', '/')
+        return simplified.replace(File.separatorChar, '/' as char);
     }
 }
 

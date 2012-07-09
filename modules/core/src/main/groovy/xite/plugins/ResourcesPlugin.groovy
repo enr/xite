@@ -31,7 +31,7 @@ if (substitutionsFile.exists()) {
   inp.close();
 }
 
-logger.warn('paths.sourceDirectory {}', paths.sourceDirectory)
+logger.debug('paths.sourceDirectory {}', paths.sourceDirectory)
 def resourcesSourceDirectoryName = paths.sourceDirectory + '/' + configuration.resources.directory
 def resourcesDestinationDirectoryName = paths.destinationDirectory
 
@@ -48,12 +48,12 @@ for (a in configuration.resources.sources.additionals) {
 logger.info('resources directories: {}', resourcesDirectories);
 
 
-logger.warn('filter resources? {}', processResources)
-logger.warn('prefix {}', prefix)
+logger.debug('filter resources? {}', processResources)
+logger.debug('prefix {}', prefix)
 logger.debug('suffix {}', suffix)
 logger.debug('subs {}', subs)
-logger.warn('resourcesSourceDirectoryName {}', resourcesSourceDirectoryName)
-logger.warn('resourcesDestinationDirectoryName {}', resourcesDestinationDirectoryName)
+logger.debug('resourcesSourceDirectoryName {}', resourcesSourceDirectoryName)
+logger.debug('resourcesDestinationDirectoryName {}', resourcesDestinationDirectoryName)
 logger.debug('excludedFilenameSuffix {}', excludedFilenameSuffix)
 
 for (resDir in resourcesDirectories)

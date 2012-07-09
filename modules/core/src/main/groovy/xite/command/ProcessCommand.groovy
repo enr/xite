@@ -1,21 +1,19 @@
 package xite.command
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import xite.XiteAbstractCommand
-import xite.api.CommandResult
-
-import xite.api.ResourceWriter;
-import xite.api.XitePlugin;
-import xite.api.ConfigurationAwareXitePlugin
-import xite.api.PathsAwareXitePlugin
-import xite.api.WriterAwareXitePlugin
-import xite.api.PluginResult
-import xite.Paths
-import xite.DefaultResourceWriter
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import xite.ComponentsLoader
+import xite.DefaultResourceWriter
+import xite.Paths
+import xite.XiteAbstractCommand
+import xite.api.CommandResult
+import xite.api.ConfigurationAwareXitePlugin
+import xite.api.PathsAwareXitePlugin
+import xite.api.PluginResult
+import xite.api.ResourceWriter
+import xite.api.WriterAwareXitePlugin
+import xite.api.XitePlugin
 
 /**
  * The command executed by default.
@@ -31,7 +29,7 @@ class ProcessCommand extends XiteAbstractCommand
         CommandResult commandResult = new CommandResult()
         ResourceWriter writer = new DefaultResourceWriter(configuration: configuration)
         logger.info("start processing ${paths.sourceDirectory}")
-        def phases = ['pre', 'process', 'post']
+        //def phases = ['pre', 'process', 'post']
         def pluginNames = configuration.plugins.enabled
         def plugins = pluginNames.collect { pluginName ->
             XitePlugin currentPlugin = ComponentsLoader.pluginForName(pluginName)

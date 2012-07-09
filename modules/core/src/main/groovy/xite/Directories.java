@@ -11,7 +11,6 @@ import java.util.List;
  * 
  * @author javapractices.com
  * @author Alex Wong
- * @author anonymous user
  */
 public final class Directories
 {
