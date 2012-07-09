@@ -13,7 +13,7 @@ The build command is the default, so you have only to provide source and destina
 
 Run Xite with -s 'source directory' -d 'destination directory'
 
-    /path/to/xite -s samples/simple/src/xite/ -d /var/www/site
+    /path/to/xite -s website -d /var/www/site
     
 If source or destination are not provided, Xite assumes them as src/xite and target/xite/$app-name
 

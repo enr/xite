@@ -1,5 +1,7 @@
 package xite
 
+import com.google.common.io.Files;
+
 /**
  * Helper class to resolve and operate on the paths needed from Xite
  */
@@ -47,7 +49,11 @@ class Paths
     
     public static String normalizePath(String path)
     {
-        return path?.replaceAll('\\\\', '/')
+		if (!path) {
+			return "";
+		}
+		String simplified = Files.simplifyPath(path);
+        return simplified.replaceAll('\\\\', '/')
     }
 }
 

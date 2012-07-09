@@ -30,9 +30,9 @@ At the moment the complete list is:
 
 *See build.gradle for the completed and updated list.*
 
+
 Xite lib directory contains some jar not available in public Maven repositories:
 
-* enr/markdownj <http://github.com/enr/markdownj> distributed under BSD License
     
 * markdownj-extras <http://github.com/enr/markdownj-extras> distributed under Apache 2.0
 

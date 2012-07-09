@@ -2,6 +2,7 @@ package xite;
 
 import java.io.File;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
@@ -37,8 +38,8 @@ public class BasePluginIntegrationTest
         File itestDefaultConfigurationFile = new File("${projectRoot}/src/dist/conf/xite-default.groovy")
         logger.debug("itestDefaultConfigurationFile ${itestDefaultConfigurationFile}")
         ConfigSlurper slurper = new ConfigSlurper(null)
-        ConfigObject itestDefaultConfiguration = slurper.parse(itestDefaultConfigurationFile.toURL())
-        File sourceDir = new File("${projectRoot}/samples/${appName}/src/xite")
+        ConfigObject itestDefaultConfiguration = slurper.parse(itestDefaultConfigurationFile.toURI().toURL())
+        File sourceDir = new File("${projectRoot}/src/test/sites/${appName}/src/xite")
         testPaths.sourceDirectory = testPaths.normalize(sourceDir.getAbsolutePath())
         File projectConfigurationFile = new File("${testPaths.sourceDirectory}/xite/site.groovy")
         logger.debug("projectConfigurationFile ${projectConfigurationFile} ${projectConfigurationFile.getAbsolutePath()}")

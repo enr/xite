@@ -88,6 +88,7 @@ subprojects {
         dependencies {
             compile 'com.github.enr:markdownj-extras:0.4',
                     'com.madgag:markdownj-core:0.4.1',
+                    'com.google.guava:guava:12.0',
                     'commons-cli:commons-cli:1.2',
                     'commons-lang:commons-lang:2.5',
                     'commons-io:commons-io:1.4',

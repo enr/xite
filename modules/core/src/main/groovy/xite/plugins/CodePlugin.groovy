@@ -41,7 +41,7 @@ class CodePlugin extends XiteAbstractPlugin
         codeSourceDirectories.put(codeSourceDirectory, '')
         logger.warn('configuration.code.sources.additionals: {}', configuration.code.sources.additionals)
         for (additional in configuration.code.sources.additionals) {
-            codeSourceDirectories.put(additional.key, additional.value)
+            codeSourceDirectories.put(paths.sourceDirectory + '/' + additional.key, additional.value)
         }
 
         logger.debug("headerFileName ${headerFileName}")
@@ -66,6 +66,7 @@ class CodePlugin extends XiteAbstractPlugin
           
           csf.eachFileRecurse() { src ->
             def fap = paths.normalize(src.absolutePath)
+			logger.info("code ${fap}")
             for (efs in excludedFilenameSuffix) {
                 if (fap.endsWith(efs)) {
                     logger.warn("skipping ${fap} (${efs})")
@@ -81,7 +82,9 @@ class CodePlugin extends XiteAbstractPlugin
                 return
               }
             }
-            logger.debug("processing ${fap}")
+            logger.info(" F    ${fap}")
+            logger.info(" S    ${currentCodeAbsolutePath}")
+            logger.info(" D    ${currentDestinationAbsolutePath}")
             def extension = FilePaths.extension(fap.toString())
             // what if file has no extension??
             def lang = codeLang(extension)

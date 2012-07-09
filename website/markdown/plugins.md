@@ -58,7 +58,7 @@ to the main destination dir) for these resources.
 
 If you want resources deploied in the root, leave an empty string as sub directory.
 
-Relative paths are allowed.
+Relative paths are allowed; the full path is built from the source directory.
 
 Not existing paths are skipped, but the process continue without errors, so you can add paths for every system you have access to.
 

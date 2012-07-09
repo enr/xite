@@ -39,7 +39,7 @@ public class BasicFunctionalitySmokeUat extends BaseUat {
     @DataProvider(name = "basic-functions-error")
     public Object[][] basicFunctionsError() {
         return new Object[][] { 
-        	new Object[] { new String[] { "no-such-action" } } 
+        	new Object[] { new String[] { "no-such-command" } } 
         };
     }
 }
