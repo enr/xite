@@ -8,7 +8,7 @@ public class FilePaths {
 	private FilePaths() {
 	}
 
-	/**
+	/*
 	 * trasforms relative paths in absolute,
 	 * ie. ../tests/docs is transformed in
 	 * D:\path\to\tests\docs
