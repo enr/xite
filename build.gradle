@@ -202,13 +202,15 @@ subprojects {
         
         if (java7) {
             // After 'group' is set...
-            apply from:'github-dev.gradle' //'http://smokejumperit.com/github-dev.gradle'
+            //apply from:'github-dev.gradle'
+            apply from:'http://smokejumperit.com/github-dev.gradle'
 
             //   gradle uploadArchives -Dgithub.password=***
             //   gradle ghUpload -Dgithub.password=***
             ghUpload {
                 username = 'enr' // If the code guesses the username wrong: see source for defaults
                 //password = '***' // Or set Java prop 'github.password' or system env 'GITHUB_PASS'
+                repo = 'xite'
             }
             ghUpload.doFirst { task ->
                 configurations.archives.allArtifacts.each { artifact ->
