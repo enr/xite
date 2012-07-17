@@ -37,7 +37,29 @@ public class DeployCommand extends AbstractCommand {
 		this.reporter.debug("ftp = %s", configuration.get("deploy.ftp"));
 		this.reporter.debug("plugins = %s", configuration.get("plugins.enabled"));
 		reporter.info("exec: destination dir = %s", configuration.get("project.destination", args.destination));
-		return new CommandResult();
+        CommandResult commandResult = new CommandResult()
+        def ftp = configuration.get("deploy.ftp")
+        reporter.info("ftp : %s", ftp)
+        if (ftp.enabled == true) {
+            ant = new AntBuilder()
+            
+            ant.ftp( 
+                server: ftp.host,
+                userid: ftp.username,
+                password: ftp.password,
+                //passive:"yes",
+                //verbose:"yes",
+                // the ftp action to perform, defaulting to "send"
+                // action:"get",
+                remotedir: ftp.baseDirectory,
+                // selects binary-mode ("yes") or text-mode ("no") transfers. Defaults to "yes"
+                binary:"yes" ) {
+                    fileset( dir: paths.destinationDirectory ) {
+                        //include( name:'* * / *' )
+                    }
+                }
+        }
+        return commandResult
 	}
 
 	@Override

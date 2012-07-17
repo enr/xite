@@ -1,4 +1,4 @@
-package xite.plugins
+package com.github.enr.xite.plugins
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +12,6 @@ import xite.Strings;
 import xite.Files;
 import xite.FilePaths;
 
-import xite.XiteAbstractPlugin
-import xite.api.PluginResult
 
 /**
  * Generates copy of code files in HTML format, keeping the sources directory structure.
@@ -21,48 +19,47 @@ import xite.api.PluginResult
  */
 class CodePlugin extends XiteAbstractPlugin
 {
-    private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     
     PluginResult init() {}
 
     PluginResult apply() {
 
-        def excludedFilenameSuffix = configuration.code.excludedFilenameSuffix
+        def excludedFilenameSuffix = configuration.get('code.excludedFilenameSuffix')
         // todo if code header/footer not in config, use default header/footer
-        def headerFileName = "${paths.sourceDirectory}/${configuration.code.top}"
-        def footerFileName = "${paths.sourceDirectory}/${configuration.code.bottom}"
-        def baseContext = "${configuration.code.baseContext}"
-        def excludedDirs = configuration.code.sources.excludes
-        def encoding = configuration.app.encoding
+        def headerFileName = "${sourcePath}/"+configuration.get('code.top')
+        def footerFileName = "${sourcePath}/"+configuration.get('code.bottom')
+        def baseContext = configuration.get('code.baseContext')
+        def excludedDirs = configuration.get("code.sources.excludes")
+        def encoding = configuration.get("app.encoding")
         def header = new File(headerFileName).getText(encoding)
         def footer = new File(footerFileName).getText(encoding)
-        def codeSourceDirectory = "${paths.sourceDirectory}/${configuration.code.source}"
-        def codeDestinationDirectory = "${paths.destinationDirectory}/${configuration.code.destination}"
+        def codeSourceDirectory = "${sourcePath}/"+configuration.get('code.source')
+        def codeDestinationDirectory = "${destinationPath}/"+configuration.get('code.destination')
         // a map of resources directory -> sub directory of destination
         def codeSourceDirectories = [:]
         codeSourceDirectories.put(codeSourceDirectory, '')
-        logger.debug('configuration.code.sources.additionals: {}', configuration.code.sources.additionals)
-        for (additional in configuration.code.sources.additionals) {
-            codeSourceDirectories.put(paths.sourceDirectory + '/' + additional.key, additional.value)
+        //logger.debug('configuration.code.sources.additionals: {}', configuration.get('code.sources.additionals'))
+        for (additional in configuration.get('code.sources.additionals')) {
+            codeSourceDirectories.put(sourcePath + '/' + additional.key, additional.value)
         }
-
+        /*
         logger.debug("headerFileName ${headerFileName}")
         logger.debug("footerFileName ${footerFileName}")
         logger.debug("codeSourceDirectories ${codeSourceDirectories}")
         logger.debug("codeDestinationDirectory ${codeDestinationDirectory}")
-
+        */
         for (codeDir in codeSourceDirectories) {
-          def cs = paths.normalize(codeDir.key)
+          def cs = FilePaths.normalizePath(codeDir.key)
           def csf = new File(cs)
-          def currentCodeAbsolutePath = paths.normalize(csf.absolutePath)
+          def currentCodeAbsolutePath = FilePaths.normalizePath(csf.absolutePath)
           def dst = codeDir.value
           def dd = (dst.trim() != '') ? "${codeDestinationDirectory}/${dst}" : codeDestinationDirectory
           def ddf = new File(dd)
-          def currentDestinationAbsolutePath = paths.normalize(ddf.absolutePath)
-          logger.debug("processing dir ${currentCodeAbsolutePath}, target dir: ${currentDestinationAbsolutePath}")
+          def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
+          //logger.debug("processing dir ${currentCodeAbsolutePath}, target dir: ${currentDestinationAbsolutePath}")
         
           if (!csf.exists()) {
-              logger.debug("source directory ${currentCodeAbsolutePath} not found")
+              //logger.debug("source directory ${currentCodeAbsolutePath} not found")
               continue
           }
 		  
@@ -72,37 +69,37 @@ class CodePlugin extends XiteAbstractPlugin
 		  }
           
           csf.eachFileRecurse() { src ->
-            def fap = paths.normalize(src.absolutePath)
-			logger.info("code ${fap}")
+            def fap = FilePaths.normalizePath(src.absolutePath)
+			//logger.info("code ${fap}")
             for (efs in excludedFilenameSuffix) {
                 if (fap.endsWith(efs)) {
-                    logger.warn("skipping ${fap} (${efs})")
+                    //logger.warn("skipping ${fap} (${efs})")
                     return
                 }
             }
             // TODO: for rd in excluded dirs...
             // xite sources dir is skipped
             for (excluded in excludedDirs) {
-              def rd = paths.normalize(new File(excluded).getAbsolutePath())
+              def rd = FilePaths.normalizePath(new File(excluded).getAbsolutePath())
               if (fap.startsWith(rd)) {
-                logger.warn("skipping file ${fap} in excluded dir")
+                reporter.warn("skipping file ${fap} in excluded dir")
                 return
               }
             }
-            logger.debug(" F    ${fap}")
-            logger.debug(" S    ${currentCodeAbsolutePath}")
-            logger.debug(" D    ${currentDestinationAbsolutePath}")
+            reporter.debug(" F    ${fap}")
+            reporter.debug(" S    ${currentCodeAbsolutePath}")
+            reporter.debug(" D    ${currentDestinationAbsolutePath}")
             def extension = com.google.common.io.Files.getFileExtension(fap.toString()); // FilePaths.extension(fap.toString())
             // what if file has no extension??
             def lang = codeLang(extension)
-            logger.debug("lang : ${lang}")
+            reporter.debug("lang : ${lang}")
             // file extension is taken as lang
             def destinationFileNameNoHtmlExtension = fap.replace(currentCodeAbsolutePath, currentDestinationAbsolutePath)
-            logger.debug("         replace : ${currentCodeAbsolutePath}")
+            reporter.debug("         replace : ${currentCodeAbsolutePath}")
             def fileTitle = fap.replace(currentCodeAbsolutePath, "")
-            logger.debug("         fileTitle : ${fileTitle}")
+            reporter.debug("         fileTitle : ${fileTitle}")
             def destinationFileName = "${destinationFileNameNoHtmlExtension}.html"
-            logger.debug("destinationFileName : ${destinationFileName}")
+            reporter.debug("destinationFileName : ${destinationFileName}")
             def destinationFile = new File(destinationFileName)
             if (destinationFile.exists()) { destinationFile.delete() }
             def destinationFileNoHtmlExtension = new File(destinationFileNameNoHtmlExtension)
@@ -120,7 +117,7 @@ class CodePlugin extends XiteAbstractPlugin
                 assert success 
               }
               String codeString = src.getText(encoding);
-              def content = String.format(configuration.code.template, lang, codeString)
+              def content = String.format(configuration.get('code.template'), lang, codeString)
               def headerWithHeading = "${header}<p/><h3>${fileTitle}</h3><p/>"
               String finalContent = Strings.normalizeEol("${headerWithHeading}${content}${footer}");
 			  Files.write(destinationFile, finalContent, Charset.forName(encoding));

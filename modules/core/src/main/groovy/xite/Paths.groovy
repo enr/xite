@@ -51,15 +51,7 @@ class Paths
     
     public static String normalizePath(String path)
     {
-		if (!path) {
-			return "";
-		}
-		println "path = ${path}"
-		String n = path.replace(File.separatorChar, '/' as char);
-		println "n = ${n}"
-		String simplified = Files.simplifyPath(n);
-		println "simpl = ${simplified}"
-        return simplified
+		return FilePaths.normalizePath(path)
     }
 }
 

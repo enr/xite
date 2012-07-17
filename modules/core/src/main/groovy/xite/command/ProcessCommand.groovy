@@ -3,17 +3,18 @@ package xite.command
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import xite.ComponentsLoader
+import com.github.enr.xite.core.ComponentsLoader;
+import com.github.enr.xite.plugins.ConfigurationAwareXitePlugin;
+import com.github.enr.xite.plugins.PathsAwareXitePlugin;
+import com.github.enr.xite.plugins.PluginResult;
+import com.github.enr.xite.plugins.XitePlugin;
+
 import xite.DefaultResourceWriter
 import xite.Paths
 import xite.XiteAbstractCommand
 import xite.api.CommandResult
-import xite.api.ConfigurationAwareXitePlugin
-import xite.api.PathsAwareXitePlugin
-import xite.api.PluginResult
 import xite.api.ResourceWriter
 import xite.api.WriterAwareXitePlugin
-import xite.api.XitePlugin
 
 /**
  * The command executed by default.

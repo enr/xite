@@ -1,4 +1,4 @@
-package xite.api
+package com.github.enr.xite.plugins
 
 import xite.Paths
 

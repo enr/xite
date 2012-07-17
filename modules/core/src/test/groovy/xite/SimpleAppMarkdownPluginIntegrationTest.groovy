@@ -7,7 +7,6 @@ import static org.testng.Assert.assertFalse;
 
 import xite.Strings
 import xite.Paths
-import xite.plugins.MarkdownPlugin;
 
 import java.io.File;
 
@@ -15,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.github.enr.xite.plugins.MarkdownPlugin;
 
 /**
  * Integration test for markdown plugin applied to simple app.

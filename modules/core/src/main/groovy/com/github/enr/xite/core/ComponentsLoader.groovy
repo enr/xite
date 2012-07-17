@@ -1,9 +1,10 @@
-package xite
+package com.github.enr.xite.core
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import xite.api.XitePlugin
+import com.github.enr.xite.plugins.XitePlugin;
+
 import xite.api.XiteCommand
 
 /**
@@ -11,9 +12,8 @@ import xite.api.XiteCommand
  */
 class ComponentsLoader
 {
-    private static logger = LoggerFactory.getLogger(ComponentsLoader.class.name);
     
-    private static String PLUGINS_PACKAGE_PREFIX = 'xite.plugins'
+    private static String PLUGINS_PACKAGE_PREFIX = 'com.github.enr.xite.plugins'
     private static String PLUGINS_CLASS_SUFFIX = 'Plugin'
     
     public static XitePlugin pluginForName(String pluginName) {
@@ -24,7 +24,7 @@ class ComponentsLoader
         def pluginClassName = "" + capital + pluginName.substring(1, pluginName.length()) + PLUGINS_CLASS_SUFFIX
         def pluginPackage = "${PLUGINS_PACKAGE_PREFIX}" // .${pluginName}"
         def pluginClassFullPath = "${pluginPackage}.${pluginClassName}"
-        logger.debug("plugin ${pluginName} resolved: ${pluginClassFullPath}")
+        println("plugin ${pluginName} resolved: ${pluginClassFullPath}")
         XitePlugin plugin = pluginForClassName(pluginClassFullPath)
         return plugin
     }
@@ -44,7 +44,7 @@ class ComponentsLoader
                 plugin = (XitePlugin) o
             }
         } catch (Throwable t) {
-            logger.warn("error resolving plugin '${pluginClassFullPath}': ${t.message}")
+            println("error resolving plugin '${pluginClassFullPath}': ${t.message}")
             throw new RuntimeException(t)
         }
         return plugin

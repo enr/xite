@@ -2,6 +2,7 @@ package xite;
 
 import java.io.File;
 import java.net.URI;
+import com.google.common.io.Files;
 
 public class FilePaths {
 
@@ -27,7 +28,17 @@ public class FilePaths {
 		File f = new File(un);
 		String absolutePath = f.getAbsolutePath();
 		return absolutePath.replace(File.separatorChar, '/');
-	}	
+	}
+	
+    public static String normalizePath(String path)
+    {
+        if (path == null) {
+            return "";
+        }
+        String n = path.replace(File.separatorChar, '/');
+        String simplified = Files.simplifyPath(n);
+        return simplified;
+    }
 
 	/*
 	public static String _absolute(File file) {

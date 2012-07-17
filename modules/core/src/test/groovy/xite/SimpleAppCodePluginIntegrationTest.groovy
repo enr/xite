@@ -7,7 +7,6 @@ import static org.testng.Assert.assertFalse;
 
 import xite.Strings
 import xite.Paths
-import xite.plugins.CodePlugin
 
 import java.io.File;
 
@@ -15,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.github.enr.xite.plugins.CodePlugin;
 
 /**
  * Integration test for code plugin applied to simple app.
@@ -28,7 +29,8 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
     public void init()
     {
         buildEnvironmentForsampleApp('simple')
-        plugin = new CodePlugin(configuration: testConfiguration, paths: testPaths)
+        plugin = new CodePlugin(configuration: testConfiguration, sourcePath:testPaths.sourceDirectory, destinationPath:testPaths.destinationDirectory,
+            reporter:reporter, environment:environment)
         plugin.apply()
     }
 

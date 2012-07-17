@@ -4,7 +4,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
 @Parameters(commandDescription = "Build the site")
-public class ProcessCommandArgs {
+public class BuildCommandArgs {
 	@Parameter(names = { "-s", "--source" }, description = "Source directory")
 	public String source;
 	@Parameter(names = { "-d", "--destination" }, description = "Destination directory")
