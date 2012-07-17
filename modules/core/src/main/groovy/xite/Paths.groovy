@@ -54,8 +54,12 @@ class Paths
 		if (!path) {
 			return "";
 		}
-		String simplified = Files.simplifyPath(path);
-        return simplified.replace(File.separatorChar, '/' as char);
+		println "path = ${path}"
+		String n = path.replace(File.separatorChar, '/' as char);
+		println "n = ${n}"
+		String simplified = Files.simplifyPath(n);
+		println "simpl = ${simplified}"
+        return simplified
     }
 }
 

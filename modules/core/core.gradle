@@ -2,7 +2,7 @@
 apply plugin: 'application'
 
 applicationName = 'xite'
-mainClassName = 'xite.XiteMain' //com.github.enr.xite.Main'
+mainClassName = 'com.github.enr.xite.cli.Xite'
 
 artifacts {
     archives distZip

@@ -16,7 +16,7 @@ buildscript {
 }
 
 ext {
-    //groovyVersion = '2.0.0-beta-3'
+    groovyVersion = '2.0.0'
     javaModules = [
         ':modules:core', ':modules:acceptance-tests'
     ]
@@ -85,7 +85,13 @@ subprojects {
         }
 
         dependencies {
-            compile 'com.github.enr:markdownj-extras:0.4',
+            groovy "org.codehaus.groovy:groovy-all:$groovyVersion"
+
+            compile "org.codehaus.groovy:groovy-all:$groovyVersion",
+                    'com.google.inject:guice:3.0',
+                    'com.beust:jcommander:1.27',
+                    'com.github.enr:clap-core:0.1-SNAPSHOT',
+                    'com.github.enr:markdownj-extras:0.4',
                     'com.madgag:markdownj-core:0.4.1',
                     'com.google.guava:guava:12.0',
                     'commons-cli:commons-cli:1.2',
@@ -108,7 +114,6 @@ subprojects {
                         //'org.uncommons.reportng:reportng:1.1.3',
                         //'org.apache.velocity:velocity:1.6.2',           // required from reportng
                         //'commons-collections:commons-collections:3.2.1' // required from reportng
-            groovy  'org.codehaus.groovy:groovy:1.8.1'
         }
 
         test {
