@@ -6,7 +6,15 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import xite.ClasspathUtil;
-import xite.XiteMain;
+import xite.FilePaths;
+
+import com.github.enr.clap.api.ClapApp;
+import com.github.enr.clap.api.Configuration;
+import com.github.enr.clap.inject.Bindings;
+import com.github.enr.clap.inject.ClapModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.util.Modules;
 
 public class BaseUat {
 
@@ -28,6 +36,7 @@ public class BaseUat {
         			.append("install").append(File.separatorChar)
         			.append("xite").toString();
         installedHome = new File(installPath);
+        
         xiteRoot = modules.getParentFile();
 
     }
@@ -37,9 +46,15 @@ public class BaseUat {
 
     }
 
-    protected int runApplicationWithArgs(String[] args) {
-        XiteMain xite = new XiteMain();
-        return xite.process(installedHome, args);
+    protected void runApplicationWithArgs(String[] args) {
+        Injector injector = Guice.createInjector(Modules.override(new ClapModule()).with(new AcceptanceTestsModule()));
+        Configuration configuration = injector.getInstance(Configuration.class);
+        String absoluteNormalized = FilePaths.absoluteNormalized(installedHome);
+        System.out.println (absoluteNormalized);
+		configuration.addPath(absoluteNormalized + "/conf/xite.groovy");
+        ClapApp app = injector.getInstance(ClapApp.class);
+        app.setAvailableCommands(Bindings.getAllCommands(injector));
+        app.run(args);
     }
 
 }

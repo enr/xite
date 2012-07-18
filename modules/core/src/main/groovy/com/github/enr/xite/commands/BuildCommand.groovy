@@ -45,19 +45,22 @@ public class BuildCommand extends AbstractCommand {
         String destinationPath = argsOrConfiguration(args.destination, "Project.destination")
         CommandResult commandResult = new CommandResult()
         //ResourceWriter writer = new DefaultResourceWriter(configuration: configuration)
-        reporter.info("start processing %s", sourcePath);
+        reporter.out("start processing %s", sourcePath);
+        reporter.out("dest = %s", destinationPath);
+		configuration.addPath(sourcePath + "/xite/site.groovy")
         //def phases = ['pre', 'process', 'post']
         def pluginNames = configuration.get("plugins.enabled")
+		reporter.out("plugins = %s", pluginNames)
         def plugins = pluginNames.collect { pluginName ->
             XitePlugin currentPlugin = ComponentsLoader.pluginForName(pluginName)
             if (currentPlugin) {
-                reporter.debug("plugin %s loaded", currentPlugin.getClass().getName())
+                reporter.out("plugin %s loaded", currentPlugin.getClass().getName())
             }
             currentPlugin
         }
         reporter.debug("plugins: %s", plugins)
         for (plugin in plugins) {
-            reporter.debug(" - execute plugin ${plugin}")
+            reporter.out(" - execute plugin ${plugin}")
             if (!plugin) continue;
             plugin.setSourcePath(sourcePath)
             plugin.setDestinationPath(destinationPath)
@@ -74,6 +77,8 @@ public class BuildCommand extends AbstractCommand {
                 ((EnvironmentAwareXitePlugin)plugin).setEnvironment(environment)
             }
             //if (plugin instanceof WriterAwareXitePlugin) ((WriterAwareXitePlugin)plugin).setWriter(writer)
+			
+			reporter.out(" - apply plugin ${plugin}")
             PluginResult result = plugin.apply()
         }
         return commandResult

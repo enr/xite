@@ -29,7 +29,8 @@ public class SimpleAppMarkdownPluginIntegrationTest extends BasePluginIntegratio
     public void init()
     {
         buildEnvironmentForsampleApp('simple')
-        plugin = new MarkdownPlugin(configuration: testConfiguration, paths: testPaths)
+        plugin = new MarkdownPlugin(configuration: testConfiguration, sourcePath:testPaths.sourceDirectory, destinationPath:testPaths.destinationDirectory,
+            reporter:reporter, environment:environment)
         plugin.apply()
     }
     

@@ -29,7 +29,8 @@ public class SimpleAppHtmlPluginIntegrationTest extends BasePluginIntegrationTes
     public void init()
     {
         buildEnvironmentForsampleApp('simple')
-        plugin = new HtmlPlugin(configuration: testConfiguration, paths: testPaths)
+        plugin = new HtmlPlugin(configuration: testConfiguration, sourcePath:testPaths.sourceDirectory, destinationPath:testPaths.destinationDirectory,
+            reporter:reporter, environment:environment)
         plugin.apply()
     }
 

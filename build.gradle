@@ -3,7 +3,7 @@ import java.text.SimpleDateFormat
 
 // --- release plugin
 // see: http://tellurianring.com/wiki/gradle/release
-apply from: "https://launchpad.net/gradle-release/trunk/latest/+download/apply.groovy"
+//apply from: "https://launchpad.net/gradle-release/trunk/latest/+download/apply.groovy"
 
 // --- about plugin
 // see: http://evgeny-goldin.com/wiki/Gradle-about-plugin
@@ -118,6 +118,17 @@ subprojects {
 
         test {
             useTestNG()
+            //makes the standard streams (err and out) visible at console when running tests
+            testLogging.showStandardStreams = false
+            //listening to test execution events
+            
+            beforeTest { descriptor ->
+                logger.lifecycle("-------    Running test: " + descriptor)
+            }
+            onOutput { descriptor, event ->
+                logger.lifecycle(event.message )
+            }
+            
         }
         
         archivesBaseName = "xite-${project.name}"
@@ -234,7 +245,7 @@ subprojects {
             }
         }
     }
-
+    /*
     if (project.path in acceptanceTests) {
         test.enabled = false
         task sut(   dependsOn: [':modules:core:test', ':modules:core:test', ':modules:core:installApp'],
@@ -243,9 +254,19 @@ subprojects {
         }
         task uat(   dependsOn: [sut, test], 
                     description: 'Runs the user acceptance tests.') << {
-                    test.enabled = true
+                    test {
+                        enabled = true
+                        testLogging.showStandardStreams = true            
+                        beforeTest { descriptor ->
+                            logger.lifecycle("-------    Running test: " + descriptor)
+                        }
+                        onOutput { descriptor, event ->
+                            logger.lifecycle("[OUT] " + event.message )
+                        }
+                    }
         }
     }
+    */
 }
 
 

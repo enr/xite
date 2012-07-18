@@ -37,9 +37,11 @@ resources {
         // not existing paths are skipped, but the process continue without errors, so you can
         // add paths for every system you have access to
         //additionals = ['d:/dev/resources':'d-dev', '/tmp/blah':'tmp-blah']
-        additionals = [ '/opt/syntaxhighlighter/3.0.83':'', 
-                        '../modules/core/target/reports/tests':'developers/tests', 
-                        '../modules/acceptance-tests/target/reports/tests':'developers/uat']
+        //additionals = [ '/opt/syntaxhighlighter/3.0.83':'', 
+        //                '../modules/core/target/reports/tests':'developers/tests', 
+        //                '../modules/acceptance-tests/target/reports/tests':'developers/uat']
+        
+        // SEE CORE/TESTS FOR THE NEW SINTAX!
     }
     excludedFilenameSuffix = ['~']
 }

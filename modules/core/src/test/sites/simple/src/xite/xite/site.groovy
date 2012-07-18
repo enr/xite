@@ -16,9 +16,23 @@ resources {
         suffix = '_'
     }
     sources {
-        additionals = [ '../../additionals':'add',
-                        '/fake/path':'fake-path',
-                        '../../single/file.html':'asinglefile.html']
+        //additionals = [ '../../additionals':'add',
+        //                '/fake/path':'fake-path',
+        //                '../../single/file.html':'asinglefile.html']
+        additionals {
+            add {
+                source = '../../additionals'
+                destination = 'add'
+            }
+            fake {
+                source = '/fake/path'
+                destination = 'fake-path'
+            }
+            single {
+                source = '../../single/file.html'
+                destination = 'asinglefile.html'
+            }
+        }
     }
     excludedFilenameSuffix = ['~']
 }

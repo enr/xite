@@ -29,7 +29,8 @@ public class SimpleAppResourcesPluginIntegrationTest extends BasePluginIntegrati
     public void init()
     {
         buildEnvironmentForsampleApp('simple')
-        plugin = new ResourcesPlugin(configuration: testConfiguration, paths: testPaths)
+        plugin = new ResourcesPlugin(configuration: testConfiguration, sourcePath:testPaths.sourceDirectory, destinationPath:testPaths.destinationDirectory,
+            reporter:reporter, environment:environment)
         plugin.apply()
     }
     
@@ -43,6 +44,16 @@ public class SimpleAppResourcesPluginIntegrationTest extends BasePluginIntegrati
     @Test
     public void testAdditionalResourcesInSubDirectory()
     {
+		def paths = testConfiguration.getPaths()
+		/*
+		paths.each { k, v ->
+			reporter.out("path %s %s", k, v)
+		}		
+		def p = testConfiguration.getAllProperties()
+		p.each { k, v ->
+			reporter.out("prop %s = %s", k, v)
+		}
+		*/
     	File additional = new File(targetDir.getAbsolutePath()+'/add/test.html');
         assertTrue(additional.exists(), "${additional.getAbsolutePath()} not found");
     }

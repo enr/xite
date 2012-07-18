@@ -26,15 +26,25 @@ class CodePlugin extends XiteAbstractPlugin
 
         def excludedFilenameSuffix = configuration.get('code.excludedFilenameSuffix')
         // todo if code header/footer not in config, use default header/footer
-        def headerFileName = "${sourcePath}/"+configuration.get('code.top')
-        def footerFileName = "${sourcePath}/"+configuration.get('code.bottom')
+        def headerFileName = "${sourcePath}/${configuration.get('templates.directory')}/${configuration.get('templates.top')}"
+		if (configuration.get('code.top')) {
+			headerFileName = "${sourcePath}/"+configuration.get('code.top')
+		}
+        def footerFileName = "${sourcePath}/${configuration.get('templates.directory')}/${configuration.get('templates.bottom')}"
+		if (configuration.get('code.bottom')) {
+			footerFileName = "${sourcePath}/"+configuration.get('code.bottom')
+		}
         def baseContext = configuration.get('code.baseContext')
         def excludedDirs = configuration.get("code.sources.excludes")
         def encoding = configuration.get("app.encoding")
-        def header = new File(headerFileName).getText(encoding)
-        def footer = new File(footerFileName).getText(encoding)
+		def headerFile = new File(headerFileName)
+        def header = (headerFile.exists() ? headerFile.getText(encoding) : "")
+		def footerFile = new File(footerFileName)
+        def footer = (footerFile.exists() ? footerFile.getText(encoding) : "")
         def codeSourceDirectory = "${sourcePath}/"+configuration.get('code.source')
+		reporter.out("codeSourceDirectory = %s", codeSourceDirectory)
         def codeDestinationDirectory = "${destinationPath}/"+configuration.get('code.destination')
+		reporter.out("codeDestinationDirectory = %s", codeDestinationDirectory)
         // a map of resources directory -> sub directory of destination
         def codeSourceDirectories = [:]
         codeSourceDirectories.put(codeSourceDirectory, '')

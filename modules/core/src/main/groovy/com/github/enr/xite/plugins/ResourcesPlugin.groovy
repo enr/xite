@@ -25,7 +25,7 @@ if (substitutionsFile.exists()) {
   inp.close();
 }
 
-reporter.debug('sourcePath {}', sourcePath)
+reporter.out('resources.... sourcePath %s', sourcePath)
 def resourcesSourceDirectoryName = sourcePath + '/' + configuration.get('resources.directory')
 def resourcesDestinationDirectoryName = destinationPath
 
@@ -34,12 +34,33 @@ def excludedFilenameSuffix = configuration.get('resources.excludedFilenameSuffix
 // a map of resources directory -> sub directory of destination
 def resourcesDirectories = [:]
 resourcesDirectories.put("${resourcesSourceDirectoryName}", '')
-reporter.debug('configuration.resources.sources.additionals: {}', configuration.get('resources.sources.additionals'))
-for (a in configuration.get('resources.sources.additionals')) {
-    resourcesDirectories.put(sourcePath + '/' + a.key, a.value)
+reporter.out('configuration.resources.sources.additionals: %s', configuration.get('resources.sources.additionals'))
+def adds = [:]
+for (a in configuration.getBulk('resources.sources.additionals')) {
+	reporter.debug("additional %s %s", a, a.getClass().getName())
+    //resourcesDirectories.put(sourcePath + '/' + a.source, a.destination)
+	reporter.debug('[A] _%s_ => %s', a.key.toString(), a.value);
+	def tokens = a.key.toString().split("\\.");
+	println tokens
+	//reporter.out('tokens => %s', tokens);
+	if (tokens.size() > 0) {
+		def additionalId = tokens[0]
+		def additionalRole = tokens[1]
+		reporter.debug('id: %s , role: %s', additionalId, additionalRole);
+		if (!adds[additionalId]) {
+			adds[additionalId] = [:]
+		}
+		adds[additionalId][additionalRole] = a.value
+	}
 }
 
-reporter.info('resources directories: {}', resourcesDirectories);
+for (ad in adds) {
+	reporter.debug('id %s = %s', ad.key, ad.value);
+	reporter.debug('     %s => %s', ad.value.source, ad.value.destination);
+	resourcesDirectories.put(sourcePath + '/' + ad.value.source, ad.value.destination)
+}
+
+reporter.debug('resources directories: %s', resourcesDirectories);
 
 
 reporter.debug('filter resources? {}', processResources)
@@ -52,19 +73,25 @@ reporter.debug('excludedFilenameSuffix {}', excludedFilenameSuffix)
 
 for (resDir in resourcesDirectories)
 {
+	reporter.out("resdir %s => %s", resDir.key, resDir.value)
   def rdn = FilePaths.normalizePath(resDir.key)
   def rdf = new File(rdn)
   def currentResourcesAbsolutePath = FilePaths.normalizePath(rdf.absolutePath)
   def dst = resDir.value
+  if (dst == null) {
+	  reporter.out("resource null, continue...")
+	  continue
+  }
   def dd = (dst.trim() != '') ? "${resourcesDestinationDirectoryName}/${dst}" : resourcesDestinationDirectoryName
   def ddf = new File(dd)
   def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
-  reporter.info("processing resource ${currentResourcesAbsolutePath} target path: ${currentDestinationAbsolutePath}")
+  reporter.debug("[R] ${currentResourcesAbsolutePath} target path: ${currentDestinationAbsolutePath}")
   if (!rdf.exists()) {
       reporter.warn("resource ${currentResourcesAbsolutePath} not found")
       continue
   }
   if (! rdf.isDirectory()) {
+      reporter.debug("rdf %s not a dir...", rdf)
       ddf.text = rdf.text
       continue
   }

@@ -1,9 +1,9 @@
 package com.github.enr.xite;
 
-import static org.testng.Assert.assertEquals;
-
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import com.beust.jcommander.MissingCommandException;
 
 
 /**
@@ -14,14 +14,14 @@ public class BasicFunctionalitySmokeUat extends BaseUat {
 
     @Test(dataProvider = "basic-functions-success", description = "base functionality is working")
     public void basicFunctionsAreWorking(String[] args) {
-        int result = runApplicationWithArgs(args);
-        assertEquals(result, 0);
+        runApplicationWithArgs(args);
+        //assertEquals(result, 0);
     }
 
-    @Test(dataProvider = "basic-functions-error", description = "base functionality is working")
+    @Test(dataProvider = "basic-functions-error", description = "base functionality is working", expectedExceptions = {MissingCommandException.class})
     public void basicFunctionsInError(String[] args) {
-        int result = runApplicationWithArgs(args);
-        assertEquals(result, 1);
+        runApplicationWithArgs(args);
+        //assertEquals(result, 1);
     }
     
     /*

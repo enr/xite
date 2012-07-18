@@ -26,6 +26,7 @@ class ComponentsLoader
         def pluginClassFullPath = "${pluginPackage}.${pluginClassName}"
         println("plugin ${pluginName} resolved: ${pluginClassFullPath}")
         XitePlugin plugin = pluginForClassName(pluginClassFullPath)
+        println("> ok ${plugin}")
         return plugin
     }
     

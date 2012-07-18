@@ -1,5 +1,7 @@
 package com.github.enr.xite.plugins
 
+import xite.FilePaths
+
 import com.github.enr.markdownj.extras.MarkdownApp
 
 
@@ -13,12 +15,14 @@ class MarkdownPlugin extends XiteAbstractPlugin
         def processableExtensions = configuration.get('markdown.extensions')
         def headerFileName = "${sourcePath}/${configuration.get('templates.directory')}/${configuration.get('templates.top')}"
         def footerFileName = "${sourcePath}/${configuration.get('templates.directory')}/${configuration.get('templates.bottom')}"
-        def markdownSourceDirectory = "${sourcePath}/${PLUGIN_SOURCE_BASEDIR}"
+        def markdownSourceDirectory = FilePaths.normalizePath("${sourcePath}/${PLUGIN_SOURCE_BASEDIR}")
+		def markdownDestinationDirectory = FilePaths.normalizePath(destinationPath)
         def encoding = configuration.get('app.encoding')
 
         reporter.debug("headerFileName ${headerFileName}")
         reporter.debug("footerFileName ${footerFileName}")
-        reporter.debug("markdownSourceDirectory ${markdownSourceDirectory}")
+        reporter.out("markdownSourceDirectory ${markdownSourceDirectory}")
+        reporter.out("markdownDestinationDirectory ${markdownDestinationDirectory}")
         reporter.debug("processableExtensions ${processableExtensions}")
         reporter.debug("configuration.markdown.code.template ${configuration.get('markdown.code.template')}")
         reporter.debug("encoding ${encoding}")
@@ -36,7 +40,7 @@ class MarkdownPlugin extends XiteAbstractPlugin
         }
         //app.strictHtmlEncoding()
         app.setProcessableExtensions(processableExtensions)
-        app.setDestination(destinationPath)
+        app.setDestination(markdownDestinationDirectory)
         app.process()
         reporter.debug('finished markdown processing')
     }
