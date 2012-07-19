@@ -2,7 +2,7 @@ package com.github.enr.xite.commands;
 
 import javax.inject.Inject
 
-import xite.Paths
+import xite.FilePaths;
 
 import com.github.enr.clap.api.AbstractCommand
 import com.github.enr.clap.api.CommandResult
@@ -12,7 +12,6 @@ import com.github.enr.clap.api.Reporter
 import com.github.enr.xite.core.ComponentsLoader
 import com.github.enr.xite.plugins.ConfigurationAwareXitePlugin
 import com.github.enr.xite.plugins.EnvironmentAwareXitePlugin
-import com.github.enr.xite.plugins.PathsAwareXitePlugin
 import com.github.enr.xite.plugins.PluginResult
 import com.github.enr.xite.plugins.ReporterAwareXitePlugin
 import com.github.enr.xite.plugins.XitePlugin
@@ -41,13 +40,22 @@ public class BuildCommand extends AbstractCommand {
 
     @Override
     protected CommandResult internalExecute() {
-        String sourcePath = argsOrConfiguration(args.source, "project.source")
-        String destinationPath = argsOrConfiguration(args.destination, "Project.destination")
         CommandResult commandResult = new CommandResult()
         //ResourceWriter writer = new DefaultResourceWriter(configuration: configuration)
+        String sourcePath = argsOrConfiguration(args.source, "project.source")
         reporter.out("start processing %s", sourcePath);
-        reporter.out("dest = %s", destinationPath);
 		configuration.addPath(sourcePath + "/xite/site.groovy")
+		
+        String destinationPath = argsOrConfiguration(args.destination, "project.destination")
+        reporter.out("required destination %s", destinationPath);
+		if (destinationPath == null || destinationPath.length() == 0) {
+			commandResult.failWithMessage("destination path should not be null");
+			return commandResult;
+		}
+		def context = configuration.get("app.baseContext")
+		// destination.getName() ?
+		destinationPath = (destinationPath.endsWith(context) ? destinationPath : destinationPath+context);
+        reporter.out("using destination %s", destinationPath);
         //def phases = ['pre', 'process', 'post']
         def pluginNames = configuration.get("plugins.enabled")
 		reporter.out("plugins = %s", pluginNames)
@@ -67,9 +75,9 @@ public class BuildCommand extends AbstractCommand {
             if (plugin instanceof ConfigurationAwareXitePlugin) {
                 ((ConfigurationAwareXitePlugin)plugin).setConfiguration(configuration)
             }
-            if (plugin instanceof PathsAwareXitePlugin) {
-                ((PathsAwareXitePlugin)plugin).setPaths(new Paths(environment.applicationHome().getAbsolutePath()))
-            }
+            //if (plugin instanceof PathsAwareXitePlugin) {
+            //    ((PathsAwareXitePlugin)plugin).setPaths(new Paths(environment.applicationHome().getAbsolutePath()))
+            //}
             if (plugin instanceof ReporterAwareXitePlugin) {
                 ((ReporterAwareXitePlugin)plugin).setReporter(reporter)
             }

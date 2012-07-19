@@ -15,17 +15,20 @@ class HtmlPlugin extends XiteAbstractPlugin
     PluginResult init() {}
 
     PluginResult apply() {
-        def htmlSourceDirectoryName = sourcePath + '/' + SRC_BASE_DIR
+        def encoding = configuration.get("app.encoding")
+        def htmlSourceDirectoryName = FilePaths.join(sourcePath, SRC_BASE_DIR)
         def resourcesDestinationDirectoryName = destinationPath
-        reporter.debug('htmlSourceDirectoryName {}', htmlSourceDirectoryName)
+        reporter.out('htmlSourceDirectoryName {}', htmlSourceDirectoryName)
         reporter.debug('resourcesDestinationDirectoryName {}', resourcesDestinationDirectoryName)
-        def headerFileName = "${sourcePath}/${configuration.get('templates.directory')}/${configuration.get('templates.top')}"
-        def footerFileName = "${sourcePath}/${configuration.get('templates.directory')}/${configuration.get('templates.bottom')}"
+        def headerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.top'))
+        def footerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.bottom'))
         reporter.debug("headerFileName ${headerFileName}")
         reporter.debug("footerFileName ${footerFileName}")
 
-        def header = new File(headerFileName).text
-        def footer = new File(footerFileName).text
+		def headerFile = new File(headerFileName)
+        def header = (headerFile.exists() ? headerFile.getText(encoding) : "")
+		def footerFile = new File(footerFileName)
+        def footer = (footerFile.exists() ? footerFile.getText(encoding) : "")
 
         def htmlPath = FilePaths.normalizePath(htmlSourceDirectoryName)
         def htmlDirectory = new File(htmlPath)
@@ -35,9 +38,10 @@ class HtmlPlugin extends XiteAbstractPlugin
         def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
         reporter.debug("processing dir ${htmlAbsolutePath}")
         reporter.debug("target dir: ${currentDestinationAbsolutePath}")
-        if (!htmlDirectory.exists()) {
-            reporter.warn("source directory ${htmlAbsolutePath} not found")
-        }
+		if (! htmlDirectory.exists()) {
+			reporter.out("html directory %s not found... skip html copying.", htmlPath)
+			return
+		}
 
         htmlDirectory.eachFileRecurse() { src ->
           def fap = FilePaths.normalizePath(src.absolutePath)

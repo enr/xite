@@ -1,18 +1,13 @@
 package com.github.enr.xite.core
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.enr.xite.plugins.XitePlugin;
 
-import xite.api.XiteCommand
 
 /**
  * Helper class to load components such as plugins or commands
  */
 class ComponentsLoader
 {
-    
     private static String PLUGINS_PACKAGE_PREFIX = 'com.github.enr.xite.plugins'
     private static String PLUGINS_CLASS_SUFFIX = 'Plugin'
     
@@ -28,10 +23,6 @@ class ComponentsLoader
         XitePlugin plugin = pluginForClassName(pluginClassFullPath)
         println("> ok ${plugin}")
         return plugin
-    }
-    
-    public static XiteCommand commandForName(String commandName) {
-    
     }
 
     public static XitePlugin pluginForClassName(String pluginClassFullPath)

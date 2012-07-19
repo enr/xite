@@ -10,6 +10,8 @@ import java.util.Map;
  */
 public class Strings
 {
+	private static final String TAB = "    ";
+	
     /**
      * Only static methods in this class
      */
@@ -26,7 +28,6 @@ public class Strings
         r = r.replaceAll("\\r", "\n");
         return r;
     }
-
   
     /**
      * A basic cleaning for html inclusion of a string.
@@ -53,7 +54,7 @@ public class Strings
         if ((text == null) || (text.length() == 0)) return "";
         String cleanBlock = text.trim();
         if (cleanBlock.length() == 0) return "";
-        cleanBlock = cleanBlock.replaceAll("\\t", "    ");
+        cleanBlock = cleanBlock.replaceAll("\\t", TAB);
         StringBuffer sb = new StringBuffer(cleanBlock);
         char[] dst = new char[sb.length()];
         sb.getChars(0, sb.length(), dst, 0);

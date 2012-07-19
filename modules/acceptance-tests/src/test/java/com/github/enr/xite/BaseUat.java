@@ -5,13 +5,13 @@ import java.io.File;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
-import xite.ClasspathUtil;
 import xite.FilePaths;
 
 import com.github.enr.clap.api.ClapApp;
 import com.github.enr.clap.api.Configuration;
 import com.github.enr.clap.inject.Bindings;
 import com.github.enr.clap.inject.ClapModule;
+import com.github.enr.clap.util.ClasspathUtil;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Modules;

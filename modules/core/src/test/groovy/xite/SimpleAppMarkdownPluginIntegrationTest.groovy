@@ -1,21 +1,15 @@
 package xite;
 
+import static org.testng.Assert.assertEquals
+import static org.testng.Assert.assertFalse
+import static org.testng.Assert.assertTrue
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertFalse;
+import java.io.File
 
-import xite.Strings
-import xite.Paths
+import org.testng.annotations.BeforeClass
+import org.testng.annotations.Test
 
-import java.io.File;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import com.github.enr.xite.plugins.MarkdownPlugin;
+import com.github.enr.xite.plugins.MarkdownPlugin
 
 /**
  * Integration test for markdown plugin applied to simple app.
@@ -28,10 +22,14 @@ public class SimpleAppMarkdownPluginIntegrationTest extends BasePluginIntegratio
     @BeforeClass
     public void init()
     {
+		reporter.out("------------------------------------------ 1 ")
         buildEnvironmentForsampleApp('simple')
-        plugin = new MarkdownPlugin(configuration: testConfiguration, sourcePath:testPaths.sourceDirectory, destinationPath:testPaths.destinationDirectory,
+		reporter.out("------------------------------------------ 2 ")
+        plugin = new MarkdownPlugin(configuration: testConfiguration, sourcePath:sourceDirectory, destinationPath:destinationDirectory,
             reporter:reporter, environment:environment)
+		reporter.out("plugin = %s", plugin)
         plugin.apply()
+		reporter.out("------------------------------------------ 3 ")
     }
     
     @Test

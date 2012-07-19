@@ -45,6 +45,9 @@ allprojects { project ->
         maven {
             url 'https://oss.sonatype.org/content/repositories/releases/'
         }
+        maven {
+            url 'http://groovypp.artifactoryonline.com/groovypp/libs-releases-local'
+        }
     }
     
     artifacts {
@@ -89,31 +92,49 @@ subprojects {
 
             compile "org.codehaus.groovy:groovy-all:$groovyVersion",
                     'com.google.inject:guice:3.0',
+                    //'javax.inject:javax.inject:1',
+                    //'aopalliance:aopalliance:1.0',
+                    //'org.sonatype.sisu.inject:cglib:2.2.1-v20090111',
+                    //'asm:asm:3.1',
+                    //'org.mbte.groovypp:gretty:0.4.279',
                     'com.beust:jcommander:1.27',
                     'com.github.enr:clap-core:0.1-SNAPSHOT',
                     'com.github.enr:markdownj-extras:0.4',
                     'com.madgag:markdownj-core:0.4.1',
                     'com.google.guava:guava:12.0',
-                    'commons-cli:commons-cli:1.2',
+                    'commons-cli:commons-cli:1.2',  // needed from markdownj-extras
                     //'commons-lang:commons-lang:2.5',
                     'commons-io:commons-io:1.4',        // needed from markdownj-extras
                     //'org.apache.commons:commons-exec:1.0.1',
                     //'commons-codec:commons-codec:1.4',
                     'org.apache.ant:ant-nodeps:1.8.1',
                     'org.apache.ant:ant-commons-net:1.8.0',
-                    'org.eclipse.jetty:jetty-server:7.2.2.v20101205',
-                    'org.eclipse.jetty:jetty-util:7.2.2.v20101205',
                     'org.slf4j:slf4j-api:1.6.0',
                     'org.slf4j:slf4j-log4j12:1.6.0',
                     'log4j:log4j:1.2.16'
-            testCompile 'org.testng:testng:6.1.1',
-                        'com.beust:jcommander:1.12',    // required from testng
-                        'com.google.inject:guice:2.0',  // required from testng
-                        'org.beanshell:bsh:2.0b4',      // required from testng
-                        'junit:junit:3.8.1'            // required from testng
-                        //'org.uncommons.reportng:reportng:1.1.3',
-                        //'org.apache.velocity:velocity:1.6.2',           // required from reportng
-                        //'commons-collections:commons-collections:3.2.1' // required from reportng
+            
+            
+            compile group: 'org.eclipse.jetty', name: 'jetty-server', version: "8.1.4.v20120524", transitive: false
+            compile group: 'org.eclipse.jetty', name: 'jetty-util', version: "8.1.4.v20120524", transitive: false  
+            compile group: 'org.eclipse.jetty', name: 'jetty-io', version: "8.1.4.v20120524", transitive: false
+            compile group: 'org.eclipse.jetty', name: 'jetty-http', version: "8.1.4.v20120524", transitive: false
+            compile group: 'org.eclipse.jetty', name: 'jetty-continuation', version: "8.1.4.v20120524", transitive: false 
+            compile group: 'org.eclipse.jetty.orbit', name: 'javax.servlet', version: "3.0.0.v201112011016", ext: 'jar', transitive: false
+            /*
+            compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version: "8.1.4.v20120524", transitive: false 
+            compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: "8.1.4.v20120524", transitive: false
+            
+*/            
+            /*
+            compile 'org.eclipse.jetty:jetty-server:8.1.4.v20120524',
+                    'org.eclipse.jetty:jetty-util:8.1.4.v20120524',
+                    'org.eclipse.jetty:jetty-webapp:8.1.4.v20120524',
+                    'org.eclipse.jetty:jetty-servlet:8.1.4.v20120524',            
+                    'org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016@jar'
+            */
+                    
+            testCompile 'org.testng:testng:6.5.2',
+                        'org.easytesting:fest-assert-core:2.0M6'
         }
 
         test {

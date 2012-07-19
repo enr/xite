@@ -2,6 +2,8 @@ package xite;
 
 import java.io.File;
 import java.net.URI;
+
+import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 
 public class FilePaths {
@@ -38,6 +40,11 @@ public class FilePaths {
         String n = path.replace(File.separatorChar, '/');
         String simplified = Files.simplifyPath(n);
         return simplified;
+    }
+    
+    public static String join(String... pathTokens) {
+    	Joiner joiner = Joiner.on("/").skipNulls();
+    	return joiner.join(pathTokens);
     }
 
 	/*

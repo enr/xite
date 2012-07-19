@@ -3,22 +3,12 @@ package xite;
 import java.io.File;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.common.base.Charsets;
+import com.google.common.base.Throwables;
+import com.google.common.io.Files;
 
 public class HtmlDirectoryLister
 {
-
-    static private Logger logger;
-
-    @SuppressWarnings("static-access")
-    protected Logger log()
-    {
-        if (this.logger == null)
-            this.logger = LoggerFactory.getLogger(this.getClass());
-        return this.logger;
-    }
-    
     /**
      * Base directory to list
      */
@@ -165,12 +155,9 @@ public class HtmlDirectoryLister
             public void onDirectory(final File f)
             {
                 if ((! Directories.isEmpty(f)) || (listEmptyDirs)) {
-                    log().debug("D f : {}", f);
                     String relativePath = FilePaths.absoluteNormalized(f).replaceFirst(basePath, "");
-                    log().debug("D relativePath : {}", relativePath);
                     String descriptivePath = relativePath.replaceFirst("/", "");
                     descriptivePath = descriptivePath.replace("/", " &gt; ");
-                    log().debug("D descriptivePath: {}", descriptivePath);
                     if ((descriptivePath == null) || ("".equals(descriptivePath.trim()))) return;
                     pageContent.append("\n<p/><span class=");
                     pageContent.append('"');
@@ -179,19 +166,20 @@ public class HtmlDirectoryLister
                     pageContent.append('>');
                     pageContent.append(descriptivePath);
                     pageContent.append("</span>");
-                } else {
-                    log().info("skipping empty directory '{}'", f.getAbsolutePath());
-                }
+                } 
+//                else {
+//                    log().info("skipping empty directory '{}'", f.getAbsolutePath());
+//                }
             }
             @Override
             public void onFile(final File f)
             {
-                log().debug("F  : {}", f);
+
                 String relativePath = FilePaths.absoluteNormalized(f).replaceFirst(basePath, "");
-                log().debug("F relative path : {}", relativePath);
+
                 String descriptivePath = relativePath.replaceFirst("/", "");
                 descriptivePath = descriptivePath.replace("/", " &gt; ");
-                log().debug("F descriptivePath : {}", descriptivePath);
+
                 if ((descriptivePath == null) || ("".equals(descriptivePath.trim()))) return;
                 pageContent.append("\n<p/><a href=");
                 pageContent.append('"');
@@ -220,7 +208,12 @@ public class HtmlDirectoryLister
         if (page.exists()) {
             page.delete();
         }
-        Files.write(page, c);
+        //Files.write(page, c);
+        try {
+			Files.write(c, page, Charsets.UTF_8);
+		} catch (IOException e) {
+			Throwables.propagate(e);
+		}
     }
 
 }

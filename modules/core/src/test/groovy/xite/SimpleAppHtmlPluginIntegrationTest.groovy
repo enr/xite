@@ -6,12 +6,8 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 
 import xite.Strings
-import xite.Paths
 
 import java.io.File;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -29,7 +25,7 @@ public class SimpleAppHtmlPluginIntegrationTest extends BasePluginIntegrationTes
     public void init()
     {
         buildEnvironmentForsampleApp('simple')
-        plugin = new HtmlPlugin(configuration: testConfiguration, sourcePath:testPaths.sourceDirectory, destinationPath:testPaths.destinationDirectory,
+        plugin = new HtmlPlugin(configuration: testConfiguration, sourcePath:sourceDirectory, destinationPath:destinationDirectory,
             reporter:reporter, environment:environment)
         plugin.apply()
     }

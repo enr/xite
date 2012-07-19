@@ -26,14 +26,14 @@ if (substitutionsFile.exists()) {
 }
 
 reporter.out('resources.... sourcePath %s', sourcePath)
-def resourcesSourceDirectoryName = sourcePath + '/' + configuration.get('resources.directory')
+def resourcesSourceDirectoryName = FilePaths.join(sourcePath, configuration.get('resources.directory'))
 def resourcesDestinationDirectoryName = destinationPath
 
 def excludedFilenameSuffix = configuration.get('resources.excludedFilenameSuffix')
 
 // a map of resources directory -> sub directory of destination
 def resourcesDirectories = [:]
-resourcesDirectories.put("${resourcesSourceDirectoryName}", '')
+resourcesDirectories.put(resourcesSourceDirectoryName, '')
 reporter.out('configuration.resources.sources.additionals: %s', configuration.get('resources.sources.additionals'))
 def adds = [:]
 for (a in configuration.getBulk('resources.sources.additionals')) {
@@ -41,7 +41,6 @@ for (a in configuration.getBulk('resources.sources.additionals')) {
     //resourcesDirectories.put(sourcePath + '/' + a.source, a.destination)
 	reporter.debug('[A] _%s_ => %s', a.key.toString(), a.value);
 	def tokens = a.key.toString().split("\\.");
-	println tokens
 	//reporter.out('tokens => %s', tokens);
 	if (tokens.size() > 0) {
 		def additionalId = tokens[0]
@@ -57,7 +56,7 @@ for (a in configuration.getBulk('resources.sources.additionals')) {
 for (ad in adds) {
 	reporter.debug('id %s = %s', ad.key, ad.value);
 	reporter.debug('     %s => %s', ad.value.source, ad.value.destination);
-	resourcesDirectories.put(sourcePath + '/' + ad.value.source, ad.value.destination)
+	resourcesDirectories.put(FilePaths.join(sourcePath, ad.value.source), ad.value.destination)
 }
 
 reporter.debug('resources directories: %s', resourcesDirectories);
@@ -82,7 +81,7 @@ for (resDir in resourcesDirectories)
 	  reporter.out("resource null, continue...")
 	  continue
   }
-  def dd = (dst.trim() != '') ? "${resourcesDestinationDirectoryName}/${dst}" : resourcesDestinationDirectoryName
+  def dd = (dst.trim() != '') ? FilePaths.join(resourcesDestinationDirectoryName, dst) : resourcesDestinationDirectoryName
   def ddf = new File(dd)
   def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
   reporter.debug("[R] ${currentResourcesAbsolutePath} target path: ${currentDestinationAbsolutePath}")

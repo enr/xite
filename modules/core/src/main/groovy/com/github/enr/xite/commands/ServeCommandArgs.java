@@ -8,6 +8,6 @@ public class ServeCommandArgs {
 	@Parameter(names = { "-p", "--port" }, description = "Port")
 	public int port = 8080;
 	@Parameter(names = { "-d", "--destination", "-r", "--root" }, description = "Root directory")
-	public String destination;
+	public String root;
 
 }

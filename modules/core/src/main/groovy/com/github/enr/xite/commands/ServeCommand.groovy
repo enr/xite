@@ -39,14 +39,24 @@ public class ServeCommand extends AbstractCommand {
 
 	@Override
 	protected CommandResult internalExecute() {
-        String destinationPath = argsOrConfiguration(args.destination, "project.destination")
-		reporter.info("port = %d", args.port);
-		reporter.info("root directory = %s", destinationPath);
+        String rootPath = argsOrConfiguration(args.root, "project.destination")
+		reporter.out("port = %d", args.port);
+		reporter.out("0 root directory = %s", rootPath);
         CommandResult commandResult = new CommandResult()
         def port = args.port
-        def resourceBaseDirectoryName = destinationPath
+		reporter.out("1 root directory = %s", rootPath);
+		if (rootPath == null || rootPath.length() == 0) {
+            reporter.out('directory %s not found. exiting', rootPath)
+            commandResult.failWithMessage("directory not found")
+            commandResult.setExitValue(1)
+            return commandResult
+		}
+		reporter.out("2 root directory = %s", rootPath);
+        def resourceBaseDirectoryName = rootPath
+		reporter.out("2 resourceBaseDirectoryName = %s", resourceBaseDirectoryName);
+		reporter.out("2 configuration = %s", configuration);
         resourceBaseDirectoryName = resourceBaseDirectoryName.substring(0, resourceBaseDirectoryName.lastIndexOf(configuration.get("app.baseContext")));
-        reporter.debug('resourceBaseDirectoryName %s', resourceBaseDirectoryName)
+        reporter.out('resourceBaseDirectoryName %s', resourceBaseDirectoryName)
         def resourceBaseDirectory = new File(resourceBaseDirectoryName)
         if (!resourceBaseDirectory.exists()) {
             reporter.warn('directory %s not found. exiting', resourceBaseDirectoryName)
@@ -54,7 +64,12 @@ public class ServeCommand extends AbstractCommand {
             commandResult.setExitValue(1)
             return commandResult
         }
+		
+		def context = configuration.get("app.baseContext")
+		
+		
         Server server = new Server(port);
+
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
         String[] welcomeFiles = [ "index.html" ] as String[]
@@ -67,6 +82,7 @@ public class ServeCommand extends AbstractCommand {
         server.setHandler(handlers);
         server.start();
         server.join();
+
         return commandResult
 	}
 

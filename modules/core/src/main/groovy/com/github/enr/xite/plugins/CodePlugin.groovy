@@ -1,15 +1,14 @@
 package com.github.enr.xite.plugins
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Charsets;
+import com.google.common.base.Throwables;
+import com.google.common.io.Files;
 
+import java.io.IOException;
 import java.nio.charset.Charset
 
 import xite.HtmlDirectoryLister;
 import xite.Strings;
-import xite.Files;
 import xite.FilePaths;
 
 
@@ -26,13 +25,13 @@ class CodePlugin extends XiteAbstractPlugin
 
         def excludedFilenameSuffix = configuration.get('code.excludedFilenameSuffix')
         // todo if code header/footer not in config, use default header/footer
-        def headerFileName = "${sourcePath}/${configuration.get('templates.directory')}/${configuration.get('templates.top')}"
+        def headerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.top'))
 		if (configuration.get('code.top')) {
-			headerFileName = "${sourcePath}/"+configuration.get('code.top')
+			headerFileName = FilePaths.join(sourcePath, configuration.get('code.top'))
 		}
-        def footerFileName = "${sourcePath}/${configuration.get('templates.directory')}/${configuration.get('templates.bottom')}"
+        def footerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.bottom'))
 		if (configuration.get('code.bottom')) {
-			footerFileName = "${sourcePath}/"+configuration.get('code.bottom')
+			footerFileName = FilePaths.join(sourcePath, configuration.get('code.bottom'))
 		}
         def baseContext = configuration.get('code.baseContext')
         def excludedDirs = configuration.get("code.sources.excludes")
@@ -41,16 +40,16 @@ class CodePlugin extends XiteAbstractPlugin
         def header = (headerFile.exists() ? headerFile.getText(encoding) : "")
 		def footerFile = new File(footerFileName)
         def footer = (footerFile.exists() ? footerFile.getText(encoding) : "")
-        def codeSourceDirectory = "${sourcePath}/"+configuration.get('code.source')
+        def codeSourceDirectory = FilePaths.join(sourcePath, configuration.get('code.source'))
 		reporter.out("codeSourceDirectory = %s", codeSourceDirectory)
-        def codeDestinationDirectory = "${destinationPath}/"+configuration.get('code.destination')
+        def codeDestinationDirectory = FilePaths.join(destinationPath, configuration.get('code.destination'))
 		reporter.out("codeDestinationDirectory = %s", codeDestinationDirectory)
         // a map of resources directory -> sub directory of destination
         def codeSourceDirectories = [:]
         codeSourceDirectories.put(codeSourceDirectory, '')
         //logger.debug('configuration.code.sources.additionals: {}', configuration.get('code.sources.additionals'))
         for (additional in configuration.get('code.sources.additionals')) {
-            codeSourceDirectories.put(sourcePath + '/' + additional.key, additional.value)
+            codeSourceDirectories.put(FilePaths.join(sourcePath, additional.key), additional.value)
         }
         /*
         logger.debug("headerFileName ${headerFileName}")
@@ -63,13 +62,13 @@ class CodePlugin extends XiteAbstractPlugin
           def csf = new File(cs)
           def currentCodeAbsolutePath = FilePaths.normalizePath(csf.absolutePath)
           def dst = codeDir.value
-          def dd = (dst.trim() != '') ? "${codeDestinationDirectory}/${dst}" : codeDestinationDirectory
+          def dd = (dst.trim() != '') ? FilePaths.join(codeDestinationDirectory, dst) : codeDestinationDirectory
           def ddf = new File(dd)
           def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
-          //logger.debug("processing dir ${currentCodeAbsolutePath}, target dir: ${currentDestinationAbsolutePath}")
+          reporter.out("processing dir %s, target dir: %s", currentCodeAbsolutePath, currentDestinationAbsolutePath)
         
           if (!csf.exists()) {
-              //logger.debug("source directory ${currentCodeAbsolutePath} not found")
+              reporter.out("source directory %s not found", currentCodeAbsolutePath)
               continue
           }
 		  
@@ -130,7 +129,12 @@ class CodePlugin extends XiteAbstractPlugin
               def content = String.format(configuration.get('code.template'), lang, codeString)
               def headerWithHeading = "${header}<p/><h3>${fileTitle}</h3><p/>"
               String finalContent = Strings.normalizeEol("${headerWithHeading}${content}${footer}");
-			  Files.write(destinationFile, finalContent, Charset.forName(encoding));
+			  //Files.write(destinationFile, finalContent, Charset.forName(encoding));
+			  try {
+				  Files.write(finalContent, destinationFile, Charset.forName(encoding));
+			  } catch (IOException e) {
+				  Throwables.propagate(e);
+			  }
             }
           }
         }
