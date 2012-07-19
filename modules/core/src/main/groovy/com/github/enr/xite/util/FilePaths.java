@@ -1,4 +1,4 @@
-package xite;
+package com.github.enr.xite.util;
 
 import java.io.File;
 import java.net.URI;

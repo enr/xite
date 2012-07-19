@@ -1,5 +1,8 @@
 package com.github.enr.xite.plugins
 
+import com.github.enr.xite.util.FilePaths;
+import com.github.enr.xite.util.HtmlDirectoryLister;
+import com.github.enr.xite.util.Strings;
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.io.Files;
@@ -7,9 +10,6 @@ import com.google.common.io.Files;
 import java.io.IOException;
 import java.nio.charset.Charset
 
-import xite.HtmlDirectoryLister;
-import xite.Strings;
-import xite.FilePaths;
 
 
 /**

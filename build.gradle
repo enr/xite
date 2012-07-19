@@ -259,20 +259,20 @@ subprojects {
         test.enabled = false
         task sut(   dependsOn: [':modules:core:test', ':modules:core:test', ':modules:core:installApp'],
                     description: 'Builds the system under test (using installApp).') << {
-                    test.enabled = true
+            test.enabled = true
         }
         task uat(   dependsOn: [sut, test], 
                     description: 'Runs the user acceptance tests.') << {
-                    test {
-                        enabled = true
-                        testLogging.showStandardStreams = true            
-                        beforeTest { descriptor ->
-                            logger.lifecycle("-------    Running test: " + descriptor)
-                        }
-                        onOutput { descriptor, event ->
-                            logger.lifecycle("[OUT] " + event.message )
-                        }
-                    }
+            test {
+                enabled = true
+                //testLogging.showStandardStreams = true            
+                beforeTest { descriptor ->
+                    logger.lifecycle("-------    Running test: " + descriptor)
+                }
+                onOutput { descriptor, event ->
+                    logger.lifecycle(event.message )
+                }
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.github.enr.xite.core
+package com.github.enr.xite.util
 
 import com.github.enr.xite.plugins.XitePlugin;
 

@@ -1,4 +1,4 @@
-package xite;
+package com.github.enr.xite.util;
 
 import java.util.Map;
 

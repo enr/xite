@@ -1,8 +1,8 @@
 package com.github.enr.xite.plugins
 
-import xite.FilePaths
 
 import com.github.enr.markdownj.extras.MarkdownApp
+import com.github.enr.xite.util.FilePaths;
 
 
 class MarkdownPlugin extends XiteAbstractPlugin

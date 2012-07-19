@@ -1,7 +1,8 @@
-package xite;
+package com.github.enr.xite.util;
 
 import java.io.File;
 import java.io.IOException;
+
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;

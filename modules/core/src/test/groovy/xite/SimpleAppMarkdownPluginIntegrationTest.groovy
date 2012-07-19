@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
 import com.github.enr.xite.plugins.MarkdownPlugin
+import com.github.enr.xite.util.Strings;
 
 /**
  * Integration test for markdown plugin applied to simple app.

@@ -5,7 +5,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 
-import xite.Strings
 
 import java.io.File;
 
@@ -13,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.github.enr.xite.plugins.CodePlugin;
+import com.github.enr.xite.util.Strings;
 
 /**
  * Integration test for code plugin applied to simple app.

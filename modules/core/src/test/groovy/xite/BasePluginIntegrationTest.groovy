@@ -10,6 +10,7 @@ import com.github.enr.clap.api.Configuration
 import com.github.enr.clap.api.EnvironmentHolder
 import com.github.enr.clap.api.Reporter
 import com.github.enr.clap.util.ClasspathUtil
+import com.github.enr.xite.util.FilePaths;
 
 /**
  * Base class for plugins integration tests.

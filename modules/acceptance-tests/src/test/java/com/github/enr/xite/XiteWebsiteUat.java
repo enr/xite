@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.testng.annotations.Test;
 
-import xite.FilePaths;
+import com.github.enr.xite.util.FilePaths;
 
 
 /**

@@ -1,6 +1,6 @@
 package com.github.enr.xite.plugins
 
-import xite.FilePaths
+import com.github.enr.xite.util.FilePaths;
 
 class ResourcesPlugin extends XiteAbstractPlugin
 {

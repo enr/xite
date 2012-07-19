@@ -2,19 +2,19 @@ package com.github.enr.xite.commands;
 
 import javax.inject.Inject
 
-import xite.FilePaths;
 
 import com.github.enr.clap.api.AbstractCommand
 import com.github.enr.clap.api.CommandResult
 import com.github.enr.clap.api.Configuration
 import com.github.enr.clap.api.EnvironmentHolder
 import com.github.enr.clap.api.Reporter
-import com.github.enr.xite.core.ComponentsLoader
 import com.github.enr.xite.plugins.ConfigurationAwareXitePlugin
 import com.github.enr.xite.plugins.EnvironmentAwareXitePlugin
 import com.github.enr.xite.plugins.PluginResult
 import com.github.enr.xite.plugins.ReporterAwareXitePlugin
 import com.github.enr.xite.plugins.XitePlugin
+import com.github.enr.xite.util.ComponentsLoader;
+import com.github.enr.xite.util.FilePaths;
 
 /*
  * Build site.
