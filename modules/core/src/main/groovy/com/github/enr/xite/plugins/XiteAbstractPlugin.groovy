@@ -15,13 +15,11 @@ abstract class XiteAbstractPlugin implements XitePlugin, ConfigurationAwareXiteP
     String destinationPath    
     
     PluginResult init() {
-        println('init()')
     }
 
     abstract PluginResult apply()
 
     PluginResult cleanup() {
-        println('cleanup()')
     }
 }
 

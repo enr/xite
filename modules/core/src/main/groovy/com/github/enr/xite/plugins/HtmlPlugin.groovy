@@ -18,7 +18,7 @@ class HtmlPlugin extends XiteAbstractPlugin
         def encoding = configuration.get("app.encoding")
         def htmlSourceDirectoryName = FilePaths.join(sourcePath, SRC_BASE_DIR)
         def resourcesDestinationDirectoryName = destinationPath
-        reporter.out('htmlSourceDirectoryName {}', htmlSourceDirectoryName)
+        reporter.debug('htmlSourceDirectoryName {}', htmlSourceDirectoryName)
         reporter.debug('resourcesDestinationDirectoryName {}', resourcesDestinationDirectoryName)
         def headerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.top'))
         def footerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.bottom'))
@@ -39,7 +39,7 @@ class HtmlPlugin extends XiteAbstractPlugin
         reporter.debug("processing dir ${htmlAbsolutePath}")
         reporter.debug("target dir: ${currentDestinationAbsolutePath}")
 		if (! htmlDirectory.exists()) {
-			reporter.out("html directory %s not found... skip html copying.", htmlPath)
+			reporter.warn("html directory %s not found... skip html copying.", htmlPath)
 			return
 		}
 

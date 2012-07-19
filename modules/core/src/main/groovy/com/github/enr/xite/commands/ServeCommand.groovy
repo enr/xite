@@ -40,23 +40,19 @@ public class ServeCommand extends AbstractCommand {
 	@Override
 	protected CommandResult internalExecute() {
         String rootPath = argsOrConfiguration(args.root, "project.destination")
-		reporter.out("port = %d", args.port);
-		reporter.out("0 root directory = %s", rootPath);
+		reporter.debug("port = %d", args.port);
+		reporter.debug("root directory = %s", rootPath);
         CommandResult commandResult = new CommandResult()
         def port = args.port
-		reporter.out("1 root directory = %s", rootPath);
 		if (rootPath == null || rootPath.length() == 0) {
-            reporter.out('directory %s not found. exiting', rootPath)
+            reporter.warn('directory %s not found. exiting', rootPath)
             commandResult.failWithMessage("directory not found")
             commandResult.setExitValue(1)
             return commandResult
 		}
-		reporter.out("2 root directory = %s", rootPath);
         def resourceBaseDirectoryName = rootPath
-		reporter.out("2 resourceBaseDirectoryName = %s", resourceBaseDirectoryName);
-		reporter.out("2 configuration = %s", configuration);
         resourceBaseDirectoryName = resourceBaseDirectoryName.substring(0, resourceBaseDirectoryName.lastIndexOf(configuration.get("app.baseContext")));
-        reporter.out('resourceBaseDirectoryName %s', resourceBaseDirectoryName)
+        reporter.debug('resourceBaseDirectoryName %s', resourceBaseDirectoryName)
         def resourceBaseDirectory = new File(resourceBaseDirectoryName)
         if (!resourceBaseDirectory.exists()) {
             reporter.warn('directory %s not found. exiting', resourceBaseDirectoryName)
@@ -66,7 +62,6 @@ public class ServeCommand extends AbstractCommand {
         }
 		
 		def context = configuration.get("app.baseContext")
-		
 		
         Server server = new Server(port);
 
@@ -95,7 +90,6 @@ public class ServeCommand extends AbstractCommand {
 	public Object getParametersContainer() {
 		return args;
 	}
-    
 
     private <T> T argsOrConfiguration(T arg, String configurationKey) {
         if (arg == null) {

@@ -120,18 +120,6 @@ subprojects {
             compile group: 'org.eclipse.jetty', name: 'jetty-http', version: "8.1.4.v20120524", transitive: false
             compile group: 'org.eclipse.jetty', name: 'jetty-continuation', version: "8.1.4.v20120524", transitive: false 
             compile group: 'org.eclipse.jetty.orbit', name: 'javax.servlet', version: "3.0.0.v201112011016", ext: 'jar', transitive: false
-            /*
-            compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version: "8.1.4.v20120524", transitive: false 
-            compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: "8.1.4.v20120524", transitive: false
-            
-*/            
-            /*
-            compile 'org.eclipse.jetty:jetty-server:8.1.4.v20120524',
-                    'org.eclipse.jetty:jetty-util:8.1.4.v20120524',
-                    'org.eclipse.jetty:jetty-webapp:8.1.4.v20120524',
-                    'org.eclipse.jetty:jetty-servlet:8.1.4.v20120524',            
-                    'org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016@jar'
-            */
                     
             testCompile 'org.testng:testng:6.5.2',
                         'org.easytesting:fest-assert-core:2.0M6'
@@ -266,7 +254,7 @@ subprojects {
             }
         }
     }
-    /*
+
     if (project.path in acceptanceTests) {
         test.enabled = false
         task sut(   dependsOn: [':modules:core:test', ':modules:core:test', ':modules:core:installApp'],
@@ -287,7 +275,6 @@ subprojects {
                     }
         }
     }
-    */
 }
 
 

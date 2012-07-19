@@ -22,28 +22,27 @@ class CodePlugin extends XiteAbstractPlugin
     PluginResult init() {}
 
     PluginResult apply() {
-
         def excludedFilenameSuffix = configuration.get('code.excludedFilenameSuffix')
         // todo if code header/footer not in config, use default header/footer
         def headerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.top'))
-		if (configuration.get('code.top')) {
+		if (configuration.get('code.top') != null) {
 			headerFileName = FilePaths.join(sourcePath, configuration.get('code.top'))
 		}
         def footerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.bottom'))
-		if (configuration.get('code.bottom')) {
+		if (configuration.get('code.bottom') != null) {
 			footerFileName = FilePaths.join(sourcePath, configuration.get('code.bottom'))
 		}
         def baseContext = configuration.get('code.baseContext')
         def excludedDirs = configuration.get("code.sources.excludes")
         def encoding = configuration.get("app.encoding")
 		def headerFile = new File(headerFileName)
-        def header = (headerFile.exists() ? headerFile.getText(encoding) : "")
+        def header = ((headerFile.exists() && headerFile.isFile()) ? headerFile.getText(encoding) : "")
 		def footerFile = new File(footerFileName)
-        def footer = (footerFile.exists() ? footerFile.getText(encoding) : "")
+        def footer = ((footerFile.exists() && footerFile.isFile()) ? footerFile.getText(encoding) : "")
         def codeSourceDirectory = FilePaths.join(sourcePath, configuration.get('code.source'))
-		reporter.out("codeSourceDirectory = %s", codeSourceDirectory)
+		reporter.debug("codeSourceDirectory = %s", codeSourceDirectory)
         def codeDestinationDirectory = FilePaths.join(destinationPath, configuration.get('code.destination'))
-		reporter.out("codeDestinationDirectory = %s", codeDestinationDirectory)
+		reporter.debug("codeDestinationDirectory = %s", codeDestinationDirectory)
         // a map of resources directory -> sub directory of destination
         def codeSourceDirectories = [:]
         codeSourceDirectories.put(codeSourceDirectory, '')
@@ -65,10 +64,10 @@ class CodePlugin extends XiteAbstractPlugin
           def dd = (dst.trim() != '') ? FilePaths.join(codeDestinationDirectory, dst) : codeDestinationDirectory
           def ddf = new File(dd)
           def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
-          reporter.out("processing dir %s, target dir: %s", currentCodeAbsolutePath, currentDestinationAbsolutePath)
+          reporter.debug("processing dir %s, target dir: %s", currentCodeAbsolutePath, currentDestinationAbsolutePath)
         
           if (!csf.exists()) {
-              reporter.out("source directory %s not found", currentCodeAbsolutePath)
+              reporter.warn("source directory %s not found", currentCodeAbsolutePath)
               continue
           }
 		  

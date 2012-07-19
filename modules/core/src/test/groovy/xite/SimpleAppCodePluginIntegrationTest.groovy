@@ -26,7 +26,6 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
     public void init()
     {
         buildEnvironmentForsampleApp('simple')
-		println "  ooooo  code!!"
 		def configurationPaths = testConfiguration.getPaths()
 		configurationPaths.each { k, v ->
 			reporter.warn " --- ${k} [ ${v} ]"

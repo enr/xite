@@ -40,15 +40,6 @@ public class SimpleAppResourcesPluginIntegrationTest extends BasePluginIntegrati
     public void testAdditionalResourcesInSubDirectory()
     {
 		def paths = testConfiguration.getPaths()
-		/*
-		paths.each { k, v ->
-			reporter.out("path %s %s", k, v)
-		}		
-		def p = testConfiguration.getAllProperties()
-		p.each { k, v ->
-			reporter.out("prop %s = %s", k, v)
-		}
-		*/
     	File additional = new File(targetDir.getAbsolutePath()+'/add/test.html');
         assertTrue(additional.exists(), "${additional.getAbsolutePath()} not found");
     }

@@ -43,11 +43,11 @@ public class BuildCommand extends AbstractCommand {
         CommandResult commandResult = new CommandResult()
         //ResourceWriter writer = new DefaultResourceWriter(configuration: configuration)
         String sourcePath = argsOrConfiguration(args.source, "project.source")
-        reporter.out("start processing %s", sourcePath);
+        reporter.debug("start processing %s", sourcePath);
 		configuration.addPath(sourcePath + "/xite/site.groovy")
 		
         String destinationPath = argsOrConfiguration(args.destination, "project.destination")
-        reporter.out("required destination %s", destinationPath);
+        reporter.debug("required destination %s", destinationPath);
 		if (destinationPath == null || destinationPath.length() == 0) {
 			commandResult.failWithMessage("destination path should not be null");
 			return commandResult;
@@ -55,20 +55,19 @@ public class BuildCommand extends AbstractCommand {
 		def context = configuration.get("app.baseContext")
 		// destination.getName() ?
 		destinationPath = (destinationPath.endsWith(context) ? destinationPath : destinationPath+context);
-        reporter.out("using destination %s", destinationPath);
+        reporter.debug("using destination %s", destinationPath);
         //def phases = ['pre', 'process', 'post']
         def pluginNames = configuration.get("plugins.enabled")
-		reporter.out("plugins = %s", pluginNames)
+		reporter.debug("plugins = %s", pluginNames)
         def plugins = pluginNames.collect { pluginName ->
             XitePlugin currentPlugin = ComponentsLoader.pluginForName(pluginName)
             if (currentPlugin) {
-                reporter.out("plugin %s loaded", currentPlugin.getClass().getName())
+                reporter.debug("plugin %s loaded", currentPlugin.getClass().getName())
             }
             currentPlugin
         }
         reporter.debug("plugins: %s", plugins)
         for (plugin in plugins) {
-            reporter.out(" - execute plugin ${plugin}")
             if (!plugin) continue;
             plugin.setSourcePath(sourcePath)
             plugin.setDestinationPath(destinationPath)
@@ -85,8 +84,7 @@ public class BuildCommand extends AbstractCommand {
                 ((EnvironmentAwareXitePlugin)plugin).setEnvironment(environment)
             }
             //if (plugin instanceof WriterAwareXitePlugin) ((WriterAwareXitePlugin)plugin).setWriter(writer)
-			
-			reporter.out(" - apply plugin ${plugin}")
+			reporter.debug(" - apply plugin ${plugin}")
             PluginResult result = plugin.apply()
         }
         return commandResult

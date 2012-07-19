@@ -25,7 +25,7 @@ if (substitutionsFile.exists()) {
   inp.close();
 }
 
-reporter.out('resources.... sourcePath %s', sourcePath)
+reporter.debug('resources.... sourcePath %s', sourcePath)
 def resourcesSourceDirectoryName = FilePaths.join(sourcePath, configuration.get('resources.directory'))
 def resourcesDestinationDirectoryName = destinationPath
 
@@ -34,12 +34,11 @@ def excludedFilenameSuffix = configuration.get('resources.excludedFilenameSuffix
 // a map of resources directory -> sub directory of destination
 def resourcesDirectories = [:]
 resourcesDirectories.put(resourcesSourceDirectoryName, '')
-reporter.out('configuration.resources.sources.additionals: %s', configuration.get('resources.sources.additionals'))
+reporter.debug('configuration.resources.sources.additionals: %s', configuration.get('resources.sources.additionals'))
 def adds = [:]
 for (a in configuration.getBulk('resources.sources.additionals')) {
 	reporter.debug("additional %s %s", a, a.getClass().getName())
     //resourcesDirectories.put(sourcePath + '/' + a.source, a.destination)
-	reporter.debug('[A] _%s_ => %s', a.key.toString(), a.value);
 	def tokens = a.key.toString().split("\\.");
 	//reporter.out('tokens => %s', tokens);
 	if (tokens.size() > 0) {
@@ -72,13 +71,13 @@ reporter.debug('excludedFilenameSuffix {}', excludedFilenameSuffix)
 
 for (resDir in resourcesDirectories)
 {
-	reporter.out("resdir %s => %s", resDir.key, resDir.value)
+	reporter.debug("resdir %s => %s", resDir.key, resDir.value)
   def rdn = FilePaths.normalizePath(resDir.key)
   def rdf = new File(rdn)
   def currentResourcesAbsolutePath = FilePaths.normalizePath(rdf.absolutePath)
   def dst = resDir.value
   if (dst == null) {
-	  reporter.out("resource null, continue...")
+	  reporter.debug("resource null, continue...")
 	  continue
   }
   def dd = (dst.trim() != '') ? FilePaths.join(resourcesDestinationDirectoryName, dst) : resourcesDestinationDirectoryName

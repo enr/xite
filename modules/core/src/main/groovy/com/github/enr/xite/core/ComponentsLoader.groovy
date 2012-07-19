@@ -19,9 +19,7 @@ class ComponentsLoader
         def pluginClassName = "" + capital + pluginName.substring(1, pluginName.length()) + PLUGINS_CLASS_SUFFIX
         def pluginPackage = "${PLUGINS_PACKAGE_PREFIX}" // .${pluginName}"
         def pluginClassFullPath = "${pluginPackage}.${pluginClassName}"
-        println("plugin ${pluginName} resolved: ${pluginClassFullPath}")
         XitePlugin plugin = pluginForClassName(pluginClassFullPath)
-        println("> ok ${plugin}")
         return plugin
     }
 
@@ -36,8 +34,8 @@ class ComponentsLoader
                 plugin = (XitePlugin) o
             }
         } catch (Throwable t) {
-            println("error resolving plugin '${pluginClassFullPath}': ${t.message}")
-            throw new RuntimeException(t)
+            
+            throw new RuntimeException("error resolving plugin '${pluginClassFullPath}': ${t.message}")
         }
         return plugin
     }

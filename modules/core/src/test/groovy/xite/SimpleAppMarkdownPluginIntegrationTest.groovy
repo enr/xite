@@ -22,14 +22,10 @@ public class SimpleAppMarkdownPluginIntegrationTest extends BasePluginIntegratio
     @BeforeClass
     public void init()
     {
-		reporter.out("------------------------------------------ 1 ")
         buildEnvironmentForsampleApp('simple')
-		reporter.out("------------------------------------------ 2 ")
         plugin = new MarkdownPlugin(configuration: testConfiguration, sourcePath:sourceDirectory, destinationPath:destinationDirectory,
             reporter:reporter, environment:environment)
-		reporter.out("plugin = %s", plugin)
         plugin.apply()
-		reporter.out("------------------------------------------ 3 ")
     }
     
     @Test
