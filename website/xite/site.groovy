@@ -8,7 +8,7 @@ app {
 
 // you can override default value for destination directory
 project {
-    destination = 'target/xite/xite'
+    destination = 'target/website'
 }
 
 plugins { 
@@ -41,7 +41,22 @@ resources {
         //                '../modules/core/target/reports/tests':'developers/tests', 
         //                '../modules/acceptance-tests/target/reports/tests':'developers/uat']
         
-        // SEE CORE/TESTS FOR THE NEW SINTAX!
+        additionals {
+            /*
+            syntaxhighlighter {
+                source = '/opt/syntaxhighlighter/3.0.83'
+                destination = ''
+            }
+            */
+            coretestsreports {
+                source = '../modules/core/target/reports/tests'
+                destination = 'developers/tests'
+            }
+            uattestreports {
+                source = '../modules/acceptance-tests/target/reports/tests'
+                destination = 'developers/uat'
+            }
+        }
     }
     excludedFilenameSuffix = ['~']
 }
@@ -49,10 +64,22 @@ resources {
 code {
     excludedFilenameSuffix = ['~']
     sources {
-        additionals = ['../modules/core/src':'']
-//        excludes = ['src/xite/resources',
-//                    'src/xite/markdown/',
-//                    'src/xite/templates']
+//        additionals = ['../modules/core/src':'']
+        additionals {
+            /*
+            syntaxhighlighter {
+                source = '/opt/syntaxhighlighter/3.0.83'
+                destination = ''
+            }
+            */
+            corecode {
+                source = '../modules/core/src'
+                destination = ''
+            }
+        }
+        excludes = ['website/resources',
+                    'website/markdown/',
+                    'website/templates']
     }
     baseContext = '/xite'
     //template = '<pre class="brush: %s">\n%s\n</pre>'; // http://alexgorbatchev.com/wiki/SyntaxHighlighter

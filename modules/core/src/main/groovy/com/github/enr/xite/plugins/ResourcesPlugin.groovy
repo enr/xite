@@ -1,5 +1,6 @@
 package com.github.enr.xite.plugins
 
+import com.github.enr.xite.util.Configurations;
 import com.github.enr.xite.util.FilePaths;
 
 class ResourcesPlugin extends XiteAbstractPlugin
@@ -14,7 +15,7 @@ def resourcesFiltersFile = configuration.get('resources.filter.properties')
 def prefix =  configuration.get('resources.filter.prefix')
 def suffix =  configuration.get('resources.filter.suffix')
 
-def substitutionsFilePath = "${sourcePath}/${resourcesFiltersFile}"
+def substitutionsFilePath = FilePaths.join(sourcePath, resourcesFiltersFile)
 
 File substitutionsFile = new File(substitutionsFilePath)
 
@@ -25,16 +26,17 @@ if (substitutionsFile.exists()) {
   inp.close();
 }
 
-reporter.debug('resources.... sourcePath %s', sourcePath)
+reporter.out('resources.... sourcePath %s', sourcePath)
 def resourcesSourceDirectoryName = FilePaths.join(sourcePath, configuration.get('resources.directory'))
 def resourcesDestinationDirectoryName = destinationPath
 
 def excludedFilenameSuffix = configuration.get('resources.excludedFilenameSuffix')
 
 // a map of resources directory -> sub directory of destination
-def resourcesDirectories = [:]
+def resourcesDirectories = Configurations.getAdditionals(configuration.getBulk('resources.sources.additionals'), sourcePath)
 resourcesDirectories.put(resourcesSourceDirectoryName, '')
-reporter.debug('configuration.resources.sources.additionals: %s', configuration.get('resources.sources.additionals'))
+/*
+reporter.out('configuration.resources.sources.additionals: %s', configuration.get('resources.sources.additionals'))
 def adds = [:]
 for (a in configuration.getBulk('resources.sources.additionals')) {
 	reporter.debug("additional %s %s", a, a.getClass().getName())
@@ -44,7 +46,7 @@ for (a in configuration.getBulk('resources.sources.additionals')) {
 	if (tokens.size() > 0) {
 		def additionalId = tokens[0]
 		def additionalRole = tokens[1]
-		reporter.debug('id: %s , role: %s', additionalId, additionalRole);
+		reporter.out('id: %s , role: %s', additionalId, additionalRole);
 		if (!adds[additionalId]) {
 			adds[additionalId] = [:]
 		}
@@ -53,11 +55,11 @@ for (a in configuration.getBulk('resources.sources.additionals')) {
 }
 
 for (ad in adds) {
-	reporter.debug('id %s = %s', ad.key, ad.value);
-	reporter.debug('     %s => %s', ad.value.source, ad.value.destination);
+	reporter.out('id %s = %s', ad.key, ad.value);
+	reporter.out('     %s => %s', ad.value.source, ad.value.destination);
 	resourcesDirectories.put(FilePaths.join(sourcePath, ad.value.source), ad.value.destination)
 }
-
+*/
 reporter.debug('resources directories: %s', resourcesDirectories);
 
 
@@ -71,7 +73,7 @@ reporter.debug('excludedFilenameSuffix {}', excludedFilenameSuffix)
 
 for (resDir in resourcesDirectories)
 {
-	reporter.debug("resdir %s => %s", resDir.key, resDir.value)
+	reporter.out("resdir %s => %s", resDir.key, resDir.value)
   def rdn = FilePaths.normalizePath(resDir.key)
   def rdf = new File(rdn)
   def currentResourcesAbsolutePath = FilePaths.normalizePath(rdf.absolutePath)
@@ -83,13 +85,13 @@ for (resDir in resourcesDirectories)
   def dd = (dst.trim() != '') ? FilePaths.join(resourcesDestinationDirectoryName, dst) : resourcesDestinationDirectoryName
   def ddf = new File(dd)
   def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
-  reporter.debug("[R] ${currentResourcesAbsolutePath} target path: ${currentDestinationAbsolutePath}")
+  reporter.out("[R] ${currentResourcesAbsolutePath} target path: ${currentDestinationAbsolutePath}")
   if (!rdf.exists()) {
       reporter.warn("resource ${currentResourcesAbsolutePath} not found")
       continue
   }
   if (! rdf.isDirectory()) {
-      reporter.debug("rdf %s not a dir...", rdf)
+      reporter.out("rdf %s not a dir...", rdf)
       ddf.text = rdf.text
       continue
   }

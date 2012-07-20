@@ -1,18 +1,15 @@
 package com.github.enr.xite.commands;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.inject.Inject;
-
-import org.apache.commons.io.FileUtils;
 
 import com.github.enr.clap.api.AbstractCommand;
 import com.github.enr.clap.api.CommandResult;
 import com.github.enr.clap.api.Configuration;
 import com.github.enr.clap.api.EnvironmentHolder;
 import com.github.enr.clap.api.Reporter;
-import com.google.common.base.Throwables;
+import com.github.enr.xite.util.Directories;
 
 /*
  * clean output directory
@@ -43,16 +40,24 @@ public class CleanCommand extends AbstractCommand {
 
 	@Override
 	protected CommandResult internalExecute() {
+		/*
+        String sourcePath = argsOrConfiguration(args.source, "project.source")
+        reporter.debug("start processing %s", sourcePath);
+		configuration.addPath(sourcePath + "/xite/site.groovy")
+		
+        String destinationPath = argsOrConfiguration(args.destination, "project.destination")
+        reporter.debug("required destination %s", destinationPath);
+		if (destinationPath == null || destinationPath.length() == 0) {
+			commandResult.failWithMessage("destination path should not be null");
+			return commandResult;
+		}
+        */
         String destinationPath = resolveDestinationPath();
-        reporter.info("will be cleaned: %s", destinationPath);
+        reporter.out("will be cleaned: %s", destinationPath);
         CommandResult commandResult = new CommandResult();
         File dest = new File(destinationPath);
         if (dest.exists()) {
-            try {
-                FileUtils.deleteDirectory(dest);
-            } catch (IOException e) {
-                Throwables.propagate(e);
-            }
+            Directories.delete(dest);
         }
         boolean stillAlive = dest.exists();
         if (stillAlive) {

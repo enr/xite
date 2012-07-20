@@ -17,6 +17,7 @@ buildscript {
 
 ext {
     groovyVersion = '2.0.0'
+    jettyVersion = '8.1.4.v20120524'
     javaModules = [
         ':modules:core', ':modules:acceptance-tests'
     ]
@@ -114,11 +115,11 @@ subprojects {
                     'log4j:log4j:1.2.16'
             
             
-            compile group: 'org.eclipse.jetty', name: 'jetty-server', version: "8.1.4.v20120524", transitive: false
-            compile group: 'org.eclipse.jetty', name: 'jetty-util', version: "8.1.4.v20120524", transitive: false  
-            compile group: 'org.eclipse.jetty', name: 'jetty-io', version: "8.1.4.v20120524", transitive: false
-            compile group: 'org.eclipse.jetty', name: 'jetty-http', version: "8.1.4.v20120524", transitive: false
-            compile group: 'org.eclipse.jetty', name: 'jetty-continuation', version: "8.1.4.v20120524", transitive: false 
+            compile group: 'org.eclipse.jetty', name: 'jetty-server', version: "${jettyVersion}", transitive: false
+            compile group: 'org.eclipse.jetty', name: 'jetty-util', version: "${jettyVersion}", transitive: false  
+            compile group: 'org.eclipse.jetty', name: 'jetty-io', version: "${jettyVersion}", transitive: false
+            compile group: 'org.eclipse.jetty', name: 'jetty-http', version: "${jettyVersion}", transitive: false
+            compile group: 'org.eclipse.jetty', name: 'jetty-continuation', version: "${jettyVersion}", transitive: false 
             compile group: 'org.eclipse.jetty.orbit', name: 'javax.servlet', version: "3.0.0.v201112011016", ext: 'jar', transitive: false
                     
             testCompile 'org.testng:testng:6.5.2',

@@ -1,14 +1,14 @@
 package com.github.enr.xite.plugins
 
-import com.github.enr.xite.util.FilePaths;
-import com.github.enr.xite.util.HtmlDirectoryLister;
-import com.github.enr.xite.util.Strings;
-import com.google.common.base.Charsets;
-import com.google.common.base.Throwables;
-import com.google.common.io.Files;
-
-import java.io.IOException;
+import java.io.IOException
 import java.nio.charset.Charset
+
+import com.github.enr.xite.util.Configurations
+import com.github.enr.xite.util.FilePaths
+import com.github.enr.xite.util.HtmlDirectoryLister
+import com.github.enr.xite.util.Strings
+import com.google.common.base.Throwables
+import com.google.common.io.Files
 
 
 
@@ -44,12 +44,17 @@ class CodePlugin extends XiteAbstractPlugin
         def codeDestinationDirectory = FilePaths.join(destinationPath, configuration.get('code.destination'))
 		reporter.debug("codeDestinationDirectory = %s", codeDestinationDirectory)
         // a map of resources directory -> sub directory of destination
-        def codeSourceDirectories = [:]
+		
+		def codeSourceDirectories = Configurations.getAdditionals(configuration.getBulk('code.sources.additionals'), sourcePath)
+        //def codeSourceDirectories = [:]
         codeSourceDirectories.put(codeSourceDirectory, '')
         //logger.debug('configuration.code.sources.additionals: {}', configuration.get('code.sources.additionals'))
+		/*
         for (additional in configuration.get('code.sources.additionals')) {
+            reporter.out("put %s -> %s", FilePaths.join(sourcePath, additional.key), additional.value)
             codeSourceDirectories.put(FilePaths.join(sourcePath, additional.key), additional.value)
         }
+        */
         /*
         logger.debug("headerFileName ${headerFileName}")
         logger.debug("footerFileName ${footerFileName}")
@@ -64,7 +69,7 @@ class CodePlugin extends XiteAbstractPlugin
           def dd = (dst.trim() != '') ? FilePaths.join(codeDestinationDirectory, dst) : codeDestinationDirectory
           def ddf = new File(dd)
           def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
-          reporter.debug("processing dir %s, target dir: %s", currentCodeAbsolutePath, currentDestinationAbsolutePath)
+          reporter.out("processing dir %s, target dir: %s", currentCodeAbsolutePath, currentDestinationAbsolutePath)
         
           if (!csf.exists()) {
               reporter.warn("source directory %s not found", currentCodeAbsolutePath)
