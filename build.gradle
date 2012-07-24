@@ -49,6 +49,12 @@ allprojects { project ->
         maven {
             url 'http://groovypp.artifactoryonline.com/groovypp/libs-releases-local'
         }
+        
+        add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+            name = 'GitHub/Clap'
+            addArtifactPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].[ext]'
+            addIvyPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].pom'
+        }
     }
     
     artifacts {
@@ -72,7 +78,7 @@ subprojects {
     if (project.path in javaModules) {
         apply plugin: 'groovy'
         apply plugin: 'eclipse'
-        apply plugin: 'about'        
+        apply plugin: 'about'
         
         // work-around for jdk 7 javac warning for setting an older source without bootclasspath
         // def jdk6home = '/opt/java/jdk1.6.0_24'
@@ -99,7 +105,7 @@ subprojects {
                     //'asm:asm:3.1',
                     //'org.mbte.groovypp:gretty:0.4.279',
                     'com.beust:jcommander:1.27',
-                    'com.github.enr:clap-core:0.1-SNAPSHOT',
+                    'com.github.enr:clap-core:0.2',
                     'com.github.enr:markdownj-extras:0.4',
                     'com.madgag:markdownj-core:0.4.1',
                     'com.google.guava:guava:12.0',
