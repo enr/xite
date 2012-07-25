@@ -2,6 +2,10 @@ package com.github.enr.xite.cli;
 
 import com.github.enr.clap.api.AppMeta;
 
+/**
+ * Xite application metadata, used from Clap.
+ *
+ */
 public class XiteMeta implements AppMeta {
 
 	@Override

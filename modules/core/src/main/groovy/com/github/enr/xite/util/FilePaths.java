@@ -24,6 +24,13 @@ public class FilePaths {
 		return absoluteNormalized(file);
 	}*/
 
+	/**
+	 * Resolves the absolute path to the given file.
+	 * Path will be normalized (eg with / as file separator).
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static String absoluteNormalized(File file) {
 		URI ud = file.toURI();
 		URI un = ud.normalize();

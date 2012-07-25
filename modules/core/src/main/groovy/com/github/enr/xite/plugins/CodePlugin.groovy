@@ -46,21 +46,7 @@ class CodePlugin extends XiteAbstractPlugin
         // a map of resources directory -> sub directory of destination
 		
 		def codeSourceDirectories = Configurations.getAdditionals(configuration.getBulk('code.sources.additionals'), sourcePath)
-        //def codeSourceDirectories = [:]
         codeSourceDirectories.put(codeSourceDirectory, '')
-        //logger.debug('configuration.code.sources.additionals: {}', configuration.get('code.sources.additionals'))
-		/*
-        for (additional in configuration.get('code.sources.additionals')) {
-            reporter.out("put %s -> %s", FilePaths.join(sourcePath, additional.key), additional.value)
-            codeSourceDirectories.put(FilePaths.join(sourcePath, additional.key), additional.value)
-        }
-        */
-        /*
-        logger.debug("headerFileName ${headerFileName}")
-        logger.debug("footerFileName ${footerFileName}")
-        logger.debug("codeSourceDirectories ${codeSourceDirectories}")
-        logger.debug("codeDestinationDirectory ${codeDestinationDirectory}")
-        */
         for (codeDir in codeSourceDirectories) {
           def cs = FilePaths.normalizePath(codeDir.key)
           def csf = new File(cs)
@@ -69,7 +55,7 @@ class CodePlugin extends XiteAbstractPlugin
           def dd = (dst.trim() != '') ? FilePaths.join(codeDestinationDirectory, dst) : codeDestinationDirectory
           def ddf = new File(dd)
           def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
-          reporter.out("processing dir %s, target dir: %s", currentCodeAbsolutePath, currentDestinationAbsolutePath)
+          reporter.debug("processing dir %s, target dir: %s", currentCodeAbsolutePath, currentDestinationAbsolutePath)
         
           if (!csf.exists()) {
               reporter.warn("source directory %s not found", currentCodeAbsolutePath)
@@ -99,20 +85,15 @@ class CodePlugin extends XiteAbstractPlugin
                 return
               }
             }
-            reporter.debug(" F    ${fap}")
-            reporter.debug(" S    ${currentCodeAbsolutePath}")
-            reporter.debug(" D    ${currentDestinationAbsolutePath}")
+
             def extension = com.google.common.io.Files.getFileExtension(fap.toString()); // FilePaths.extension(fap.toString())
             // what if file has no extension??
             def lang = codeLang(extension)
-            reporter.debug("lang : ${lang}")
+
             // file extension is taken as lang
             def destinationFileNameNoHtmlExtension = fap.replace(currentCodeAbsolutePath, currentDestinationAbsolutePath)
-            reporter.debug("         replace : ${currentCodeAbsolutePath}")
             def fileTitle = fap.replace(currentCodeAbsolutePath, "")
-            reporter.debug("         fileTitle : ${fileTitle}")
             def destinationFileName = "${destinationFileNameNoHtmlExtension}.html"
-            reporter.debug("destinationFileName : ${destinationFileName}")
             def destinationFile = new File(destinationFileName)
             if (destinationFile.exists()) { destinationFile.delete() }
             def destinationFileNoHtmlExtension = new File(destinationFileNameNoHtmlExtension)

@@ -8,6 +8,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.util.Modules;
 
+/**
+ * Xite application launcher.
+ *
+ */
 public class Xite {
 
 	public static void main(String[] args) {

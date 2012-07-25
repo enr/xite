@@ -4,7 +4,6 @@ import com.github.enr.xite.util.FilePaths;
 import com.github.enr.xite.util.Strings;
 
 
-
 /**
  * Copies html files, applying header and footer templates.
  *
@@ -23,8 +22,6 @@ class HtmlPlugin extends XiteAbstractPlugin
         reporter.debug('resourcesDestinationDirectoryName {}', resourcesDestinationDirectoryName)
         def headerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.top'))
         def footerFileName = FilePaths.join(sourcePath, configuration.get('templates.directory'), configuration.get('templates.bottom'))
-        reporter.debug("headerFileName ${headerFileName}")
-        reporter.debug("footerFileName ${footerFileName}")
 
 		def headerFile = new File(headerFileName)
         def header = (headerFile.exists() ? headerFile.getText(encoding) : "")
@@ -37,8 +34,6 @@ class HtmlPlugin extends XiteAbstractPlugin
 
         def ddf = new File(resourcesDestinationDirectoryName)
         def currentDestinationAbsolutePath = FilePaths.normalizePath(ddf.absolutePath)
-        reporter.debug("processing dir ${htmlAbsolutePath}")
-        reporter.debug("target dir: ${currentDestinationAbsolutePath}")
 		if (! htmlDirectory.exists()) {
 			reporter.warn("html directory %s not found... skip html copying.", htmlPath)
 			return
@@ -46,10 +41,6 @@ class HtmlPlugin extends XiteAbstractPlugin
 
         htmlDirectory.eachFileRecurse() { src ->
           def fap = FilePaths.normalizePath(src.absolutePath)
-        
-          reporter.debug("processing ${fap}")
-          reporter.debug("replace: ${htmlAbsolutePath} . ${currentDestinationAbsolutePath}")
-        
           def destinationFileName = fap.replace(htmlAbsolutePath, currentDestinationAbsolutePath)  
           reporter.debug("${src.getPath()} -> ${destinationFileName}")
           def destinationFile = new File(destinationFileName)
@@ -63,7 +54,6 @@ class HtmlPlugin extends XiteAbstractPlugin
           if (src.isFile()) {
             def parentDirectory = new File(destinationFile.parent)
             if (!parentDirectory.exists()) {
-              reporter.info("directory ${parentDirectory} NO exists. creating...")
               def success = parentDirectory.mkdirs()
               //parentDirectory.setWritable(true)
               assert success 

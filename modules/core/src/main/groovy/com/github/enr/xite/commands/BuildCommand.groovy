@@ -16,7 +16,7 @@ import com.github.enr.xite.plugins.XitePlugin
 import com.github.enr.xite.util.ComponentsLoader;
 import com.github.enr.xite.util.FilePaths;
 
-/*
+/**
  * Build site.
  */
 public class BuildCommand extends AbstractCommand {

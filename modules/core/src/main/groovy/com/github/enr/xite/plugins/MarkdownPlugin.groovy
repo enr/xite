@@ -19,14 +19,6 @@ class MarkdownPlugin extends XiteAbstractPlugin
 		def markdownDestinationDirectory = FilePaths.normalizePath(destinationPath)
         def encoding = configuration.get('app.encoding')
 
-        reporter.debug("headerFileName '%s'", headerFileName)
-        reporter.debug("footerFileName '%s'", footerFileName)
-        reporter.debug("markdownSourceDirectory ${markdownSourceDirectory}")
-        reporter.debug("markdownDestinationDirectory ${markdownDestinationDirectory}")
-        reporter.debug("processableExtensions ${processableExtensions}")
-        reporter.debug("configuration.markdown.code.template ${configuration.get('markdown.code.template')}")
-        reporter.debug("encoding ${encoding}")
-		
 		def markdownDirectory = new File(markdownSourceDirectory)
 		if (! markdownDirectory.exists()) {
 			reporter.warn("markdown directory %s not found... skip generation.", markdownSourceDirectory)
