@@ -27,15 +27,16 @@ Sometimes, building from sources, you can have "unknown resolver" error messages
 
 The messages can be ignored. You get them only in the first build after a repository url change.
     
-To try Xite, change to the base directory and, after the build command:
+To try Xite, change to the base directory and, after the Gradle command:
 
-    ./target/install/xite/bin/xite
+    ./target/install/xite/bin/xite build -s website
+
     
 This builds Xite's site.
 
 To see results:
 
-    ./target/install/xite/bin/xite --port 9090 run
+    ./target/install/xite/bin/xite serve --root target/website/ --port 9090
 
 and point your browser to <http://localhost:9090>
 
