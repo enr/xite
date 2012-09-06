@@ -9,7 +9,7 @@ import com.github.enr.clap.api.Reporter;
 import com.github.enr.clap.impl.ConsoleReporter;
 import com.github.enr.clap.impl.DefaultConfiguration;
 import com.github.enr.clap.impl.DefaultEnvironmentHolder;
-import com.github.enr.clap.impl.GroovierConfigurationReader;
+import com.github.enr.clap.impl.GroovierFlattenConfigurationReader;
 import com.github.enr.xite.cli.XiteMeta;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
@@ -27,7 +27,7 @@ public class IntegrationTestModule extends AbstractModule
         bind( AppMeta.class ).to( XiteMeta.class );
         bind( EnvironmentHolder.class ).to( DefaultEnvironmentHolder.class ).in( Singleton.class );
         bind( Configuration.class ).to( DefaultConfiguration.class ).in( Singleton.class );
-        bind( ConfigurationReader.class ).to( GroovierConfigurationReader.class );
+        bind( ConfigurationReader.class ).to( GroovierFlattenConfigurationReader.class );
         
         // components
         bind( Reporter.class ).to( ConsoleReporter.class ).in( Singleton.class );
