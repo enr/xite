@@ -7,6 +7,9 @@ import org.testng.annotations.BeforeClass;
 
 import com.github.enr.clap.api.ClapApp;
 import com.github.enr.clap.api.Configuration;
+import com.github.enr.clap.api.EnvironmentHolder;
+import com.github.enr.clap.api.OutputRetainingReporter;
+import com.github.enr.clap.api.Reporter;
 import com.github.enr.clap.inject.Bindings;
 import com.github.enr.clap.inject.ClapModule;
 import com.github.enr.clap.util.ClasspathUtil;
@@ -23,6 +26,10 @@ public class BaseUat {
     File installedHome;
     
     File xiteRoot;
+    
+    protected String sutOutput;
+    
+    protected int sutExitValue;
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -47,13 +54,25 @@ public class BaseUat {
 
     protected void runApplicationWithArgs(String[] args) {
         Injector injector = Guice.createInjector(Modules.override(new ClapModule()).with(new AcceptanceTestsModule()));
+
+        EnvironmentHolder environment = injector.getInstance(EnvironmentHolder.class);
+        environment.forceApplicationHome(installedHome);
+        Reporter reporter = injector.getInstance(Reporter.class);
         Configuration configuration = injector.getInstance(Configuration.class);
         String absoluteNormalized = FilePaths.absoluteNormalized(installedHome);
         System.out.println (absoluteNormalized);
 		configuration.addPath(absoluteNormalized + "/conf/xite.groovy");
         ClapApp app = injector.getInstance(ClapApp.class);
         app.setAvailableCommands(Bindings.getAllCommands(injector));
+        //        app.run(argsAsString.split("\\s"));
         app.run(args);
+        this.sutExitValue = app.getExitValue();
+        if (reporter instanceof OutputRetainingReporter) {
+            this.sutOutput = ((OutputRetainingReporter) reporter).getOutput().trim();
+        } else {
+            this.sutOutput = null;
+        }
+        System.err.println(this.sutOutput);
     }
 
 }

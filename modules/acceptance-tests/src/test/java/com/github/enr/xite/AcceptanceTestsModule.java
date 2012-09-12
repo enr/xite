@@ -5,6 +5,9 @@ package com.github.enr.xite;
 import com.github.enr.clap.api.AppMeta;
 import com.github.enr.clap.api.Command;
 import com.github.enr.clap.api.EnvironmentHolder;
+import com.github.enr.clap.api.Reporter;
+import com.github.enr.clap.impl.DefaultOutputRetainingReporter;
+import com.github.enr.clap.impl.NoExitEnvironmentHolder;
 import com.github.enr.xite.cli.XiteMeta;
 import com.github.enr.xite.commands.BuildCommand;
 import com.github.enr.xite.commands.CleanCommand;
@@ -26,14 +29,14 @@ public class AcceptanceTestsModule extends AbstractModule
         
         // configuration
         bind( AppMeta.class ).to( XiteMeta.class );
-        bind( EnvironmentHolder.class ).to( AcceptanceTestsEnvironmentHolder.class ).in( Singleton.class );
+        bind( EnvironmentHolder.class ).to( NoExitEnvironmentHolder.class ).in( Singleton.class );
     	/*
         bind( EnvironmentHolder.class ).to( DefaultEnvironmentHolder.class ).in( Singleton.class );
         bind( Configuration.class ).to( DefaultConfiguration.class ).in( Singleton.class );
         bind( ConfigurationReader.class ).to( GroovierConfigurationReader.class );
         */
         // components
-        //bind( Reporter.class ).to( StandardOutReporter.class ).in( Singleton.class );
+        bind( Reporter.class ).to( DefaultOutputRetainingReporter.class ).in( Singleton.class );
         //bind( ElasticSearchService.class ).to( DefaultElasticSearchService.class ).in( Singleton.class );
         //bind( PipelineFactory.class ).to( DefaultPipelineFactory.class ).in( Singleton.class );
         //bind( ResourceFetcher.class ).to( DefaultResourceFetcher.class ).in( Singleton.class );

@@ -1,9 +1,9 @@
 package com.github.enr.xite;
 
+import static org.testng.Assert.assertTrue;
+
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import com.beust.jcommander.MissingCommandException;
 
 
 /**
@@ -18,10 +18,11 @@ public class BasicFunctionalitySmokeUat extends BaseUat {
         //assertEquals(result, 0);
     }
 
-    @Test(dataProvider = "missing-commands", description = "if a missing command is called a MissingCommandException is thrown", expectedExceptions = {MissingCommandException.class})
+    @Test(dataProvider = "missing-commands", description = "if a missing command is called a MissingCommandException is thrown")
     public void missingCommandsExceptionThrown(String[] args) {
         runApplicationWithArgs(args);
         //assertEquals(result, 1);
+        assertTrue(this.sutOutput.contains("MissingCommandException"));
     }
     
     @Test(dataProvider = "error-args", description = "if user run xite with some error args, xite doesn't break")

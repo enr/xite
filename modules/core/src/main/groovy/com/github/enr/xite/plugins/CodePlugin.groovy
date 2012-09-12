@@ -86,7 +86,7 @@ class CodePlugin extends XiteAbstractPlugin
               }
             }
 
-            def extension = com.google.common.io.Files.getFileExtension(fap.toString()); // FilePaths.extension(fap.toString())
+            def extension = Files.getFileExtension(fap.toString()); // FilePaths.extension(fap.toString())
             // what if file has no extension??
             def lang = codeLang(extension)
 

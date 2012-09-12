@@ -10,6 +10,9 @@ import java.util.Map;
  */
 public class Strings
 {
+    /**
+     * Replacement for tab char: 4 spaces.
+     */
 	private static final String TAB = "    ";
 	
     /**
