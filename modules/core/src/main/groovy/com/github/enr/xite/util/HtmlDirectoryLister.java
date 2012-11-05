@@ -3,65 +3,62 @@ package com.github.enr.xite.util;
 import java.io.File;
 import java.io.IOException;
 
-
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 
-public class HtmlDirectoryLister
-{
+public class HtmlDirectoryLister {
     /**
      * Base directory to list
      */
     private final File directory;
-    
+
     /**
      * Base context for links
      */
     private final String context;
-    
+
     /**
      * A string appended before the actual listing
      */
     private final String header;
-    
+
     /**
      * A string appended after the actual listing
      */
     private final String footer;
-    
+
     /**
      * Html element id for the div containing the listing
      */
     private final String divId;
-    
+
     /**
      * Css class used for directories names in the listing
      */
     private final String directoryCssClass;
-    
+
     /**
      * Css class used for files names in the listing
      */
     private final String fileCssClass;
-    
+
     /**
      * If listing should contains the title string for an empty directory
      */
     private final boolean listEmptyDirs;
-    
+
     /**
      * Content of the directory listing page
      */
     private StringBuilder pageContent;
-    
+
     /**
      * Normalized path for base directory
      */
     private String basePath;
 
-    public static class Builder
-    {
+    public static class Builder {
         // Required parameters
         private final File directory;
         // Optional parameters - initialized to default values
@@ -73,61 +70,51 @@ public class HtmlDirectoryLister
         private String fileCssClass = "";
         private boolean listEmptyDirs = true;
 
-        public Builder(File directory)
-        {
+        public Builder(File directory) {
             this.directory = directory;
         }
 
-        public Builder context(String val)
-        {
+        public Builder context(String val) {
             context = val;
             return this;
         }
 
-        public Builder header(String val)
-        {
+        public Builder header(String val) {
             header = val;
             return this;
         }
 
-        public Builder footer(String val)
-        {
+        public Builder footer(String val) {
             footer = val;
             return this;
         }
 
-        public Builder divId(String val)
-        {
+        public Builder divId(String val) {
             divId = val;
             return this;
         }
-        
-        public Builder directoryCssClass(String val)
-        {
+
+        public Builder directoryCssClass(String val) {
             directoryCssClass = val;
             return this;
         }
 
-        public Builder fileCssClass(String val)
-        {
+        public Builder fileCssClass(String val) {
             fileCssClass = val;
             return this;
         }
-        
-        public Builder listEmptyDirs(boolean val)
-        {
+
+        public Builder listEmptyDirs(boolean val) {
             listEmptyDirs = val;
             return this;
         }
 
-        public HtmlDirectoryLister build()
-        {
+        public HtmlDirectoryLister build() {
             return new HtmlDirectoryLister(this);
         }
     }
 
-    private HtmlDirectoryLister(Builder builder)
-    {
+    private HtmlDirectoryLister(Builder builder) {
         directory = builder.directory;
         context = builder.context;
         header = builder.header;
@@ -138,9 +125,9 @@ public class HtmlDirectoryLister
         listEmptyDirs = builder.listEmptyDirs;
     }
 
-    public void write()
-    {
-        if (!directory.exists()) directory.mkdirs();
+    public void write() {
+        if (!directory.exists())
+            directory.mkdirs();
         File page = new File(directory, "index.html");
         pageContent = new StringBuilder(Strings.normalizeEol(header));
         pageContent.append("\n<div id=");
@@ -148,18 +135,18 @@ public class HtmlDirectoryLister
         pageContent.append(divId);
         pageContent.append('"');
         pageContent.append(">\n");
-        
+
         basePath = FilePaths.absoluteNormalized(directory);
-        
+
         FileTraverser ft = new FileTraverser() {
             @Override
-            public void onDirectory(final File f)
-            {
-                if ((! Directories.isEmpty(f)) || (listEmptyDirs)) {
+            public void onDirectory(final File f) {
+                if ((!Directories.isEmpty(f)) || (listEmptyDirs)) {
                     String relativePath = FilePaths.absoluteNormalized(f).replaceFirst(basePath, "");
                     String descriptivePath = relativePath.replaceFirst("/", "");
                     descriptivePath = descriptivePath.replace("/", " &gt; ");
-                    if ((descriptivePath == null) || ("".equals(descriptivePath.trim()))) return;
+                    if ((descriptivePath == null) || ("".equals(descriptivePath.trim())))
+                        return;
                     pageContent.append("\n<p/><span class=");
                     pageContent.append('"');
                     pageContent.append(directoryCssClass);
@@ -167,21 +154,23 @@ public class HtmlDirectoryLister
                     pageContent.append('>');
                     pageContent.append(descriptivePath);
                     pageContent.append("</span>");
-                } 
-//                else {
-//                    log().info("skipping empty directory '{}'", f.getAbsolutePath());
-//                }
+                }
+                // else {
+                // log().info("skipping empty directory '{}'",
+                // f.getAbsolutePath());
+                // }
             }
+
             @Override
-            public void onFile(final File f)
-            {
+            public void onFile(final File f) {
 
                 String relativePath = FilePaths.absoluteNormalized(f).replaceFirst(basePath, "");
 
                 String descriptivePath = relativePath.replaceFirst("/", "");
                 descriptivePath = descriptivePath.replace("/", " &gt; ");
 
-                if ((descriptivePath == null) || ("".equals(descriptivePath.trim()))) return;
+                if ((descriptivePath == null) || ("".equals(descriptivePath.trim())))
+                    return;
                 pageContent.append("\n<p/><a href=");
                 pageContent.append('"');
                 pageContent.append(context);
@@ -196,11 +185,9 @@ public class HtmlDirectoryLister
                 pageContent.append("</a>");
             }
         };
-        try
-        {
+        try {
             ft.traverse(directory);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         pageContent.append("\n</div>\n");
@@ -209,12 +196,12 @@ public class HtmlDirectoryLister
         if (page.exists()) {
             page.delete();
         }
-        //Files.write(page, c);
+        // Files.write(page, c);
         try {
-			Files.write(c, page, Charsets.UTF_8);
-		} catch (IOException e) {
-			Throwables.propagate(e);
-		}
+            Files.write(c, page, Charsets.UTF_8);
+        } catch (IOException e) {
+            Throwables.propagate(e);
+        }
     }
 
 }

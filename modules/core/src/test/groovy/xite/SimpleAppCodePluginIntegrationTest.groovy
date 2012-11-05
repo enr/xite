@@ -1,10 +1,8 @@
 package xite;
 
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
-
 
 import java.io.File;
 
@@ -16,10 +14,9 @@ import com.github.enr.xite.util.Strings;
 
 /**
  * Integration test for code plugin applied to simple app.
- *
+ * 
  */
-public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTest
-{
+public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTest {
     CodePlugin plugin;
 
     @BeforeClass
@@ -55,7 +52,7 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
         assertTrue(headerHtml.exists(), "${headerHtml.getAbsolutePath()} not found");
         assertEquals(headerHtml.getText("UTF-8"), headerHtmlContent);
     }
-        
+
     /*
      * 
      */
@@ -71,8 +68,7 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
         expectedContent = Strings.normalizeEol(expectedContent);
         assertEquals(actualContent, expectedContent);
     }
-    
-        
+
     /*
      * 
      */
@@ -98,8 +94,5 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
     	File indexFile = new File(destinationPath);
         assertTrue(indexFile.exists(), "${indexFile.getAbsolutePath()} not found");
         assertEquals(indexFile.text, indexContent);
-    }    
-    
-
-
+    }
 }

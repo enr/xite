@@ -8,22 +8,19 @@ import java.util.Map;
  * @author enr
  * 
  */
-public class Strings
-{
+public class Strings {
     /**
      * Replacement for tab char: 4 spaces.
      */
-	private static final String TAB = "    ";
-	
+    private static final String TAB = "    ";
+
     /**
      * Only static methods in this class
      */
-    private Strings()
-    {
+    private Strings() {
     }
 
-    public static String normalizeEol(String text)
-    {
+    public static String normalizeEol(String text) {
         if (text == null) {
             return "";
         }
@@ -31,12 +28,12 @@ public class Strings
         r = r.replaceAll("\\r", "\n");
         return r;
     }
-  
+
     /**
      * A basic cleaning for html inclusion of a string.
      * 
      * @param text
-     *
+     * 
      */
     public static String htmlEscape(String text) {
         String cleanBlock = text.trim();
@@ -48,26 +45,27 @@ public class Strings
         cleanBlock = cleanBlock.replaceAll("\\\'", "&apos;");
         return cleanBlock;
     }
-    
+
     /**
-     * Escapes string for html using a map of characters and their substitution strings.
+     * Escapes string for html using a map of characters and their substitution
+     * strings.
      */
-    public static String htmlEscape(String text, Map<Character, String> htmlEntities)
-    {
-        if ((text == null) || (text.length() == 0)) return "";
+    public static String htmlEscape(String text, Map<Character, String> htmlEntities) {
+        if ((text == null) || (text.length() == 0))
+            return "";
         String cleanBlock = text.trim();
-        if (cleanBlock.length() == 0) return "";
+        if (cleanBlock.length() == 0)
+            return "";
         cleanBlock = cleanBlock.replaceAll("\\t", TAB);
         StringBuffer sb = new StringBuffer(cleanBlock);
         char[] dst = new char[sb.length()];
         sb.getChars(0, sb.length(), dst, 0);
         int i = 0;
-        for (char cn: dst)
-        {
+        for (char cn : dst) {
             String escaped = htmlEntities.get(Character.valueOf(cn));
             if (escaped != null) {
-                sb.replace(i, i+1, escaped);
-                i = i+(escaped.length());
+                sb.replace(i, i + 1, escaped);
+                i = i + (escaped.length());
             } else {
                 i++;
             }

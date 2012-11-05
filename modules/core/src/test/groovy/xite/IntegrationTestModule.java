@@ -1,6 +1,5 @@
 package xite;
 
-
 import com.github.enr.clap.api.AppMeta;
 import com.github.enr.clap.api.Configuration;
 import com.github.enr.clap.api.ConfigurationReader;
@@ -18,18 +17,16 @@ import com.google.inject.Singleton;
  * Integration test module.
  * It contains bindings for all components used in integration tests.
  */
-public class IntegrationTestModule extends AbstractModule
-{
+public class IntegrationTestModule extends AbstractModule {
     @Override
-    protected void configure ()
-    {
+    protected void configure() {
         // configuration
-        bind( AppMeta.class ).to( XiteMeta.class );
-        bind( EnvironmentHolder.class ).to( DefaultEnvironmentHolder.class ).in( Singleton.class );
-        bind( Configuration.class ).to( DefaultConfiguration.class ).in( Singleton.class );
-        bind( ConfigurationReader.class ).to( GroovierFlattenConfigurationReader.class );
-        
+        bind(AppMeta.class).to(XiteMeta.class);
+        bind(EnvironmentHolder.class).to(DefaultEnvironmentHolder.class).in(Singleton.class);
+        bind(Configuration.class).to(DefaultConfiguration.class).in(Singleton.class);
+        bind(ConfigurationReader.class).to(GroovierFlattenConfigurationReader.class);
+
         // components
-        bind( Reporter.class ).to( ConsoleReporter.class ).in( Singleton.class );
+        bind(Reporter.class).to(ConsoleReporter.class).in(Singleton.class);
     }
 }

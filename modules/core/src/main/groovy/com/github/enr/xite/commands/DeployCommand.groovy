@@ -12,27 +12,28 @@ import com.github.enr.clap.api.Reporter;
  * Deploy final artifact to remote server using FTP.
  */
 public class DeployCommand extends AbstractCommand {
-	
-	private EnvironmentHolder environment;
-	private Configuration configuration;
-	private Reporter reporter;
 
-	private DeployCommandArgs args = new DeployCommandArgs();
-	
-	@Inject
-	public DeployCommand(EnvironmentHolder environment, Configuration configuration, Reporter reporter) {
-		this.environment = environment;
-		this.configuration = configuration;
-		this.reporter = reporter;
-	}
-	@Override
-	public void init() {
-		String homeDirectory = environment.applicationHome().getAbsolutePath();
-		reporter.info("init: home dir = %s", homeDirectory);
-		//paths = new Paths(homeDirectory);
-	}
+    private EnvironmentHolder environment;
+    private Configuration configuration;
+    private Reporter reporter;
 
-	@Override
+    private DeployCommandArgs args = new DeployCommandArgs();
+
+    @Inject
+    public DeployCommand(EnvironmentHolder environment, Configuration configuration, Reporter reporter) {
+        this.environment = environment;
+        this.configuration = configuration;
+        this.reporter = reporter;
+    }
+
+    @Override
+    public void init() {
+        String homeDirectory = environment.applicationHome().getAbsolutePath();
+        reporter.info("init: home dir = %s", homeDirectory);
+        // paths = new Paths(homeDirectory);
+    }
+
+    @Override
 	protected CommandResult internalExecute() {
 		this.reporter.debug("ftp = %s", configuration.get("deploy.ftp"));
 		this.reporter.debug("plugins = %s", configuration.get("plugins.enabled"));
@@ -62,14 +63,14 @@ public class DeployCommand extends AbstractCommand {
         return commandResult
 	}
 
-	@Override
-	public String getId() {
-		return "deploy";
-	}
+    @Override
+    public String getId() {
+        return "deploy";
+    }
 
-	@Override
-	public Object getParametersContainer() {
-		return args;
-	}
+    @Override
+    public Object getParametersContainer() {
+        return args;
+    }
 
 }

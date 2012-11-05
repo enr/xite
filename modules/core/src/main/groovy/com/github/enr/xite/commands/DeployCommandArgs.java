@@ -6,6 +6,6 @@ import com.beust.jcommander.Parameters;
 @Parameters(commandDescription = "Deploy final artifact to remote server using FTP")
 public class DeployCommandArgs {
 
-	@Parameter(names = { "-d", "--destination" }, description = "Destination directory")
-	public String destination;
+    @Parameter(names = { "-d", "--destination" }, description = "Destination directory")
+    public String destination;
 }

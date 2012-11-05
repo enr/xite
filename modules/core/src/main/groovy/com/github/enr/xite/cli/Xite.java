@@ -10,15 +10,15 @@ import com.google.inject.util.Modules;
 
 /**
  * Xite application launcher.
- *
+ * 
  */
 public class Xite {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         Injector injector = Guice.createInjector(Modules.override(new ClapModule()).with(new XiteModule()));
         ClapApp app = injector.getInstance(ClapApp.class);
         app.setAvailableCommands(Bindings.getAllCommands(injector));
         app.run(args);
-	}
+    }
 
 }

@@ -4,22 +4,22 @@ import com.github.enr.clap.api.AppMeta;
 
 /**
  * Xite application metadata, used from Clap.
- *
+ * 
  */
 public class XiteMeta implements AppMeta {
 
-	@Override
-	public String name() {
-		return "xite";
-	}
+    @Override
+    public String name() {
+        return "xite";
+    }
 
-	@Override
-	public String version() {
-		return "0.2-SNAPSHOT";
-	}
-	
-	@Override
-	public String displayName() {
-		return "Xite";
-	}
+    @Override
+    public String version() {
+        return "0.2-SNAPSHOT";
+    }
+
+    @Override
+    public String displayName() {
+        return "Xite";
+    }
 }

@@ -1,10 +1,8 @@
 package xite;
 
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
-
 
 import java.io.File;
 import org.testng.annotations.BeforeClass;
@@ -15,10 +13,9 @@ import com.github.enr.xite.util.Strings;
 
 /**
  * Integration test for html plugin applied to simple app.
- *
+ * 
  */
-public class SimpleAppHtmlPluginIntegrationTest extends BasePluginIntegrationTest
-{
+public class SimpleAppHtmlPluginIntegrationTest extends BasePluginIntegrationTest {
     HtmlPlugin plugin;
 
     @BeforeClass
@@ -62,7 +59,7 @@ second.html
         assertTrue(secondHtml.exists(), "${secondHtml.getAbsolutePath()} not found");
         assertEquals(secondHtml.text, secondContent);
     }
-    
+
     /*
      * 
      */
@@ -81,6 +78,5 @@ foo/bar.html
         assertTrue(fooBarHtml.exists(), "${fooBarHtml.getAbsolutePath()} not found");
         assertEquals(fooBarHtml.text, fooBarContent);
     }
-        
 
 }

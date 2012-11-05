@@ -24,25 +24,22 @@ public class BaseUat {
      * The home for the xite installation used for the tests.
      */
     File installedHome;
-    
+
     File xiteRoot;
-    
+
     protected String sutOutput;
-    
+
     protected int sutExitValue;
 
     @BeforeClass
     public void setUp() throws Exception {
-    	
+
         File cc = ClasspathUtil.getClasspathForClass(BaseUat.class);
         File modules = cc.getParentFile().getParentFile().getParentFile().getParentFile();
-        String installPath = new StringBuilder(modules.getAbsolutePath()).append(File.separatorChar)
-        			.append("core").append(File.separatorChar)
-        			.append("target").append(File.separatorChar)
-        			.append("install").append(File.separatorChar)
-        			.append("xite").toString();
+        String installPath = new StringBuilder(modules.getAbsolutePath()).append(File.separatorChar).append("core").append(File.separatorChar)
+                .append("target").append(File.separatorChar).append("install").append(File.separatorChar).append("xite").toString();
         installedHome = new File(installPath);
-        
+
         xiteRoot = modules.getParentFile();
 
     }
@@ -60,11 +57,11 @@ public class BaseUat {
         Reporter reporter = injector.getInstance(Reporter.class);
         Configuration configuration = injector.getInstance(Configuration.class);
         String absoluteNormalized = FilePaths.absoluteNormalized(installedHome);
-        System.out.println (absoluteNormalized);
-		configuration.addPath(absoluteNormalized + "/conf/xite.groovy");
+        System.out.println(absoluteNormalized);
+        configuration.addPath(absoluteNormalized + "/conf/xite.groovy");
         ClapApp app = injector.getInstance(ClapApp.class);
         app.setAvailableCommands(Bindings.getAllCommands(injector));
-        //        app.run(argsAsString.split("\\s"));
+        // app.run(argsAsString.split("\\s"));
         app.run(args);
         this.sutExitValue = app.getExitValue();
         if (reporter instanceof OutputRetainingReporter) {

@@ -13,13 +13,11 @@ import com.google.common.base.Preconditions;
  * Provides utility methods for working with directories.
  * 
  */
-public final class Directories
-{
+public final class Directories {
     /**
      * Only static methods in this class
      */
-    private Directories()
-    {
+    private Directories() {
     }
 
     /**
@@ -88,11 +86,11 @@ public final class Directories
         }
         return files;
     }
-    
-    public static boolean isEmpty(File directory)
-    {
-        //File subject = validateDirectory(directory);
-        if (! directory.isDirectory()) return true;
+
+    public static boolean isEmpty(File directory) {
+        // File subject = validateDirectory(directory);
+        if (!directory.isDirectory())
+            return true;
         return (directory.listFiles().length < 1);
     }
 
@@ -107,8 +105,7 @@ public final class Directories
         File dir = Preconditions.checkNotNull(directory);
         if (dir.exists()) {
             if (!dir.isDirectory()) {
-                throw new RuntimeException("Expected directory '" + dir.getAbsolutePath()
-                        + "' exists but it is not a directory");
+                throw new RuntimeException("Expected directory '" + dir.getAbsolutePath() + "' exists but it is not a directory");
             }
         } else {
             boolean created = dir.mkdirs();
