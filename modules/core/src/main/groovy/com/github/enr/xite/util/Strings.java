@@ -51,11 +51,13 @@ public class Strings {
      * strings.
      */
     public static String htmlEscape(String text, Map<Character, String> htmlEntities) {
-        if ((text == null) || (text.length() == 0))
+        if ((text == null) || (text.length() == 0)) {
             return "";
+        }
         String cleanBlock = text.trim();
-        if (cleanBlock.length() == 0)
+        if (cleanBlock.length() == 0) {
             return "";
+        }
         cleanBlock = cleanBlock.replaceAll("\\t", TAB);
         StringBuffer sb = new StringBuffer(cleanBlock);
         char[] dst = new char[sb.length()];
