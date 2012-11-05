@@ -31,11 +31,29 @@ How tos
 Developer documentation
 -----------------------
 
+To get the code and build from source, do the following:
+
+    git clone git://github.com/enr/xite.git
+    cd xite
+    ./gradlew installApp
+
+To generate Eclipse metadata (.classpath and .project files), do the following:
+
+    ./gradlew eclipse
+
+Once complete, you may then import the projects into Eclipse:
+
+    File -> Import -> Existing projects into workspace
+
+Other developers' resources:
+
 - [dependencies](/xite/dependencies.html)
 - [tests results](/xite/developers/tests/index.html)
 - [uat](/xite/developers/uat/index.html)
 - [xite source code](/xite/code/index.html)
-
+- build and dist (TODO)
+- build Xite's site (TODO)
+- build manual (TODO)
 
 
 

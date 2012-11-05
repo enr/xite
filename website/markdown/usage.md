@@ -13,7 +13,7 @@ The build command is the default, so you have only to provide source and destina
 
 Run Xite with -s 'source directory' -d 'destination directory'
 
-    /path/to/xite -s website -d /var/www/site
+    /path/to/xite build -s website -d target/website
     
 If source or destination are not provided, Xite assumes them as src/xite and target/xite/$app-name
 
@@ -25,9 +25,9 @@ The run command is intended for testing purpose.
 
 It fires an embedded Jetty server.
 
-To see results:
+To see results (supposing you have launched the command as described above):
     
-    /path/to/xite --port 9090 run
+    /path/to/xite serve --root target/website --port 9090
     
 The port is optional, if not specified it will be 8080.
 

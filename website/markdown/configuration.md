@@ -10,11 +10,23 @@ Xite configuration occurs at 3 levels:
   * User - this is configuration specific to a particular user
     $HOME/.xite/settings.groovy
 
+You can see the actual used paths:
+
+    /path/to/xite config --files
+
+the list of used properties:
+
+    /path/to/xite config --list
+    
+A single property:
+
+    /path/to/xite config --get plugins.enabled
+
 
 Default settings
 ----------------
 
-If settings are not overriden they are taken from $XITE_HOME/conf/xite-default.groovy.
+If settings are not overriden they are taken from $XITE_HOME/conf/xite.groovy.
 
 The file is commented.
     
@@ -27,7 +39,7 @@ distributed to an audience.
 
 These include values such as authentication information for the deployment.
 
-The file is $HOME/.xite/settings.groovy
+The file is $HOME/.xite/$XITE_VERSION/xite.groovy
 
 
 Environment
