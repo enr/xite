@@ -7,4 +7,6 @@ jdk:
 
 install: gradle -q assemble
 
-script: gradle -Dorg.gradle.project.buildoutput=true check
+script: gradle check > build.out
+
+after_failure: cat build.out
