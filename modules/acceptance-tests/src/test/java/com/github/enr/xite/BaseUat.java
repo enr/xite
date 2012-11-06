@@ -69,7 +69,6 @@ public class BaseUat {
         } else {
             this.sutOutput = null;
         }
-        System.err.println(this.sutOutput);
     }
 
 }

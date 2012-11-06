@@ -88,6 +88,11 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
         def destinationPath = targetDir.getAbsolutePath()+'/code/index.html'
     	File indexFile = new File(destinationPath);
         assertTrue(indexFile.exists(), "${indexFile.getAbsolutePath()} not found");
+        println '___'
+        println indexFile.text
+        println '___'
+        println indexContent
+        println '___'
         assertEquals(indexFile.text, indexContent);
     }
 }
