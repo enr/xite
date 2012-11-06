@@ -74,12 +74,14 @@ subprojects {
         
         // work-around for jdk 7 javac warning for setting an older source without bootclasspath
         // def jdk6home = '/opt/java/jdk1.6.0_24'
+        /*
         if (java7) {
             printBuild "Java 7 detected (Java ${System.getProperty('java.version')})"
             compileGroovy.options.bootClasspath = '/opt/java/jdk1.6.0_24/jre/lib/rt.jar'
             compileJava.options.bootClasspath = '/opt/java/jdk1.6.0_24/jre/lib/rt.jar'
             test.bootstrapClasspath = files('/opt/java/jdk1.6.0_24/jre/lib/rt.jar') + test.bootstrapClasspath
         }
+        */
 
         configurations {
             compile.transitive = true
