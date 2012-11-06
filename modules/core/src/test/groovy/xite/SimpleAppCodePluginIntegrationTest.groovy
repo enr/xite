@@ -16,6 +16,7 @@ import com.github.enr.xite.util.Strings;
  * Integration test for code plugin applied to simple app.
  * 
  */
+//@Test(suiteName = "Code plugin")
 public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTest {
     CodePlugin plugin;
 
@@ -37,14 +38,10 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
     {    
         def headerHtmlContent = '''<html>
 <head></head>
-<body>
-
-<p/><h3>/header.html</h3><p/><pre><code lang="html">
+<body><p/><h3>/header.html</h3><p/><pre><code lang="html">
 <html>
 <head></head>
 <body>
-
-
 </code></pre></body>
 </html>
 '''
@@ -63,7 +60,7 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
         assertTrue(groovyFile.exists(), "${groovyFile.getAbsolutePath()} not found");
     	def actualContent = Strings.normalizeEol(groovyFile.getText("UTF-8"));
         
-        def groovyFileContent = "<html>\n<head></head>\n<body>\n\n<p/><h3>/groovy/file.groovy</h3><p/><pre><code lang=\"groovy\">\n\nprintln \"hi àèìòù\"\n\n\n</code></pre></body>\n</html>\n"
+        def groovyFileContent = "<html>\n<head></head>\n<body><p/><h3>/groovy/file.groovy</h3><p/><pre><code lang=\"groovy\">\n\nprintln \"hi àèìòù\"\n\n\n</code></pre></body>\n</html>\n"
         String expectedContent = new String(groovyFileContent.toString().getBytes("UTF-8"), "UTF-8");
         expectedContent = Strings.normalizeEol(expectedContent);
         assertEquals(actualContent, expectedContent);
@@ -78,8 +75,6 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
         def indexContent = '''<html>
 <head></head>
 <body>
-
-
 <div id="dir-listing">
 
 <p/><span class="dir-listing-d">groovy</span>

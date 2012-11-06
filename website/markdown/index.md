@@ -37,6 +37,10 @@ To get the code and build from source, do the following:
     cd xite
     ./gradlew installApp
 
+To have a more verbose build (only Xite related messages):
+
+    ./gradlew -Pbuildoutput=1 check
+    
 To generate Eclipse metadata (.classpath and .project files), do the following:
 
     ./gradlew eclipse

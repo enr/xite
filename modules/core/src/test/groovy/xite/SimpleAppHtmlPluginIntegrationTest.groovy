@@ -15,7 +15,9 @@ import com.github.enr.xite.util.Strings;
  * Integration test for html plugin applied to simple app.
  * 
  */
+//@Test(suiteName = "HTML plugin")
 public class SimpleAppHtmlPluginIntegrationTest extends BasePluginIntegrationTest {
+    
     HtmlPlugin plugin;
 
     @BeforeClass
@@ -35,9 +37,7 @@ public class SimpleAppHtmlPluginIntegrationTest extends BasePluginIntegrationTes
     {
         def firstContent = '''<html>
 <head></head>
-<body>
-
-first.html
+<body>first.html
 </body>
 </html>
 '''
@@ -49,9 +49,7 @@ first.html
 
         def secondContent = '''<html>
 <head></head>
-<body>
-
-second.html
+<body>second.html
 </body>
 </html>
 '''
@@ -68,9 +66,7 @@ second.html
     {    
         def fooBarContent = '''<html>
 <head></head>
-<body>
-
-foo/bar.html
+<body>foo/bar.html
 </body>
 </html>
 '''

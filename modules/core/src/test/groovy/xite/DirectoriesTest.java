@@ -14,9 +14,6 @@ import org.testng.annotations.Test;
 import com.github.enr.xite.util.Directories;
 import com.google.common.io.Files;
 
-/**
- * 
- */
 @Test(suiteName = "Util package")
 public class DirectoriesTest {
 

@@ -16,6 +16,7 @@ import com.github.enr.xite.plugins.ResourcesPlugin
  * Integration test for resources plugin applied to simple app.
  *
  */
+//@Test(suiteName = "Resources plugin")
 public class SimpleAppResourcesPluginIntegrationTest extends BasePluginIntegrationTest
 {
     ResourcesPlugin plugin;
