@@ -49,6 +49,14 @@ Once complete, you may then import the projects into Eclipse:
 
     File -> Import -> Existing projects into workspace
 
+Release process:
+
+
+    git push
+    gradle release
+    git checkout $version
+      gradle uploadArchives -Dgithub.password=***
+
 Other developers' resources:
 
 - [dependencies](/xite/dependencies.html)

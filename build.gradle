@@ -232,7 +232,7 @@ subprojects {
     
     if (project.path in archiveables) {
     
-        createReleaseTag.dependsOn uploadArchives
+        //createReleaseTag.dependsOn uploadArchives
     
         task archive(   dependsOn: [':modules:core:assemble'],
                         description: 'Print archives') << {
