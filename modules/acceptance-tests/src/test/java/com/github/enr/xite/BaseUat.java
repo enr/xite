@@ -11,7 +11,7 @@ import com.github.enr.clap.api.EnvironmentHolder;
 import com.github.enr.clap.api.OutputRetainingReporter;
 import com.github.enr.clap.api.Reporter;
 import com.github.enr.clap.inject.Bindings;
-import com.github.enr.clap.inject.ClapModule;
+import com.github.enr.clap.inject.ConventionalAppModule;
 import com.github.enr.clap.util.ClasspathUtil;
 import com.github.enr.xite.util.FilePaths;
 import com.google.inject.Guice;
@@ -50,7 +50,7 @@ public class BaseUat {
     }
 
     protected void runApplicationWithArgs(String[] args) {
-        Injector injector = Guice.createInjector(Modules.override(new ClapModule()).with(new AcceptanceTestsModule()));
+        Injector injector = Guice.createInjector(Modules.override(new ConventionalAppModule()).with(new AcceptanceTestsModule()));
 
         EnvironmentHolder environment = injector.getInstance(EnvironmentHolder.class);
         environment.forceApplicationHome(installedHome);
