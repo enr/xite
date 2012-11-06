@@ -57,7 +57,7 @@ public class BaseUat {
         Reporter reporter = injector.getInstance(Reporter.class);
         Configuration configuration = injector.getInstance(Configuration.class);
         String absoluteNormalized = FilePaths.absoluteNormalized(installedHome);
-        System.out.println(absoluteNormalized);
+        //System.out.println(absoluteNormalized);
         configuration.addPath(absoluteNormalized + "/conf/xite.groovy");
         ClapApp app = injector.getInstance(ClapApp.class);
         app.setAvailableCommands(Bindings.getAllCommands(injector));

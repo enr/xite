@@ -3,7 +3,7 @@ import java.text.SimpleDateFormat
 
 // --- release plugin
 // see: http://tellurianring.com/wiki/gradle/release
-//apply from: "https://launchpad.net/gradle-release/trunk/latest/+download/apply.groovy"
+apply from: "https://launchpad.net/gradle-release/trunk/latest/+download/apply.groovy"
 
 // --- about plugin
 // see: http://evgeny-goldin.com/wiki/Gradle-about-plugin
@@ -27,7 +27,7 @@ ext {
     acceptanceTests = [':modules:acceptance-tests']
     localRepo = "${rootProject.projectDir}/lib"
     uploadables = [ "xite-${version}.zip".toString(), 
-                    "xite-${version}.zip.MD5".toString()]
+                    "xite-${version}.zip.sha1".toString()]
     javaVersion = System.getProperty('java.version')
     java7 = javaVersion.startsWith('1.7')
     //buildoutput = ''
@@ -39,6 +39,9 @@ def printBuild(message) {
         logger.lifecycle("  ${message}")
     }
 }
+
+//   gradle release -Pgradle.release.useAutomaticVersion=true -Dgithub.password=*** 
+
 
 allprojects { project ->
     group = 'com.github.enr'
@@ -229,18 +232,19 @@ subprojects {
     
     if (project.path in archiveables) {
     
+        createReleaseTag.dependsOn uploadArchives
+    
         task archive(   dependsOn: [':modules:core:assemble'],
                         description: 'Print archives') << {
             configurations.archives.allArtifacts.files.each { File file ->
                     printBuild "[ARCHIVE] $file"
             }
         }
-        
-        /*
+
         if (java7) {
             // After 'group' is set...
             //apply from:'github-dev.gradle'
-            apply from:'http://smokejumperit.com/github-dev.gradle'
+            apply from:'http://gradle.smokejumperit.com/github-dev.gradle'
 
             //   gradle uploadArchives -Dgithub.password=***
             //   gradle ghUpload -Dgithub.password=***
@@ -249,6 +253,7 @@ subprojects {
                 //password = '***' // Or set Java prop 'github.password' or system env 'GITHUB_PASS'
                 repo = 'xite'
             }
+
             ghUpload.doFirst { task ->
                 configurations.archives.allArtifacts.each { artifact ->
                     def artifactFileName = artifact.file.getName()
@@ -259,15 +264,28 @@ subprojects {
                     }
                 }
             }
+            /*
             uploadArchives.doFirst {
                 configurations.archives.allArtifacts.files.each { File file ->
                     println "archive : $file"
                 }
             }
+            */
+
         }
-        */
+                
+        afterEvaluate {
+            tasks.withType(Zip) { task ->
+                task.doLast {
+                    printBuild "after ev: ${it} ${it.archivePath}"
+                    //ant.checksum file: it.archivePath
+                    ant.checksum(file: it.archivePath, algorithm: 'SHA1', fileext: '.sha1')
+                    
+                }
+            }
+        }
         
-        
+        /*
         artifacts {
             tasks.withType(Zip) { task ->
                 archives task
@@ -280,17 +298,7 @@ subprojects {
                 }
             }
         }
-        
-        afterEvaluate {
-            tasks.withType(Zip) { task ->
-                task.doLast {
-                    printBuild "after ev: ${it} ${it.archivePath}"
-                    //ant.checksum file: it.archivePath
-                    ant.checksum(file: it.archivePath, algorithm: 'SHA1', fileext: '.sha1')
-                    
-                }
-            }
-        }
+
         
         uploadArchives {
             repositories {
@@ -310,6 +318,7 @@ subprojects {
                 }
             }
         }
+        */
     }
 
     if (project.path in acceptanceTests) {
