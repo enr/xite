@@ -296,7 +296,6 @@ subprojects {
             repositories {
                 flatDir {
                     dirs 'uploads'
-                    checksums = 'sha1, md5'
                 }
             }
         }

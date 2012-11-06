@@ -26,7 +26,7 @@ public class SimpleAppCodePluginIntegrationTest extends BasePluginIntegrationTes
         buildEnvironmentForsampleApp('simple')
 		def configurationPaths = testConfiguration.getPaths()
 		configurationPaths.each { k, v ->
-			reporter.warn " --- ${k} [ ${v} ]"
+			reporter.info " --- ${k} [ ${v} ]"
 		}
         plugin = new CodePlugin(configuration: testConfiguration, sourcePath:sourceDirectory, destinationPath:destinationDirectory,
             reporter:reporter, environment:environment)
