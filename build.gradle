@@ -93,6 +93,7 @@ subprojects {
 
             compile "org.codehaus.groovy:groovy-all:$groovyVersion",
                     'com.google.inject:guice:3.0',
+                    'com.beust:jcommander:1.29',
                     //'javax.inject:javax.inject:1',
                     //'aopalliance:aopalliance:1.0',
                     //'org.sonatype.sisu.inject:cglib:2.2.1-v20090111',
