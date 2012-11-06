@@ -3,6 +3,7 @@ Xite
 
 Xite is a static sites generator.
 
+[![Build Status](https://secure.travis-ci.org/enr/xite.png?branch=master)](http://travis-ci.org/enr/xite)
 
 To use Xite, at the moment you have to build it from sources.
 
