@@ -264,25 +264,27 @@ subprojects {
         }
         */
         
-        /*
+        
         artifacts {
             tasks.withType(Zip) { task ->
                 archives task
                 printBuild "task: ${task}"
                 task.outputs.files.each { output ->
                     printBuild "output = ${output.getAbsolutePath()}"
-                    printBuild "archive =  ${output.getAbsolutePath()}.MD5"
-                    archives file("${output.getAbsolutePath()}.MD5")
+                    printBuild "sha =  ${output.getAbsolutePath()}.sha1"
+                    //archives file("${output.getAbsolutePath()}.MD5")
+                    archives file("${output.getAbsolutePath()}.sha1")
                 }
             }
         }
-        */
         
         afterEvaluate {
             tasks.withType(Zip) { task ->
                 task.doLast {
                     printBuild "after ev: ${it} ${it.archivePath}"
                     //ant.checksum file: it.archivePath
+                    ant.checksum(file: it.archivePath, algorithm: 'SHA1', fileext: '.sha1')
+                    
                 }
             }
         }
@@ -302,7 +304,7 @@ subprojects {
                 def uploadable = (artifactFileName in uploadables)
                 if (! uploadable) {
                     printBuild "removing '${artifactFileName}' from uploadable archives"
-                    configurations.archives.artifacts.remove(artifact)
+                    //configurations.archives.artifacts.remove(artifact)
                 }
             }
         }

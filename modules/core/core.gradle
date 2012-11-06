@@ -15,7 +15,7 @@ artifacts {
     archives distZip
     distZip.outputs.files.each { output ->
         printBuild "core output: '${output.getAbsolutePath()}'"
-        //archives file("${output.getAbsolutePath()}.MD5")
+        archives file("${output.getAbsolutePath()}.sha1")
     }
 }
 
