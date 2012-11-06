@@ -4,10 +4,18 @@ apply plugin: 'application'
 applicationName = 'xite'
 mainClassName = 'com.github.enr.xite.cli.Xite'
 
+/*
+distZip.doLast {
+    printBuild "distZip.doLast: ${it.archivePath}"
+    ant.checksum file: it.archivePath
+}
+*/
+
 artifacts {
     archives distZip
     distZip.outputs.files.each { output ->
-        archives file("${output.getAbsolutePath()}.MD5")
+        printBuild "core output: '${output.getAbsolutePath()}'"
+        //archives file("${output.getAbsolutePath()}.MD5")
     }
 }
 
