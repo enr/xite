@@ -7,4 +7,4 @@ jdk:
 
 install: gradle -q assemble
 
-script: gradle -q check
+script: gradle -Dorg.gradle.project.buildoutput=true check
