@@ -21,6 +21,9 @@ ext {
     groovyVersion = '2.0.1'
     jettyVersion = '8.1.4.v20120524'
     javaModules = [
+        ':modules:core', ':modules:uat', ':modules:acceptance-tests'
+    ]
+    testNgModules = [
         ':modules:core', ':modules:acceptance-tests'
     ]
     archiveables = [':modules:core']
@@ -130,23 +133,6 @@ subprojects {
                         'org.easytesting:fest-assert-core:2.0M6'
         }
 
-        test {
-            useTestNG()
-            //makes the standard streams (err and out) visible at console when running tests
-            testLogging.showStandardStreams = false
-            //listening to test execution events
-            
-            beforeTest { descriptor ->
-                //logger.lifecycle("-------    Running test: " + descriptor)
-                printBuild("--- Running test: " + descriptor)
-            }
-            onOutput { descriptor, event ->
-                //logger.lifecycle(event.message)
-                printBuild(event.message)
-            }
-            
-        }
-        
         archivesBaseName = "xite-${project.name}"
 
         sourceCompatibility = 1.6
@@ -226,6 +212,24 @@ subprojects {
                 // to keep the same depth in the build from in and outside Eclipse
                 defaultOutputDir = new File("${project.buildDir}/eclipse/classes");
                 downloadJavadoc = true
+            }
+        }
+    }
+    
+    if (project.path in testNgModules) {
+        test {
+            useTestNG()
+            //makes the standard streams (err and out) visible at console when running tests
+            testLogging.showStandardStreams = false
+            //listening to test execution events
+            
+            beforeTest { descriptor ->
+                //logger.lifecycle("-------    Running test: " + descriptor)
+                printBuild("--- Running test: " + descriptor)
+            }
+            onOutput { descriptor, event ->
+                //logger.lifecycle(event.message)
+                printBuild(event.message)
             }
         }
     }

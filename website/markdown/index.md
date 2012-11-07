@@ -51,7 +51,8 @@ Once complete, you may then import the projects into Eclipse:
 
 Release process:
 
-
+    gradle check
+    gh-pages
     git push
     gradle release
     git checkout $version

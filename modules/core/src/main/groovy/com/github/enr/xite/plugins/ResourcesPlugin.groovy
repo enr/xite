@@ -19,9 +19,8 @@ class ResourcesPlugin extends XiteAbstractPlugin {
         def substitutionsFilePath = FilePaths.join(sourcePath, resourcesFiltersFile)
 
         File substitutionsFile = new File(substitutionsFilePath)
-
         Properties subs = new Properties();
-        if (substitutionsFile.exists()) {
+        if (substitutionsFile.isFile()) {
             FileInputStream inp = new FileInputStream(substitutionsFilePath);
             subs.load(inp);
             inp.close();
@@ -29,7 +28,6 @@ class ResourcesPlugin extends XiteAbstractPlugin {
 
         def resourcesSourceDirectoryName = FilePaths.join(sourcePath, configuration.get('resources.directory'))
         def resourcesDestinationDirectoryName = destinationPath
-
         def excludedFilenameSuffix = configuration.get('resources.excludedFilenameSuffix')
 
         // a map of resources directory -> sub directory of destination

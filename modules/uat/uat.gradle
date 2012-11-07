@@ -1,0 +1,24 @@
+    
+dependencies {
+
+    compile     project(':modules:core')
+    
+    testCompile 'info.cukes:cucumber-java:1.1.1',
+                'info.cukes:cucumber-junit:1.1.1',
+                'junit:junit:4.10',
+                'org.hamcrest:hamcrest-core:1.1',
+                'org.hamcrest:hamcrest-library:1.1'
+}
+
+test {
+    testLogging.showStandardStreams = true
+}
+
+apply from:'cuke.gradle'
+cuke {
+    json = 'cucumber-report.json'
+}
+
+info {
+    prefix = 'Ahahaha'
+}

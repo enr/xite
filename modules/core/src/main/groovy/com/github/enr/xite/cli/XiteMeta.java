@@ -15,7 +15,7 @@ public class XiteMeta implements AppMeta {
 
     @Override
     public String version() {
-        return "0.2-SNAPSHOT";
+        return "0.3-SNAPSHOT";
     }
 
     @Override
