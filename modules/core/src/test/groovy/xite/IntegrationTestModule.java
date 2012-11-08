@@ -9,7 +9,7 @@ import com.github.enr.clap.impl.ConsoleReporter;
 import com.github.enr.clap.impl.DefaultConfiguration;
 import com.github.enr.clap.impl.DefaultEnvironmentHolder;
 import com.github.enr.clap.impl.GroovierFlattenConfigurationReader;
-import com.github.enr.xite.cli.XiteMeta;
+import com.github.enr.clap.impl.PropertiesBackedAppMeta;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
@@ -21,7 +21,7 @@ public class IntegrationTestModule extends AbstractModule {
     @Override
     protected void configure() {
         // configuration
-        bind(AppMeta.class).to(XiteMeta.class);
+        bind( AppMeta.class ).toInstance( PropertiesBackedAppMeta.from("xite-app.properties") );
         bind(EnvironmentHolder.class).to(DefaultEnvironmentHolder.class).in(Singleton.class);
         bind(Configuration.class).to(DefaultConfiguration.class).in(Singleton.class);
         bind(ConfigurationReader.class).to(GroovierFlattenConfigurationReader.class);

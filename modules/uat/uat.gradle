@@ -14,11 +14,6 @@ test {
     testLogging.showStandardStreams = true
 }
 
-apply from:'cuke.gradle'
 cuke {
     json = 'cucumber-report.json'
-}
-
-info {
-    prefix = 'Ahahaha'
 }

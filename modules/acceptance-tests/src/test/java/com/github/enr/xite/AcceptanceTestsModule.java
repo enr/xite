@@ -6,7 +6,7 @@ import com.github.enr.clap.api.EnvironmentHolder;
 import com.github.enr.clap.api.Reporter;
 import com.github.enr.clap.impl.DefaultOutputRetainingReporter;
 import com.github.enr.clap.impl.NoExitEnvironmentHolder;
-import com.github.enr.xite.cli.XiteMeta;
+import com.github.enr.clap.impl.PropertiesBackedAppMeta;
 import com.github.enr.xite.commands.BuildCommand;
 import com.github.enr.xite.commands.CleanCommand;
 import com.github.enr.xite.commands.DeployCommand;
@@ -24,7 +24,7 @@ public class AcceptanceTestsModule extends AbstractModule {
         // bind( App.class ).to( DefaultApp.class );
 
         // configuration
-        bind(AppMeta.class).to(XiteMeta.class);
+        bind( AppMeta.class ).toInstance( PropertiesBackedAppMeta.from("xite-app.properties") );
         bind(EnvironmentHolder.class).to(NoExitEnvironmentHolder.class).in(Singleton.class);
         /*
          * bind( EnvironmentHolder.class ).to( DefaultEnvironmentHolder.class

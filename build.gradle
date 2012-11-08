@@ -26,6 +26,9 @@ ext {
     testNgModules = [
         ':modules:core', ':modules:acceptance-tests'
     ]
+    cukeModules = [
+        ':modules:uat'
+    ]
     archiveables = [':modules:core']
     acceptanceTests = [':modules:acceptance-tests']
     localRepo = "${rootProject.projectDir}/lib"
@@ -106,7 +109,7 @@ subprojects {
                     //'asm:asm:3.1',
                     //'org.mbte.groovypp:gretty:0.4.279',
                     //'com.beust:jcommander:1.27',
-                    'com.github.enr:clap-core:0.3.0',
+                    'com.github.enr:clap-core:0.3.1-SNAPSHOT',
                     'com.github.enr:markdownj-extras:0.4',
                     'com.madgag:markdownj-core:0.4.1',
                     'com.google.guava:guava:13.0',
@@ -233,8 +236,20 @@ subprojects {
             }
         }
     }
+
     
+    if (project.path in cukeModules) {
+        apply from:   "${rootProject.getProjectDir().getAbsolutePath()}/gradle/tasks/cuke-check.gradle"
+    }
+
     if (project.path in archiveables) {
+        apply from:   "${rootProject.getProjectDir().getAbsolutePath()}/gradle/tasks/propsfile.gradle"
+        propsfile {
+            filename = 'xite-app.properties'
+            props = [   'clap.meta.name':'xite' ,
+                        'clap.meta.version':project.version ,
+                        'clap.meta.displayname':'Xite' ]
+        }
     
         //createReleaseTag.dependsOn uploadArchives
     

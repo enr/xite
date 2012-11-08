@@ -1,0 +1,41 @@
+
+import groovy.json.JsonSlurper
+
+/*
+The minimal work around to fail the build if cucumber tests fail.
+*/
+
+task cuke(type: CukeTask, description:'Checks Cucumber results')
+tasks.cuke.dependsOn tasks.test
+tasks.check.dependsOn tasks.cuke
+
+class CukeTask extends DefaultTask {
+
+    @Optional
+    String json = 'cucumber.json'
+
+    @TaskAction
+    def check() {
+        def cukeJson = new File(project.buildDir, json)
+        if (cukeJson.exists()) {
+            def jsonObj = new JsonSlurper().parseText( cukeJson.text )
+            for (element in jsonObj.elements) {
+                for (scenario in element) {
+                    def scenarioId = scenario.id
+                    def steps = scenario.steps
+                    for (step in steps) {
+                        def res = step.result
+                        def name = step.name
+                        if (res) {
+                            if (res.status != 'passed' ) {
+                                throw new TaskExecutionException(project.tasks.test, new RuntimeException("Scenario ${scenarioId} step [${name}] fail with status '${res.status}'".toString()))
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            println "File ${cukeJson.getAbsolutePath()} not found. Is ${project.name} using Cucumber?"
+        }
+    }
+}
