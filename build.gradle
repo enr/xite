@@ -70,6 +70,13 @@ allprojects { project ->
             addArtifactPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].[ext]'
             addIvyPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].pom'
         }
+        /*
+        ivy {
+            artifactPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].[ext]'
+            ivyPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].pom'
+        }
+        */
+        
     }
 }
 
