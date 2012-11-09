@@ -37,7 +37,7 @@ public class XiteWebsiteUat extends BaseUat {
         for (File file : markdownFiles) {
             String fileName = file.getName();
             if (fileName.endsWith(".md")) {
-                String outputPath = FilePaths.join(destinationDirectory.getAbsolutePath(), "xite", expectedOutputFilePath(fileName));
+                String outputPath = FilePaths.join(destinationDirectory.getAbsolutePath(), "xite", FilePaths.changeExtension(fileName, "html"));
                 File outputFile = new File(outputPath);
                 assertTrue(outputFile.exists(), outputPath);
             }
@@ -54,11 +54,6 @@ public class XiteWebsiteUat extends BaseUat {
             File outputFile = new File(outputPath);
             assertTrue(outputFile.exists(), outputPath);
         }
-    }
-
-    private String expectedOutputFilePath(String fileName) {
-        String rawFileName = fileName.substring(0, fileName.lastIndexOf("."));
-        return rawFileName + ".html";
     }
 
 }

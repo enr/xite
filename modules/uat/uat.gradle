@@ -7,7 +7,12 @@ dependencies {
                 'info.cukes:cucumber-junit:1.1.1',
                 'junit:junit:4.10',
                 'org.hamcrest:hamcrest-core:1.1',
-                'org.hamcrest:hamcrest-library:1.1'
+                'org.hamcrest:hamcrest-library:1.1',
+                'org.hamcrest:hamcrest-integration:1.1'
+    
+    testCompile('com.marvinformatics:kiss-matchers:0.7')  {
+        exclude group: 'org.hamcrest'
+    }
 }
 
 test {

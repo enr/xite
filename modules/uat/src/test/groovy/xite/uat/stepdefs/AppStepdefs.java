@@ -3,9 +3,9 @@ package xite.uat.stepdefs;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.testng.Assert.assertTrue;
 
 import java.io.File;
-import java.util.List;
 
 import com.github.enr.clap.Clap;
 import com.github.enr.clap.Clap.RunResult;
@@ -13,10 +13,12 @@ import com.github.enr.clap.util.ClasspathUtil;
 import com.github.enr.xite.inject.XiteModule;
 import com.github.enr.xite.util.FilePaths;
 import com.google.inject.Module;
+import com.marvinformatics.kiss.matchers.file.FileMatchers;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.runtime.PendingException;
 
 public class AppStepdefs {
     
@@ -31,6 +33,9 @@ public class AppStepdefs {
     private int sutExitValue;
     
     private File parentProjectDir;
+    
+    private File xiteWebsiteSourceDirectory;
+    private File xiteWebsiteDestinationDirectory;
 
     @Given("^I am the user \"([^\"]*)\"$")
     public void I_am_the_user(String name) {
@@ -45,15 +50,6 @@ public class AppStepdefs {
         //xiteRoot = modules.getParentFile();
     }
     
-    @Given("^default properties:$")
-    public void default_properties(List<DefaultProperties> items) throws Throwable {
-        /*
-        for (DefaultProperties item : items) {
-            shoppingList.addItem(item.key, item.value);
-        }
-        */
-    }
-
     @When("^I run xite with \"([^\"]*)\" args$")
     public void I_run_xite_with(String argsAsString) throws Exception {
         Module testModule = new XiteModule();
@@ -68,9 +64,10 @@ public class AppStepdefs {
         Module testModule = new XiteModule();
         //String websitePath = new StringBuilder(parentProjectDir.getAbsolutePath()).append(File.separatorChar).append("website").toString();
         //String argsAsString = "";
-        String websitePath = FilePaths.absoluteNormalized(new File(parentProjectDir, "website"));
-        File destinationDirectory = new File("target/uat");
-        String destinationPath = destinationDirectory.getAbsolutePath();
+        xiteWebsiteSourceDirectory = new File(parentProjectDir, "website");
+        String websitePath = FilePaths.absoluteNormalized(xiteWebsiteSourceDirectory);
+        xiteWebsiteDestinationDirectory = new File("target/uat");
+        String destinationPath = xiteWebsiteDestinationDirectory.getAbsolutePath();
         String[] args = {"build", "--source", websitePath, "--destination", destinationPath}; //argsAsString.split("\\s");
         RunResult result = Clap.runReviewableApp(args, this.sutHome, testModule);
         this.sutExitValue = result.getExitValue();
@@ -93,11 +90,30 @@ public class AppStepdefs {
         assertEquals(expectedExitValue, this.sutExitValue);
     }
     
-    // When converting tables to a List of objects it's usually better to
-    // use classes that are only used in test (not in production). This
-    // reduces coupling between scenarios and domain and gives you more control.
-    public static class DefaultProperties {
-        private String key;
-        private String value;
+    @Then("^html files should be generated from markdown$")
+    public void html_files_should_be_generated_from_markdown() throws Throwable {
+        File markdownDirectory = new File(xiteWebsiteSourceDirectory, "markdown");
+        File[] markdownFiles = markdownDirectory.listFiles();
+        for (File file : markdownFiles) {
+            String fileName = file.getName();
+            if (fileName.endsWith(".md")) {
+                String outputPath = FilePaths.join(xiteWebsiteDestinationDirectory.getAbsolutePath(), "xite", FilePaths.changeExtension(fileName, "html"));
+                File outputFile = new File(outputPath);
+                assertThat( outputFile, FileMatchers.isFile() );
+            }
+        }
     }
+
+    @Then("^resources are copied from standard path$")
+    public void resources_are_copied_from_standard_path() throws Throwable {
+        File resourcesStandardDirectory = new File(xiteWebsiteSourceDirectory, "resources");
+        File[] resources = resourcesStandardDirectory.listFiles();
+        for (File file : resources) {
+            String fileName = file.getName();
+            String outputPath = FilePaths.join(xiteWebsiteDestinationDirectory.getAbsolutePath(), "xite", fileName);
+            File outputFile = new File(outputPath);
+            assertTrue(outputFile.exists(), outputPath);
+        }
+    }
+
 }

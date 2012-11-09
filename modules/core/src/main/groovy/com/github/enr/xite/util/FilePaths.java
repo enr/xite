@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URI;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
 
 public class FilePaths {
@@ -50,6 +51,15 @@ public class FilePaths {
     public static String join(String... pathTokens) {
         Joiner joiner = Joiner.on("/").skipNulls();
         return joiner.join(pathTokens);
+    }
+    
+    /*
+     * modify file extension and returns the complete filename
+     */
+    public static String changeExtension(String fileName, String ext) {
+        String fn = Preconditions.checkNotNull(fileName);
+        String rawFileName = fn.substring(0, fn.lastIndexOf("."));
+        return rawFileName + "." + ext;
     }
 
     /*
