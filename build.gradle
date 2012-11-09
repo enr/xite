@@ -259,6 +259,7 @@ subprojects {
     
     if (project.path in cukeModules) {
         apply from:   "${rootProject.getProjectDir().getAbsolutePath()}/gradle/tasks/cuke-check.gradle"
+        test.dependsOn ':modules:core:installApp'
     }
 
     if (project.path in archiveables) {

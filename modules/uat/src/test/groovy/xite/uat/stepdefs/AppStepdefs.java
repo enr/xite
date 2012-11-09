@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
+import java.util.List;
 
 import com.github.enr.clap.Clap;
 import com.github.enr.clap.Clap.RunResult;
@@ -37,8 +38,20 @@ public class AppStepdefs {
         
         File cc = ClasspathUtil.getClasspathForClass(AppStepdefs.class);
         File modules = cc.getParentFile().getParentFile().getParentFile().getParentFile();
+        String installPath = new StringBuilder(modules.getAbsolutePath()).append(File.separatorChar).append("core").append(File.separatorChar)
+                .append("target").append(File.separatorChar).append("install").append(File.separatorChar).append("xite").toString();
+        sutHome =  new File(installPath);
         parentProjectDir = modules.getParentFile();
         //xiteRoot = modules.getParentFile();
+    }
+    
+    @Given("^default properties:$")
+    public void default_properties(List<DefaultProperties> items) throws Throwable {
+        /*
+        for (DefaultProperties item : items) {
+            shoppingList.addItem(item.key, item.value);
+        }
+        */
     }
 
     @When("^I run xite with \"([^\"]*)\" args$")
@@ -78,5 +91,13 @@ public class AppStepdefs {
     @Then("^it should exit with value \"([^\"]*)\"$")
     public void it_should_exit_with_value(int expectedExitValue) {
         assertEquals(expectedExitValue, this.sutExitValue);
+    }
+    
+    // When converting tables to a List of objects it's usually better to
+    // use classes that are only used in test (not in production). This
+    // reduces coupling between scenarios and domain and gives you more control.
+    public static class DefaultProperties {
+        private String key;
+        private String value;
     }
 }
