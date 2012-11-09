@@ -7,7 +7,7 @@ Feature: Basic commands and options
     When I run xite with "--version" args
     Then the output should contain exactly "Xite version 0.3-SNAPSHOT"
 
-  Scenario Outline: List configuration
+  Scenario Outline: Get default configuration values
     When I run xite with "config --get <key>" args
     Then the output should contain exactly "<value>"
 
