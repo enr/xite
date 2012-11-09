@@ -20,9 +20,11 @@ task generateProjectProperties(dependsOn: compileJava) {
 
 */
 
+apply plugin: 'groovy'
+
 task propsfile(type: PropsfileTask, description:'Creates a properties file in the classpath')
 
-tasks.compileGroovy.dependsOn tasks.propsfile
+//tasks.compileGroovy.dependsOn tasks.propsfile
 
 tasks.withType(Compile) { task ->
     task.dependsOn tasks.propsfile

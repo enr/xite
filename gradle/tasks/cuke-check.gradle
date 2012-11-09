@@ -1,6 +1,8 @@
 
 import groovy.json.JsonSlurper
 
+apply plugin: 'groovy'
+
 /*
 The minimal work around to fail the build if cucumber tests fail.
 */
@@ -18,6 +20,7 @@ class CukeTask extends DefaultTask {
     def check() {
         def cukeJson = new File(project.buildDir, json)
         if (cukeJson.exists()) {
+            println "json report found ${cukeJson}"
             def jsonObj = new JsonSlurper().parseText( cukeJson.text )
             for (element in jsonObj.elements) {
                 for (scenario in element) {

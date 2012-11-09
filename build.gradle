@@ -48,6 +48,18 @@ def printBuild(message) {
 
 //   gradle release -Pgradle.release.useAutomaticVersion=true -Dgithub.password=*** 
 
+/*
+// Prevent plugin from asking for a version number interactively
+ext.'gradle.release.useAutomaticVersion' = "true"
+release {
+    failOnCommitNeeded=true
+    failOnPublishNeeded=true
+    failOnUnversionedFiles=true
+    failOnUpdateNeeded=true
+    includeProjectNameInTag=true
+    requireBranch = null
+}
+*/
 
 allprojects { project ->
     group = 'com.github.enr'
