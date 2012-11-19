@@ -5,8 +5,6 @@ Xite is a static sites generator.
 
 [![Build Status](https://secure.travis-ci.org/enr/xite.png?branch=master)](http://travis-ci.org/enr/xite)
 
-To use Xite, at the moment you have to build it from sources.
-
 To get sources, you can clone the project using Git:
 
     git clone git://github.com/enr/xite
@@ -16,7 +14,7 @@ or download it in either tar or zip formats:
     wget --no-check-certificate https://github.com/enr/xite/tarball/master
     wget --no-check-certificate https://github.com/enr/xite/zipball/master
 
-Xite is built using the Gradle build system, at the moment version 1.0-milestone-7.
+Xite is built using the Gradle build system, at the moment version 1.2.
 
 You don't need to install Gradle to build the project. The project uses a Gradle provided wrapper that automatically downloads the correct version for you.
 
@@ -64,14 +62,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+
 Other libraries licenses
 ------------------------
 
 Xite lib folder contains some jar not present in public Maven repositories:
 
-* enr/markdownj <http://github.com/enr/markdownj> distributed under BSD License
+* enr/clap <http://github.com/enr/clap> distributed under Apache 2.0 License
     
-* markdownj-extras <http://github.com/enr/markdownj-extras> distributed under Apache 2.0
+* markdownj-extras <http://github.com/enr/markdownj-extras> distributed under Apache 2.0 License
 
-* ReportNG <http://reportng.uncommons.org> distributed under Apache 2.0
 

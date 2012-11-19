@@ -1,20 +1,14 @@
 package xite.uat.stepdefs;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.testng.Assert.assertTrue;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.FileInputStream;
+import java.util.Properties;
 
 import com.github.enr.clap.Clap;
 import com.github.enr.clap.Clap.RunResult;
@@ -29,11 +23,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class AppStepdefs {
-    
-//    private String username;
-//    private String sutName;
-//    private File xiteRoot;
-    
+
     private File sutHome;
     
     private String sutOutput;
@@ -44,27 +34,27 @@ public class AppStepdefs {
     
     private File xiteWebsiteSourceDirectory;
     private File xiteWebsiteDestinationDirectory;
-    
-    private Process serveProcess;
-    InputStream processInputStream;
 
+    /*
+     * placeholder method, ready for user's home customization
+     */
     @Given("^I am the user \"([^\"]*)\"$")
     public void I_am_the_user(String name) {
         //username = name.toLowerCase();
-        
         File cc = ClasspathUtil.getClasspathForClass(AppStepdefs.class);
         File modules = cc.getParentFile().getParentFile().getParentFile().getParentFile();
         String installPath = new StringBuilder(modules.getAbsolutePath()).append(File.separatorChar).append("core").append(File.separatorChar)
                 .append("target").append(File.separatorChar).append("install").append(File.separatorChar).append("xite").toString();
         sutHome =  new File(installPath);
         parentProjectDir = modules.getParentFile();
-        //xiteRoot = modules.getParentFile();
     }
     
+    /*
     @Given("^the website was built in \"([^\"]*)\"$")
     public void the_website_was_built_in(String destinationDir) throws Throwable {
         buildWebsite(destinationDir);
     }
+    */
     
     @When("^I run xite with \"([^\"]*)\" args$")
     public void I_run_xite_with(String argsAsString) throws Exception {
@@ -74,29 +64,24 @@ public class AppStepdefs {
         this.sutExitValue = result.getExitValue();
         this.sutOutput = result.getOutput();
     }
-    
-    @When("^I run xite script with \"([^\"]*)\" args$")
-    public void I_run_xite_script_with(String argsAsString) throws Exception {
 
-        String xiteBin = new StringBuilder(sutHome.getAbsolutePath()).append(File.separatorChar).append("bin").append(File.separatorChar)
-                .append("xite.bat").toString();
-        
-        String[] args = argsAsString.split("\\s");
-
-        ProcessBuilder pb = new ProcessBuilder(xiteBin, "serve", "--root", "target/website", "--port", "9191");
-        /*
-        Map<String, String> env = pb.environment();
-        env.put("VAR1", "myValue");
-        env.remove("OTHERVAR");
-        env.put("VAR2", env.get("VAR1") + "suffix");
-        pb.directory(new File("myDir"));
-        */
-        serveProcess = pb.start();
-
-        processInputStream = serveProcess.getInputStream();        
-        Thread.sleep(4000);
+    @When("^I run xite --version$")
+    public void I_run_xite_version() throws Exception {
+        Module testModule = new XiteModule();
+        RunResult result = Clap.runReviewableApp(new String[] {"--version"}, this.sutHome, testModule);
+        this.sutExitValue = result.getExitValue();
+        this.sutOutput = result.getOutput();
     }
-
+    
+    @Then("^the output should contain current build version$")
+    public void the_output_should_contain_current_build_version() throws Exception {
+        File buildPropertiesFile = new File(parentProjectDir, "gradle.properties");
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(buildPropertiesFile));
+        String version = properties.getProperty("version");
+        String expectedOutput = "Xite version "+version;
+        assertEquals(expectedOutput, this.sutOutput);
+    }
     
     @When("^I build the actual Xite's website$")
     public void I_build_actual_xite_website() throws Exception {
@@ -105,13 +90,11 @@ public class AppStepdefs {
     
     private void buildWebsite(String destinationDirectory) {
         Module testModule = new XiteModule();
-        //String websitePath = new StringBuilder(parentProjectDir.getAbsolutePath()).append(File.separatorChar).append("website").toString();
-        //String argsAsString = "";
         xiteWebsiteSourceDirectory = new File(parentProjectDir, "website");
         String websitePath = FilePaths.absoluteNormalized(xiteWebsiteSourceDirectory);
         xiteWebsiteDestinationDirectory = new File(destinationDirectory);
         String destinationPath = xiteWebsiteDestinationDirectory.getAbsolutePath();
-        String[] args = {"build", "--source", websitePath, "--destination", destinationPath}; //argsAsString.split("\\s");
+        String[] args = {"build", "--source", websitePath, "--destination", destinationPath};
         RunResult result = Clap.runReviewableApp(args, this.sutHome, testModule);
         this.sutExitValue = result.getExitValue();
         this.sutOutput = result.getOutput();
@@ -159,51 +142,9 @@ public class AppStepdefs {
         }
     }
     
-    @Then("^the url \"([^\"]*)\" should be valid$")
-    public void the_url_should_be_valid(String url) throws Throwable {
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.setRequestMethod("HEAD");
-        int responseCode = connection.getResponseCode();
-        assertEquals("http response code", responseCode, 200); 
-    }
-
-    @Then("^I close process$")
-    public void I_close_process() throws Throwable {
-        System.out.println("wait for...");
-        String tempOut = convertStreamToStr(processInputStream);
-
-        System.out.println(tempOut);
-        serveProcess.waitFor(); //destroy();
-        //Thread.sleep(9000);
-    }
-    
-    /*
-    * To convert the InputStream to String we use the Reader.read(char[]
-    * buffer) method. We iterate until the Reader return -1 which means
-    * there's no more data to read. We use the StringWriter class to
-    * produce the string.
-    */
-
-    public static String convertStreamToStr(InputStream is) throws IOException {
-
-    if (is != null) {
-    Writer writer = new StringWriter();
-
-    char[] buffer = new char[1024];
-    try {
-    Reader reader = new BufferedReader(new InputStreamReader(is,
-    "UTF-8"));
-    int n;
-    while ((n = reader.read(buffer)) != -1) {
-    writer.write(buffer, 0, n);
-    }
-    } finally {
-    is.close();
-    }
-    return writer.toString();
-    }
-    else {
-    return "";
-    }
+    @Then("^directory \"([^\"]*)\" should not exist$")
+    public void directory_should_not_exist(String directory) {
+        File dir = new File(parentProjectDir, directory);
+        assertThat(dir, not(FileMatchers.exists()));
     }
 }

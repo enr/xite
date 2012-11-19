@@ -1,25 +1,4 @@
 
-/*
-
-Stolen from Tapestry:
-
-task generateProjectProperties(dependsOn: compileJava) {
-  description = "Generates META-INF/gradle/org.apache.tapestry/tapestry-core/project.properties similar to Maven's pom.properties."
-  def outputDir = new File("$processResources.destinationDir/META-INF/gradle/org.apache.tapestry/tapestry-core")
-  def outputFile = new File(outputDir, 'project.properties')
-
-  outputs.dir outputDir
-    
-  doLast {
-    outputDir.mkdirs()
-    outputFile << "version=${version}";
-    println "Generating $outputFile"
-  }
-
-}
-
-*/
-
 apply plugin: 'groovy'
 
 task propsfile(type: PropsfileTask, description:'Creates a properties file in the classpath')
@@ -30,6 +9,7 @@ tasks.withType(Compile) { task ->
     task.dependsOn tasks.propsfile
 }
 
+// description = "Generates properties file in project classpath"
 class PropsfileTask extends DefaultTask {
 
     /* An output label for the properties file. */
@@ -44,24 +24,25 @@ class PropsfileTask extends DefaultTask {
     def buildPropertiesFile() {
     
         File outputDir = project.sourceSets.main.output.classesDir
-        
+        /*
         println "project ${project.name}"
         println "filename ${filename}"
         println "build ${project.buildDir}"
         println "out ${outputDir}"
         println "props ${props}"
+        */
         
         if (!props) {
             return
         }
         File propertiesFile = new File(outputDir, filename);
-        println "propertiesFile ${propertiesFile}"
+        //println "propertiesFile ${propertiesFile}"
 
         final Properties properties = new Properties();
         properties.putAll(props);
-        println "properties ${properties}"
+        //println "properties ${properties}"
         def success = propertiesFile.getParentFile().mkdirs();
         properties.store(new FileWriter(propertiesFile), BUILD_LABEL);
-        println "success ${propertiesFile.exists()}"
+        //println "success ${propertiesFile.exists()}"
     }
 }

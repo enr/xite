@@ -3,17 +3,12 @@ Feature: Basic commands and options
   Background:
     Given I am the user "Alice"
 
-  Scenario: Run --version
-    When I run xite with "--version" args
-    Then the output should contain exactly "Xite version 0.3-SNAPSHOT"
-
   Scenario Outline: Get default configuration values
     When I run xite with "config --get <key>" args
     Then the output should contain exactly "<value>"
 
     Examples:
     | key                           | value                                     |
-    | app.version                   | 0.1-SNAPSHOT                              |
     | app.encoding                  | UTF-8                                     |
     | project.source                | src/xite                                  |
     | project.destination           | target/xite                               |

@@ -5,9 +5,6 @@ import java.text.SimpleDateFormat
 // see: http://tellurianring.com/wiki/gradle/release
 apply from: "https://launchpad.net/gradle-release/trunk/latest/+download/apply.groovy"
 
-// --- about plugin
-// see: http://evgeny-goldin.com/wiki/Gradle-about-plugin
-
 group = 'com.github.enr'
 
 
@@ -21,32 +18,27 @@ ext {
     groovyVersion = '2.0.1'
     jettyVersion = '8.1.4.v20120524'
     javaModules = [
-        ':modules:core', ':modules:uat', ':modules:acceptance-tests'
+        ':modules:core', ':modules:uat'
     ]
     testNgModules = [
-        ':modules:core', ':modules:acceptance-tests'
+        ':modules:core'
     ]
     cukeModules = [
         ':modules:uat'
     ]
     archiveables = [':modules:core']
-    acceptanceTests = [':modules:acceptance-tests']
     localRepo = "${rootProject.projectDir}/lib"
     uploadables = [ "xite-${version}.zip".toString(), 
                     "xite-${version}.zip.sha1".toString()]
     javaVersion = System.getProperty('java.version')
     java7 = javaVersion.startsWith('1.7')
-    //buildoutput = ''
 }
 
 def printBuild(message) {
-    //def buildoutput = 
     if (hasProperty('buildoutput')) {
         logger.lifecycle("  ${message}")
     }
 }
-
-//   gradle release -Pgradle.release.useAutomaticVersion=true -Dgithub.password=*** 
 
 /*
 // Prevent plugin from asking for a version number interactively
@@ -76,19 +68,11 @@ allprojects { project ->
         maven {
             url 'http://groovypp.artifactoryonline.com/groovypp/libs-releases-local'
         }
-        
         add(new org.apache.ivy.plugins.resolver.URLResolver()) {
             name = 'GitHub/Clap'
             addArtifactPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].[ext]'
             addIvyPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].pom'
         }
-        /*
-        ivy {
-            artifactPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].[ext]'
-            ivyPattern 'http://cloud.github.com/downloads/enr/clap/[module]-[revision].pom'
-        }
-        */
-        
     }
 }
 
@@ -99,17 +83,6 @@ subprojects {
         apply plugin: 'groovy'
         apply plugin: 'eclipse'
         apply plugin: 'about'
-        
-        // work-around for jdk 7 javac warning for setting an older source without bootclasspath
-        // def jdk6home = '/opt/java/jdk1.6.0_24'
-        /*
-        if (java7) {
-            printBuild "Java 7 detected (Java ${System.getProperty('java.version')})"
-            compileGroovy.options.bootClasspath = '/opt/java/jdk1.6.0_24/jre/lib/rt.jar'
-            compileJava.options.bootClasspath = '/opt/java/jdk1.6.0_24/jre/lib/rt.jar'
-            test.bootstrapClasspath = files('/opt/java/jdk1.6.0_24/jre/lib/rt.jar') + test.bootstrapClasspath
-        }
-        */
 
         configurations {
             compile.transitive = true
@@ -122,21 +95,12 @@ subprojects {
             compile "org.codehaus.groovy:groovy-all:$groovyVersion",
                     'com.google.inject:guice:3.0',
                     'com.beust:jcommander:1.29',
-                    //'javax.inject:javax.inject:1',
-                    //'aopalliance:aopalliance:1.0',
-                    //'org.sonatype.sisu.inject:cglib:2.2.1-v20090111',
-                    //'asm:asm:3.1',
-                    //'org.mbte.groovypp:gretty:0.4.279',
-                    //'com.beust:jcommander:1.27',
                     'com.github.enr:clap-core:0.3.1-SNAPSHOT',
                     'com.github.enr:markdownj-extras:0.4',
                     'com.madgag:markdownj-core:0.4.1',
                     'com.google.guava:guava:13.0',
                     'commons-cli:commons-cli:1.2',  // needed from markdownj-extras
-                    //'commons-lang:commons-lang:2.5',
                     'commons-io:commons-io:1.4',        // needed from markdownj-extras
-                    //'org.apache.commons:commons-exec:1.0.1',
-                    //'commons-codec:commons-codec:1.4',
                     'org.apache.ant:ant-nodeps:1.8.1',
                     'org.apache.ant:ant-commons-net:1.8.0',
                     'org.slf4j:slf4j-api:1.6.0',
@@ -151,30 +115,14 @@ subprojects {
             compile group: 'org.eclipse.jetty', name: 'jetty-continuation', version: "${jettyVersion}", transitive: false 
             compile group: 'org.eclipse.jetty.orbit', name: 'javax.servlet', version: "3.0.0.v201112011016", ext: 'jar', transitive: false
                     
-            testCompile 'org.testng:testng:6.7',
-                        'org.easytesting:fest-assert-core:2.0M6'
+            testCompile 'org.testng:testng:6.8',
+                        'org.easytesting:fest-assert-core:2.0M8'
         }
 
         archivesBaseName = "xite-${project.name}"
 
         sourceCompatibility = 1.6
         targetCompatibility = 1.6
-
-        /*
-        jar.doLast { task ->
-            ant.checksum file: task.archivePath
-        }
-        
-        task sourceJar(type: Jar) {
-            from sourceSets.main.allSource
-            classifier = 'sources'
-        }
-
-        task javadocJar(type: Jar, dependsOn: 'javadoc') {
-            from javadoc.destinationDir
-            classifier = 'javadoc'
-        }
-        */
         
         tasks.withType(Jar).each{ jarTask ->
             jarTask.manifest {
@@ -189,49 +137,12 @@ subprojects {
                 )
             }
         }
-
-        /*
-        artifacts {
-            archives sourceJar, javadocJar
-            def md5 = []
-            configurations.archives.allArtifacts.files.each { File file ->
-                md5 << "${file.getAbsolutePath()}.MD5"
-            }
-            md5.each { checksum ->
-                archives file(checksum)
-            }
-        }
-        */
-
-        /*
-        assemble.doFirst {
-            configurations.archives.allArtifacts.files.each { File file ->
-                println "archive : $file"
-            }
-        }
-        */
-
-        /*
-        assemble.doLast { task ->
-            configurations.archives.allArtifacts.each { artifact ->
-                def artifactFileName = artifact.file.getName()
-                def uploadable = (artifactFileName in uploadables)
-                if (! uploadable) {
-                    println "removing '${artifactFileName}' from uploadable archives"
-                    configurations.archives.artifacts.remove(artifact)
-                }
-            }
-        }
-        */
-        
-        about { dumpDependencies = false }
         
         eclipse {
             project {
                 name = "xite-${project.name}"
             }
             classpath {
-                // to keep the same depth in the build from in and outside Eclipse
                 defaultOutputDir = new File("${project.buildDir}/eclipse/classes");
                 downloadJavadoc = true
             }
@@ -241,21 +152,15 @@ subprojects {
     if (project.path in testNgModules) {
         test {
             useTestNG()
-            //makes the standard streams (err and out) visible at console when running tests
-            testLogging.showStandardStreams = false
-            //listening to test execution events
-            
+            testLogging.showStandardStreams = false            
             beforeTest { descriptor ->
-                //logger.lifecycle("-------    Running test: " + descriptor)
                 printBuild("--- Running test: " + descriptor)
             }
             onOutput { descriptor, event ->
-                //logger.lifecycle(event.message)
                 printBuild(event.message)
             }
         }
     }
-
     
     if (project.path in cukeModules) {
         apply from:   "${rootProject.getProjectDir().getAbsolutePath()}/gradle/tasks/cuke-check.gradle"
@@ -270,26 +175,14 @@ subprojects {
                         'clap.meta.version':project.version ,
                         'clap.meta.displayname':'Xite' ]
         }
-    
-        //createReleaseTag.dependsOn uploadArchives
-    
-        task archive(   dependsOn: [':modules:core:assemble'],
-                        description: 'Print archives') << {
-            configurations.archives.allArtifacts.files.each { File file ->
-                    printBuild "[ARCHIVE] $file"
-            }
-        }
 
         if (java7) {
-            // After 'group' is set...
-            //apply from:'github-dev.gradle'
             apply from:'http://gradle.smokejumperit.com/github-dev.gradle'
 
             //   gradle uploadArchives -Dgithub.password=***
-            //   gradle ghUpload -Dgithub.password=***
+            //   gradle ghUpload -Dgithub.password=*** [ or system env 'GITHUB_PASS' ]
             ghUpload {
-                username = 'enr' // If the code guesses the username wrong: see source for defaults
-                //password = '***' // Or set Java prop 'github.password' or system env 'GITHUB_PASS'
+                username = 'enr'
                 repo = 'xite'
             }
 
@@ -303,79 +196,14 @@ subprojects {
                     }
                 }
             }
-            /*
-            uploadArchives.doFirst {
-                configurations.archives.allArtifacts.files.each { File file ->
-                    println "archive : $file"
-                }
-            }
-            */
-
         }
                 
         afterEvaluate {
             tasks.withType(Zip) { task ->
                 task.doLast {
                     printBuild "after ev: ${it} ${it.archivePath}"
-                    //ant.checksum file: it.archivePath
                     ant.checksum(file: it.archivePath, algorithm: 'SHA1', fileext: '.sha1')
                     
-                }
-            }
-        }
-        
-        /*
-        artifacts {
-            tasks.withType(Zip) { task ->
-                archives task
-                printBuild "task: ${task}"
-                task.outputs.files.each { output ->
-                    printBuild "output = ${output.getAbsolutePath()}"
-                    printBuild "sha =  ${output.getAbsolutePath()}.sha1"
-                    //archives file("${output.getAbsolutePath()}.MD5")
-                    archives file("${output.getAbsolutePath()}.sha1")
-                }
-            }
-        }
-
-        
-        uploadArchives {
-            repositories {
-                flatDir {
-                    dirs 'uploads'
-                }
-            }
-        }
-        uploadArchives.doFirst {
-            configurations.archives.allArtifacts.each { artifact ->
-                printBuild "artifact : ${artifact.file.getName()}"
-                def artifactFileName = artifact.file.getName()
-                def uploadable = (artifactFileName in uploadables)
-                if (! uploadable) {
-                    printBuild "removing '${artifactFileName}' from uploadable archives"
-                    //configurations.archives.artifacts.remove(artifact)
-                }
-            }
-        }
-        */
-    }
-
-    if (project.path in acceptanceTests) {
-        test.enabled = false
-        task sut(   dependsOn: [':modules:core:test', ':modules:core:test', ':modules:core:installApp'],
-                    description: 'Builds the system under test (using installApp).') << {
-            test.enabled = true
-        }
-        task uat(   dependsOn: [sut, test], 
-                    description: 'Runs the user acceptance tests.') << {
-            test {
-                enabled = true
-                //testLogging.showStandardStreams = true            
-                beforeTest { descriptor ->
-                    printBuild("--- Running test: " + descriptor)
-                }
-                onOutput { descriptor, event ->
-                    printBuild(event.message)
                 }
             }
         }

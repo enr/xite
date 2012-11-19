@@ -9,5 +9,4 @@ public class BuildCommandArgs {
     public String source;
     @Parameter(names = { "-d", "--destination" }, description = "Destination directory")
     public String destination;
-
 }

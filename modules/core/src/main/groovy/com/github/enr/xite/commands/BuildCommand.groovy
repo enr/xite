@@ -2,7 +2,6 @@ package com.github.enr.xite.commands;
 
 import javax.inject.Inject
 
-
 import com.github.enr.clap.api.AbstractCommand
 import com.github.enr.clap.api.CommandResult
 import com.github.enr.clap.api.Configuration
@@ -53,7 +52,6 @@ public class BuildCommand extends AbstractCommand {
 			return commandResult;
 		}
 		def context = configuration.get("app.baseContext")
-		// destination.getName() ?
 		destinationPath = (destinationPath.endsWith(context) ? destinationPath : destinationPath+context);
         reporter.debug("using destination %s", destinationPath);
         //def phases = ['pre', 'process', 'post']

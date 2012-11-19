@@ -45,21 +45,17 @@ public class DirectoriesTest {
         }
         assertFalse(filePaths.contains("./core.gradle"));
         assertTrue(filePaths.contains(thisFile));
-
     }
 
     @Test
     public void testListing() {
         File startingDirectory = new File(".");
         List<File> files = Directories.list(startingDirectory);
-
         List<String> fileNames = new ArrayList<String>();
         for (File file : files) {
-            // System.out.println(file.getPath());
             fileNames.add(file.getName());
         }
         assertTrue(fileNames.contains("core.gradle"));
-
     }
 
     @Test

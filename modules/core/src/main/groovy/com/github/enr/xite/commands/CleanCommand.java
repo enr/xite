@@ -11,8 +11,8 @@ import com.github.enr.clap.api.EnvironmentHolder;
 import com.github.enr.clap.api.Reporter;
 import com.github.enr.xite.util.Directories;
 
-/*
- * clean output directory
+/**
+ * Clean output directory
  */
 public class CleanCommand extends AbstractCommand {
 
@@ -21,8 +21,6 @@ public class CleanCommand extends AbstractCommand {
     private Reporter reporter;
 
     private CleanCommandArgs args = new CleanCommandArgs();
-
-    // private Paths paths;
 
     @Inject
     public CleanCommand(EnvironmentHolder environment, Configuration configuration, Reporter reporter) {
@@ -40,18 +38,6 @@ public class CleanCommand extends AbstractCommand {
 
     @Override
     protected CommandResult internalExecute() {
-        /*
-         * String sourcePath = argsOrConfiguration(args.source,
-         * "project.source") reporter.debug("start processing %s", sourcePath);
-         * configuration.addPath(sourcePath + "/xite/site.groovy")
-         * 
-         * String destinationPath = argsOrConfiguration(args.destination,
-         * "project.destination") reporter.debug("required destination %s",
-         * destinationPath); if (destinationPath == null ||
-         * destinationPath.length() == 0) {
-         * commandResult.failWithMessage("destination path should not be null");
-         * return commandResult; }
-         */
         String destinationPath = resolveDestinationPath();
         reporter.out("will be cleaned: %s", destinationPath);
         CommandResult commandResult = new CommandResult();

@@ -20,7 +20,7 @@ class CukeTask extends DefaultTask {
     def check() {
         def cukeJson = new File(project.buildDir, json)
         if (cukeJson.exists()) {
-            println "json report found ${cukeJson}"
+            //println "json report found ${cukeJson}"
             def jsonObj = new JsonSlurper().parseText( cukeJson.text )
             for (element in jsonObj.elements) {
                 for (scenario in element) {
