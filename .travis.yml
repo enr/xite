@@ -7,6 +7,6 @@ jdk:
 
 install: gradle -q assemble
 
-script: gradle uat cuke > build.out
+script: gradle check > build.out
 
 after_failure: cat build.out
