@@ -15,7 +15,7 @@ buildscript {
 
 
 ext {
-    groovyVersion = '2.0.1'
+    groovyVersion = '2.0.5'
     jettyVersion = '8.1.4.v20120524'
     javaModules = [
         ':modules:core', ':modules:uat'
@@ -94,7 +94,7 @@ subprojects {
 
             compile "org.codehaus.groovy:groovy-all:$groovyVersion",
                     'com.google.inject:guice:3.0',
-                    'com.beust:jcommander:1.29',
+                    'com.beust:jcommander:1.30',
                     'com.github.enr:clap-core:0.3.1-SNAPSHOT',
                     'com.github.enr:markdownj-extras:0.4',
                     'com.madgag:markdownj-core:0.4.1',
@@ -102,7 +102,7 @@ subprojects {
                     'commons-cli:commons-cli:1.2',  // needed from markdownj-extras
                     'commons-io:commons-io:1.4',        // needed from markdownj-extras
                     'org.apache.ant:ant-nodeps:1.8.1',
-                    'org.apache.ant:ant-commons-net:1.8.0',
+                    'org.apache.ant:ant-commons-net:1.8.1',
                     'org.slf4j:slf4j-api:1.6.0',
                     'org.slf4j:slf4j-log4j12:1.6.0',
                     'log4j:log4j:1.2.16'
