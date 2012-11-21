@@ -40,7 +40,7 @@ public class XiteModule extends AbstractModule {
         // commands
         bind(Command.class).annotatedWith(Names.named("command.clean")).to(CleanCommand.class);
         bind(Command.class).annotatedWith(Names.named("command.deploy")).to(DeployCommand.class);
-        bind(Command.class).annotatedWith(Names.named("command.process")).to(BuildCommand.class);
-        bind(Command.class).annotatedWith(Names.named("command.run")).to(ServeCommand.class);
+        bind(Command.class).annotatedWith(Names.named("command.build")).to(BuildCommand.class);
+        bind(Command.class).annotatedWith(Names.named("command.serve")).to(ServeCommand.class);
     }
 }
