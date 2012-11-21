@@ -36,6 +36,16 @@ templates {
     top = 'header.html'
 }
 
+properties {
+    filter {
+        enabled = true
+        // relative from the sources directory
+        file = "xite/site.properties"
+        prefix = '{{'
+        suffix = '}}'
+    }
+}
+
 markdown {
     // if you want markdown process only some extensions
     // ie: extensions = ['md', 'markdown']
@@ -49,13 +59,6 @@ markdown {
 resources {
     // by default, resources are in source directory / resources
     directory = 'resources'
-    filter {
-        enabled = true
-        // relative from the sources directory
-        properties = "xite/site.properties"
-        prefix = ''
-        suffix = ''
-    }
     sources {
         additionals = [:]
     }

@@ -10,22 +10,6 @@ class ResourcesPlugin extends XiteAbstractPlugin {
 
     PluginResult apply() {
 
-        def processResources = configuration.get('resources.filter.enabled')
-        def resourcesFiltersFile = configuration.get('resources.filter.properties')
-
-        def prefix =  configuration.get('resources.filter.prefix')
-        def suffix =  configuration.get('resources.filter.suffix')
-
-        def substitutionsFilePath = FilePaths.join(sourcePath, resourcesFiltersFile)
-
-        File substitutionsFile = new File(substitutionsFilePath)
-        Properties subs = new Properties();
-        if (substitutionsFile.isFile()) {
-            FileInputStream inp = new FileInputStream(substitutionsFilePath);
-            subs.load(inp);
-            inp.close();
-        }
-
         def resourcesSourceDirectoryName = FilePaths.join(sourcePath, configuration.get('resources.directory'))
         def resourcesDestinationDirectoryName = destinationPath
         def excludedFilenameSuffix = configuration.get('resources.excludedFilenameSuffix')
@@ -82,19 +66,7 @@ class ResourcesPlugin extends XiteAbstractPlugin {
                         //parentDirectory.setWritable(true)
                         assert success
                     }
-                    if (!processResources) {
-                        destinationFile << src.asWritable()
-                    } else {
-                        destinationFile.withWriter { f ->
-                            src.eachLine { line ->
-                                subs.each() { key, value ->
-                                    def placeholder = "${prefix}${key}${suffix}"
-                                    line = line.replace(placeholder, value)
-                                }
-                                f.writeLine( line )
-                            }
-                        }
-                    }
+                    destinationFile << src.asWritable()
                 }
             }
         }

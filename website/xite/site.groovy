@@ -25,11 +25,6 @@ markdown {
 }
 
 resources {
-    filter {
-        enabled = true
-        prefix = '_'
-        suffix = '_'
-    }
     sources {
         // a map of: source directory   -> sub directory (of main destination dir) for these resources
         // if you want resources deploied in the root, leave an empty string as sub directory
@@ -53,7 +48,7 @@ resources {
                 destination = 'developers/tests'
             }
             uattestreports {
-                source = '../modules/acceptance-tests/target/reports/tests'
+                source = '../modules/uat/target/cucumber-html-report'
                 destination = 'developers/uat'
             }
         }

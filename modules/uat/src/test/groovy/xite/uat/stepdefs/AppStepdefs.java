@@ -15,6 +15,8 @@ import com.github.enr.clap.Clap.RunResult;
 import com.github.enr.clap.util.ClasspathUtil;
 import com.github.enr.xite.inject.XiteModule;
 import com.github.enr.xite.util.FilePaths;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import com.google.inject.Module;
 import com.marvinformatics.kiss.matchers.file.FileMatchers;
 
@@ -32,8 +34,9 @@ public class AppStepdefs {
     
     private File parentProjectDir;
     
-    private File xiteWebsiteSourceDirectory;
-    private File xiteWebsiteDestinationDirectory;
+    private String websiteName;
+    private File websiteSourceDirectory;
+    private File websiteDestinationDirectory;
 
     /*
      * placeholder method, ready for user's home customization
@@ -48,13 +51,30 @@ public class AppStepdefs {
         sutHome =  new File(installPath);
         parentProjectDir = modules.getParentFile();
     }
-    
-    /*
-    @Given("^the website was built in \"([^\"]*)\"$")
-    public void the_website_was_built_in(String destinationDir) throws Throwable {
-        buildWebsite(destinationDir);
+
+    @When("^I build the actual Xite's website$")
+    public void I_build_actual_xite_website() throws Exception {
+        this.websiteName = "xite";
+        buildWebsite("website", "target/uat");
     }
-    */
+    
+    @When("^I build website \"([^\"]*)\"$")
+    public void I_build_website(String website) throws Exception {
+        this.websiteName = website;
+        buildWebsite("modules/uat/src/test/websites/"+website, "target/website-"+website);
+    }
+
+    private void buildWebsite(String sourceDirectory, String destinationDirectory) {
+        Module testModule = new XiteModule();
+        websiteSourceDirectory = new File(parentProjectDir, sourceDirectory);
+        String websitePath = FilePaths.absoluteNormalized(websiteSourceDirectory);
+        websiteDestinationDirectory = new File(destinationDirectory);
+        String destinationPath = websiteDestinationDirectory.getAbsolutePath();
+        String[] args = {"--debug", "build", "--source", websitePath, "--destination", destinationPath};
+        RunResult result = Clap.runReviewableApp(args, this.sutHome, testModule);
+        this.sutExitValue = result.getExitValue();
+        this.sutOutput = result.getOutput();
+    }
     
     @When("^I run xite with \"([^\"]*)\" args$")
     public void I_run_xite_with(String argsAsString) throws Exception {
@@ -82,23 +102,6 @@ public class AppStepdefs {
         String expectedOutput = "Xite version "+version;
         assertEquals(expectedOutput, this.sutOutput);
     }
-    
-    @When("^I build the actual Xite's website$")
-    public void I_build_actual_xite_website() throws Exception {
-        buildWebsite("target/uat");
-    }
-    
-    private void buildWebsite(String destinationDirectory) {
-        Module testModule = new XiteModule();
-        xiteWebsiteSourceDirectory = new File(parentProjectDir, "website");
-        String websitePath = FilePaths.absoluteNormalized(xiteWebsiteSourceDirectory);
-        xiteWebsiteDestinationDirectory = new File(destinationDirectory);
-        String destinationPath = xiteWebsiteDestinationDirectory.getAbsolutePath();
-        String[] args = {"build", "--source", websitePath, "--destination", destinationPath};
-        RunResult result = Clap.runReviewableApp(args, this.sutHome, testModule);
-        this.sutExitValue = result.getExitValue();
-        this.sutOutput = result.getOutput();
-    }
 
     @Then("^the output should contain exactly \"([^\"]*)\"$")
     public void the_output_should_contain_exactly(String expectedOutput) {
@@ -118,12 +121,12 @@ public class AppStepdefs {
     
     @Then("^html files should be generated from markdown$")
     public void html_files_should_be_generated_from_markdown() throws Throwable {
-        File markdownDirectory = new File(xiteWebsiteSourceDirectory, "markdown");
+        File markdownDirectory = new File(websiteSourceDirectory, "markdown");
         File[] markdownFiles = markdownDirectory.listFiles();
         for (File file : markdownFiles) {
             String fileName = file.getName();
             if (fileName.endsWith(".md")) {
-                String outputPath = FilePaths.join(xiteWebsiteDestinationDirectory.getAbsolutePath(), "xite", FilePaths.changeExtension(fileName, "html"));
+                String outputPath = FilePaths.join(websiteDestinationDirectory.getAbsolutePath(), this.websiteName, FilePaths.changeExtension(fileName, "html"));
                 File outputFile = new File(outputPath);
                 assertThat( outputFile, FileMatchers.isFile() );
             }
@@ -132,11 +135,11 @@ public class AppStepdefs {
 
     @Then("^resources are copied from standard path$")
     public void resources_are_copied_from_standard_path() throws Throwable {
-        File resourcesStandardDirectory = new File(xiteWebsiteSourceDirectory, "resources");
+        File resourcesStandardDirectory = new File(websiteSourceDirectory, "resources");
         File[] resources = resourcesStandardDirectory.listFiles();
         for (File file : resources) {
             String fileName = file.getName();
-            String outputPath = FilePaths.join(xiteWebsiteDestinationDirectory.getAbsolutePath(), "xite", fileName);
+            String outputPath = FilePaths.join(websiteDestinationDirectory.getAbsolutePath(), this.websiteName, fileName);
             File outputFile = new File(outputPath);
             assertTrue(outputFile.exists(), outputPath);
         }
@@ -146,5 +149,13 @@ public class AppStepdefs {
     public void directory_should_not_exist(String directory) {
         File dir = new File(parentProjectDir, directory);
         assertThat(dir, not(FileMatchers.exists()));
+    }
+    
+    @Then("^output file \"([^\"]*)\" should contain \"([^\"]*)\"$")
+    public void output_file_should_contain(String fileName, String expectedPieceOfContent) throws Throwable {
+        String outputPath = FilePaths.join(websiteDestinationDirectory.getAbsolutePath(), this.websiteName, fileName);
+        File outputFile = new File(outputPath);
+        String fileContent = Files.toString(outputFile, Charsets.UTF_8);
+        assertThat(fileContent, containsString(expectedPieceOfContent));
     }
 }

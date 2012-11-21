@@ -55,4 +55,34 @@ Customize
 
 To see every configuration data, the best way is to read the default file in $XITE_HOME/conf/xite-default.groovy
 
+Template variables (or properties filter)
+-----------------------------------------
+
+Xite allows properties filtering.
+
+The relevant configuration is (default):
+
+
+    properties {
+        filter {
+            enabled = true
+            // relative from the sources directory
+            file = "xite/site.properties"
+            prefix = '{{'
+            suffix = '}}'
+        }
+    }
+
+With this configuration, each property in `properties.filter.file` will be used to replace variables in your website files.
+
+Eg for property `key=value` the string `{{key}}` will be replaced from `value`.
+
+Other than the properties in `properties.filter.file` Xite will replace some implicit variable such as `app.baseContext`;
+this mean you can write something as
+
+    <link href="{{app.baseContext}}/css/main.css" media="screen" rel="stylesheet" type="text/css" />
+    
+in your templates and enjoy the correct path.
+
+Properties filter is done as final step of the build command, over files with name ending in .html, .css and .js .
 

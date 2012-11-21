@@ -39,8 +39,9 @@ public class BasePluginIntegrationTest
 		    .append("core").append(File.separatorChar)
             .append("target").toString()
     	targetDir = new File("${fakeHome}/itest");
-        File itestDefaultConfigurationFile = new File("${projectRoot}/src/dist/conf/xite-default.groovy")
-        testConfiguration.addPath("${projectRoot}/src/dist/conf/xite-default.groovy")
+        File itestDefaultConfigurationFile = new File("${projectRoot}/src/test/resources/xite-default.groovy")
+        assert itestDefaultConfigurationFile.exists()
+        testConfiguration.addPath("${projectRoot}/src/test/resources/xite-default.groovy")
         File sourceDir = new File("${projectRoot}/src/test/sites/${appName}/src/xite")
         sourceDirectory = FilePaths.absoluteNormalized(sourceDir)
         File projectConfigurationFile = new File(FilePaths.join(sourceDir.getAbsolutePath(), 'xite', "site.groovy"))

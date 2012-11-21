@@ -18,8 +18,10 @@ Feature: Basic commands and options
     | templates.bottom              | footer.html                               |
     | templates.top                 | header.html                               |
     | resources.directory           | resources                                 |
-    | resources.filter.enabled      | true                                      |
-    | resources.filter.properties   | xite/site.properties                      |
+    | properties.filter.enabled     | true                                      |
+    | properties.filter.file        | xite/site.properties                      |
+    | properties.filter.prefix      | {{                                        |
+    | properties.filter.suffix      | }}                                        |
     | code.enabled                  | true                                      |
     | code.source                   | code                                      |
     | code.destination              | code                                      |

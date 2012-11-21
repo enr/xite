@@ -1,5 +1,10 @@
 package com.github.enr.xite.commands;
 
+import java.io.File
+import java.io.FilenameFilter
+import java.nio.charset.Charset;
+import java.util.List
+
 import javax.inject.Inject
 
 import com.github.enr.clap.api.AbstractCommand
@@ -12,8 +17,11 @@ import com.github.enr.xite.plugins.EnvironmentAwareXitePlugin
 import com.github.enr.xite.plugins.PluginResult
 import com.github.enr.xite.plugins.ReporterAwareXitePlugin
 import com.github.enr.xite.plugins.XitePlugin
-import com.github.enr.xite.util.ComponentsLoader;
-import com.github.enr.xite.util.FilePaths;
+import com.github.enr.xite.util.ComponentsLoader
+import com.github.enr.xite.util.Directories
+import com.github.enr.xite.util.FilePaths
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 /**
  * Build site.
@@ -25,6 +33,12 @@ public class BuildCommand extends AbstractCommand {
     private Reporter reporter;
 
     private BuildCommandArgs args = new BuildCommandArgs();
+    
+    private static final FilenameFilter FILTERABLE_FILENAMES = new FilenameFilter() {
+        public boolean accept(File dir, String name) {
+            return (name.endsWith(".html") || name.endsWith(".js") || name.endsWith(".css"));
+        }
+    }
 
     @Inject
     public ProcessCommand(EnvironmentHolder environment, Configuration configuration, Reporter reporter) {
@@ -85,7 +99,48 @@ public class BuildCommand extends AbstractCommand {
 			reporter.debug(" - apply plugin ${plugin}")
             PluginResult result = plugin.apply()
         }
+
+        filterProperties(sourcePath, destinationPath);
+        
         return commandResult
+    }
+    
+    private void filterProperties(String sourcePath, String destinationPath) {
+        def processResources = configuration.get('properties.filter.enabled')
+        if (!processResources) {
+            reporter.debug("skipping filter properties")
+            return;
+        }
+        
+        def encoding = configuration.get("app.encoding")
+        
+        def resourcesFiltersFile = configuration.get('properties.filter.file')
+
+        def prefix =  configuration.get('properties.filter.prefix')
+        def suffix =  configuration.get('properties.filter.suffix')
+
+        def substitutionsFilePath = FilePaths.join(sourcePath, resourcesFiltersFile)
+
+        File substitutionsFile = new File(substitutionsFilePath)
+        Properties subs = new Properties();
+        if (substitutionsFile.isFile()) {
+            FileInputStream inp = new FileInputStream(substitutionsFilePath);
+            subs.load(inp);
+            inp.close();
+        }
+        subs.setProperty("app.baseContext", configuration.get("app.baseContext"))
+
+        List<File> filterables = Directories.list(new File(destinationPath), FILTERABLE_FILENAMES, true);
+        
+        for (File file : filterables) {
+            String raw = Files.toString(file, Charset.forName(encoding));
+            String filtered = raw
+            subs.each() { key, value ->
+                def placeholder = "${prefix}${key}${suffix}"
+                filtered = filtered.replace(placeholder, value)
+            }
+            Files.write(filtered, file, Charset.forName(encoding));
+        }
     }
 
     @Override
